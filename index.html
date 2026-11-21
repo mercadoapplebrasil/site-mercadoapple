@@ -130,11 +130,11 @@ h2{font-family:var(--display);font-size:26px;letter-spacing:-.02em;text-wrap:bal
 .loja dt{font-size:12px;letter-spacing:.14em;font-weight:700;color:var(--acento);margin-bottom:4px}
 .loja dd{margin-bottom:16px}
 .loja a{color:var(--acento);font-weight:700;text-decoration:none}
-footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio);font-size:13px}
-.fixo[hidden]{display:none}
-.fixo{position:fixed;left:0;right:0;bottom:14px;display:flex;justify-content:center;padding:0 16px;pointer-events:none;z-index:5}
-.fixo .btn{pointer-events:auto;box-shadow:0 10px 30px rgba(0,0,0,.6)}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+footer{border-top:1px solid var(--linha);padding:22px 0 96px;color:var(--apoio);font-size:13px}
+.zap{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));width:60px;height:60px;border-radius:50%;background:var(--zap);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.55);z-index:5;transition:opacity .2s,transform .2s}
+.zap svg{width:30px;height:30px}
+.zap.some{opacity:0;transform:scale(.8);pointer-events:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.zap{transition:none}}
 </style>
 </head>
 <body>
@@ -290,7 +290,7 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
 
   <footer>Mercado Apple Brasil é uma loja independente. Apple, iPhone, iPad, Mac, Apple Watch e AirPods são marcas da Apple Inc.</footer>
 </div>
-<div class="fixo"><button type="button" class="btn" id="fixo">Montar orçamento</button></div>
+<a class="zap" id="fixo" href="https://wa.me/message/7UQWPKHP2PKHN1" aria-label="Chamar a loja no WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-7.2L7 21.6V18H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" fill="currentColor"/><circle cx="8" cy="11" r="1.4" fill="#25d366"/><circle cx="12" cy="11" r="1.4" fill="#25d366"/><circle cx="16" cy="11" r="1.4" fill="#25d366"/></svg></a>
 
 <script>
 // Catálogo do montador: para mudar os modelos, edite só esta lista. O site não mostra preço; o orçamento é enviado pelo WhatsApp.
@@ -416,7 +416,6 @@ function resumo(){
     lt.forEach(function(x){ var li=document.createElement("li"); li.className="sub"; li.textContent=x; elLista.appendChild(li); });
   }
   elEnviar.disabled = !escolhidos.length;
-  elFixo.textContent = escolhidos.length ? "Pedir orçamento (" + escolhidos.length + ")" : "Montar orçamento";
 }
 
 function mensagem(){
@@ -473,10 +472,9 @@ $("trocaBtn").addEventListener("click", function(){
 });
 ["tModelo","tCor","tBat"].forEach(function(id){ $(id).addEventListener("input", resumo); });
 elEnviar.addEventListener("click", enviar);
-elFixo.addEventListener("click", function(){ document.querySelector(escolhidos.length ? ".resumo" : "#orcamento").scrollIntoView({block: escolhidos.length ? "center" : "start"}); });
-// O botão fixo some enquanto o resumo está na tela, para não cobrir o botão de enviar.
+// O atalho do WhatsApp some enquanto o resumo está na tela, para a pessoa enviar o pedido montado.
 if ("IntersectionObserver" in window){
-  new IntersectionObserver(function(es){ elFixo.parentNode.hidden = es[0].isIntersecting; }, {threshold:.35}).observe(document.querySelector(".resumo"));
+  new IntersectionObserver(function(es){ elFixo.classList.toggle("some", es[0].isIntersecting); }, {threshold:.35}).observe(document.querySelector(".resumo"));
 }
 desenharCats(); desenharVezes(); resumo();
 </script>
