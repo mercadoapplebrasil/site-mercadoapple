@@ -14,7 +14,7 @@
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Mercado Apple Brasil">
 <meta property="og:title" content="Mercado Apple Brasil · Apple novo e lacrado em Pirassununga">
-<meta property="og:description" content="Monte seu orçamento de iPhone, iPad, Mac, Apple Watch ou AirPods e receba no WhatsApp.">
+<meta property="og:description" content="Monte seu pedido de iPhone, iPad, Mac, Apple Watch ou AirPods e receba no WhatsApp.">
 <meta property="og:url" content="https://mercadoapplebrasil.com.br/">
 <meta property="og:image" content="https://mercadoapplebrasil.com.br/img/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -86,8 +86,9 @@ h2{font-family:var(--display);font-size:26px;letter-spacing:-.02em;text-wrap:bal
 .chip small{display:block;font-size:12px;font-weight:500;opacity:.8;font-variant-numeric:tabular-nums}
 #modelos .chip{border-radius:16px;text-align:left}
 .rot{color:var(--apoio);font-size:14px;margin-top:18px}
-.resumo li{display:flex;justify-content:space-between;gap:12px}
-.resumo li::before{content:none}
+.resumo li::before{content:"•";color:var(--acento);margin-right:8px}
+.resumo li.pg{color:var(--apoio);margin-top:6px}
+.resumo li.pg::before{content:none}
 .resumo li span:last-child{color:var(--apoio);white-space:nowrap;font-variant-numeric:tabular-nums}
 .tot{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--linha);padding-top:12px;font-size:15px;color:var(--apoio)}
 .tot b{font-family:var(--display);font-size:28px;color:var(--texto);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
@@ -109,7 +110,8 @@ h2{font-family:var(--display);font-size:26px;letter-spacing:-.02em;text-wrap:bal
 .como b{display:block}
 .como span{color:var(--apoio);font-size:15px}
 .insta{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
-.insta .btn{background:var(--texto);color:#000}
+.btn.ig,.insta .btn{background:linear-gradient(90deg,#b5407e,#d4406a 55%,#e0604e);color:#fff;border:0}
+.btn svg{width:24px;height:24px;flex:none}
 .loja{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:20px}
 .loja dt{font-size:12px;letter-spacing:.14em;font-weight:700;color:var(--acento);margin-bottom:4px}
 .loja dd{margin-bottom:16px}
@@ -131,10 +133,10 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
 
   <div class="hero">
     <h1>Apple novo, lacrado e com garantia, em <span>Pirassununga.</span></h1>
-    <p>Escolha o que você procura, monte o pedido em menos de um minuto e veja o valor na hora, no Pix ou parcelado. Depois é só enviar pelo WhatsApp.</p>
+    <p>Escolha o que você procura, monte o pedido em menos de um minuto e receba o orçamento no seu WhatsApp, com o valor do dia no Pix e parcelado.</p>
     <div class="acoes">
       <a class="btn" href="#orcamento">Montar meu orçamento</a>
-      <a class="btn linha" href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener">Seguir no Instagram</a>
+      <a class="btn ig" href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>Seguir no Instagram</a>
     </div>
     <ul class="fatos">
       <li>Garantia Apple de 1 ano</li>
@@ -193,15 +195,10 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
     </div>
 
     <div class="resumo" aria-live="polite">
-      <h4>SEU ORÇAMENTO</h4>
+      <h4>SEU PEDIDO</h4>
       <ul id="lista"><li>Nenhum produto escolhido ainda</li></ul>
-      <div id="totais" hidden>
-        <p class="tot"><span id="totRot">Total no Pix</span><b id="totVal"></b></p>
-        <p class="parc" id="totParc" hidden></p>
-        <p class="obs" id="totObs" hidden></p>
-      </div>
-      <button type="button" class="btn" id="enviar" disabled>Enviar orçamento no WhatsApp</button>
-      <small>Abre o WhatsApp com o pedido pronto. Valores de <span id="dataPrecos"></span>, válidos por 24h e sujeitos à disponibilidade.</small>
+      <button type="button" class="btn" id="enviar" disabled>Receber orçamento no WhatsApp</button>
+      <small>Abre o WhatsApp com o pedido pronto. A gente responde com o valor do dia, no Pix e parcelado.</small>
     </div>
   </section>
 
@@ -218,7 +215,7 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
     <div class="insta">
       <h2>Novidades todo dia no Instagram</h2>
       <p class="sub" style="margin-top:0">Lançamentos, chegadas e entregas da loja em @mercadoapplebrasil.</p>
-      <a class="btn" href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener">Seguir @mercadoapplebrasil</a>
+      <a class="btn" href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>Seguir @mercadoapplebrasil</a>
     </div>
   </section>
 
@@ -241,31 +238,29 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
 <div class="fixo"><button type="button" class="btn" id="fixo">Montar orçamento</button></div>
 
 <script>
-// TABELA DE PREÇOS: para atualizar, edite só este bloco. p = preço no Pix; sem p = "a consultar".
-var DATA_PRECOS = "20/11";
+// Catálogo do montador: para mudar os modelos, edite só esta lista. O site não mostra preço; o orçamento é enviado pelo WhatsApp.
 var CATALOGO = [
   {id:"iphone", nome:"iPhone", desc:"Linha 18, 17, Air e seminovos", pergunta:"Qual iPhone você quer?", modelos:[
-    {n:"iPhone 18 Pro Max 256GB"},{n:"iPhone 18 Pro 256GB", p:8690},{n:"iPhone Air 256GB", p:5890},
-    {n:"iPhone 17 Pro Max 256GB"},{n:"iPhone 17 Pro 256GB"},{n:"iPhone 17 256GB", p:5949},{n:"iPhone 17e 256GB"},
+    {n:"iPhone 18 Pro Max 256GB"},{n:"iPhone 18 Pro 256GB"},{n:"iPhone Air 256GB"},
+    {n:"iPhone 17 Pro Max 256GB"},{n:"iPhone 17 Pro 256GB"},{n:"iPhone 17 256GB"},{n:"iPhone 17e 256GB"},
     {n:"iPhone 16"},{n:"iPhone 15"},{n:"iPhone seminovo"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
   {id:"ipad", nome:"iPad", desc:"iPad, mini, Air e Pro", pergunta:"Qual iPad você quer?", modelos:[
-    {n:"iPad A16 11\" 128GB", p:3390},{n:"iPad mini"},{n:"iPad Air M4 11\" 128GB", p:5390},{n:"iPad Air M4 13\""},
+    {n:"iPad A16 11\" 128GB"},{n:"iPad mini"},{n:"iPad Air M4 11\" 128GB"},{n:"iPad Air M4 13\""},
     {n:"iPad Pro M5 11\""},{n:"iPad Pro M5 13\""},{n:"Apple Pencil"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
   {id:"mac", nome:"Mac", desc:"MacBook, Mac mini e iMac", pergunta:"Qual Mac você quer?", modelos:[
-    {n:"MacBook Neo 13\" 8GB 256GB", p:5790},{n:"MacBook Air M5 13\" 16GB 512GB"},{n:"MacBook Air M5 15\""},
-    {n:"MacBook Pro M5 14\" 16GB 1TB", p:14990},{n:"MacBook Pro M5 16\""},{n:"Mac mini M6 16GB 256GB", p:7490},{n:"iMac"},
+    {n:"MacBook Neo 13\" 8GB 256GB"},{n:"MacBook Air M5 13\" 16GB 512GB"},{n:"MacBook Air M5 15\""},
+    {n:"MacBook Pro M5 14\" 16GB 1TB"},{n:"MacBook Pro M5 16\""},{n:"Mac mini M6 16GB 256GB"},{n:"iMac"},
     {n:"Ainda não sei, quero ajuda", ajuda:true}]},
   {id:"watch", nome:"Apple Watch", desc:"SE, Series e Ultra", pergunta:"Qual Apple Watch você quer?", modelos:[
     {n:"Apple Watch SE 3"},{n:"Apple Watch Series 12"},{n:"Apple Watch Ultra"},
-    {n:"Apple Watch SE 3 40mm seminovo, pronta entrega", p:1490},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
+    {n:"Apple Watch SE 3 40mm seminovo, pronta entrega"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
   {id:"airpods", nome:"AirPods", desc:"AirPods, Pro e Max", pergunta:"Qual AirPods você quer?", modelos:[
-    {n:"AirPods 4"},{n:"AirPods 5"},{n:"AirPods Pro 3", p:1790},{n:"AirPods Max"}]},
+    {n:"AirPods 4"},{n:"AirPods 5"},{n:"AirPods Pro 3"},{n:"AirPods Max"}]},
   {id:"mais", nome:"Acessórios e Garmin", desc:"Carregador, cabo, capinha, relógio", pergunta:"O que você precisa?", modelos:[
-    {n:"Garmin Forerunner 165", p:1590},{n:"Outro relógio Garmin"},{n:"Carregador USB-C"},{n:"Cabo USB-C"},{n:"Cabo Lightning"},
+    {n:"Garmin Forerunner 165"},{n:"Outro relógio Garmin"},{n:"Carregador USB-C"},{n:"Cabo USB-C"},{n:"Cabo Lightning"},
     {n:"Capinha"},{n:"Magic Mouse"},{n:"Troca de bateria ou tela"}]}
 ];
-// Parcelas: total no cartão = Pix ÷ fator.
-var FATOR = {6:0.92, 10:0.895, 12:0.886, 18:0.845, 21:0.825};
+var PARCELAS = [6, 10, 12, 18, 21];
 var FONE = "5519998899974";
 
 var escolhidos = [];            // itens {n, p}
@@ -274,9 +269,7 @@ var pag = "pix", vezes = 12, meio = "Link de pagamento", extras = [], aberta = n
 function $(id){ return document.getElementById(id); }
 var elCats=$("cats"), elMod=$("modelos"), elVazio=$("vazio"), elTitulo=$("tituloModelos"), elLista=$("lista"),
     elEnviar=$("enviar"), elFixo=$("fixo"), elNome=$("nome");
-$("dataPrecos").textContent = DATA_PRECOS;
 
-function brl(v, cent){ return "R$ " + v.toLocaleString("pt-BR", {minimumFractionDigits: cent?2:0, maximumFractionDigits: cent?2:0}); }
 function nomeItem(m, cat){ return m.ajuda ? cat.nome + " (quero ajuda para escolher)" : m.n; }
 function pos(nome){ for (var i=0;i<escolhidos.length;i++) if (escolhidos[i].n===nome) return i; return -1; }
 function botao(cls, txt, on){ var b=document.createElement("button"); b.type="button"; b.className=cls; b.textContent=txt; b.setAttribute("aria-pressed", on?"true":"false"); return b; }
@@ -302,10 +295,9 @@ function desenharModelos(rolar){
   cat.modelos.forEach(function(m){
     var nome = nomeItem(m, cat);
     var b = botao("chip", m.n, pos(nome) > -1);
-    if (!m.ajuda){ var s=document.createElement("small"); s.textContent = m.p ? brl(m.p) + " no Pix" : "Preço a consultar"; b.appendChild(s); }
     b.addEventListener("click", function(){
       var i = pos(nome);
-      if (i > -1) escolhidos.splice(i,1); else escolhidos.push({n:nome, p:m.p||0});
+      if (i > -1) escolhidos.splice(i,1); else escolhidos.push({n:nome});
       desenharCats(); desenharModelos(false); resumo();
     });
     elMod.appendChild(b);
@@ -315,53 +307,33 @@ function desenharModelos(rolar){
 
 function desenharVezes(){
   var el=$("vezes"); el.innerHTML="";
-  Object.keys(FATOR).forEach(function(k){
-    var n=+k, b=botao("chip", n+"x", vezes===n);
+  PARCELAS.forEach(function(n){
+    var b=botao("chip", n+"x", vezes===n);
     b.addEventListener("click", function(){ vezes=n; desenharVezes(); resumo(); });
     el.appendChild(b);
   });
 }
 
-function contas(){
-  var pix=0, sem=0;
-  escolhidos.forEach(function(i){ if(i.p) pix+=i.p; else sem++; });
-  var total = pag==="cartao" ? pix / FATOR[vezes] : pix;
-  return {pix:pix, sem:sem, total:total, parcela: total / vezes};
-}
-
 function resumo(){
   elLista.innerHTML = "";
   if (!escolhidos.length){ var li=document.createElement("li"); li.textContent="Nenhum produto escolhido ainda"; elLista.appendChild(li); }
-  escolhidos.forEach(function(i){
-    var li=document.createElement("li"), a=document.createElement("span"), b=document.createElement("span");
-    a.textContent=i.n; b.textContent = i.p ? brl(i.p) : "a consultar"; li.appendChild(a); li.appendChild(b); elLista.appendChild(li);
-  });
-  var c = contas();
-  $("totais").hidden = !c.pix;
-  if (c.pix){
-    $("totRot").textContent = pag==="cartao" ? "Total em " + vezes + "x" : "Total no Pix";
-    $("totVal").textContent = pag==="cartao" ? brl(c.total, true) : brl(c.pix);
-    $("totParc").hidden = pag!=="cartao";
-    $("totParc").textContent = vezes + "x de " + brl(c.parcela, true) + " · no Pix sai por " + brl(c.pix);
-    $("totObs").hidden = !c.sem;
-    $("totObs").textContent = c.sem ? "O total não inclui " + (c.sem>1 ? "os "+c.sem+" itens" : "o item") + " a consultar. A gente passa o valor no WhatsApp." : "";
+  escolhidos.forEach(function(i){ var li=document.createElement("li"); li.textContent=i.n; elLista.appendChild(li); });
+  if (escolhidos.length){
+    var li=document.createElement("li"); li.className="pg";
+    li.textContent = pag==="cartao" ? "Cartão em " + vezes + "x · " + meio.toLowerCase() : "Pagamento no Pix";
+    elLista.appendChild(li);
   }
   elEnviar.disabled = !escolhidos.length;
-  elFixo.textContent = escolhidos.length ? "Ver orçamento (" + escolhidos.length + ")" : "Montar orçamento";
+  elFixo.textContent = escolhidos.length ? "Pedir orçamento (" + escolhidos.length + ")" : "Montar orçamento";
 }
 
 function mensagem(){
-  var nome = elNome.value.trim(), c = contas();
-  var l = ["Olá! Montei este orçamento no site" + (nome ? ". Meu nome é " + nome + "." : ":"), ""];
-  escolhidos.forEach(function(i){ l.push("• " + i.n + (i.p ? " · " + brl(i.p) + " no Pix" : " · preço a consultar")); });
+  var nome = elNome.value.trim();
+  var l = ["Olá! Vim pelo site e quero um orçamento" + (nome ? ". Meu nome é " + nome + "." : ":"), ""];
+  escolhidos.forEach(function(i){ l.push("• " + i.n); });
   l.push("");
-  if (pag==="pix"){ l.push("Pagamento: Pix" + (c.pix ? " · total " + brl(c.pix) : "")); }
-  else {
-    l.push("Pagamento: cartão em " + vezes + "x, " + meio.toLowerCase());
-    if (c.pix) l.push("Total: " + vezes + "x de " + brl(c.parcela, true) + " (" + brl(c.total, true) + ")");
-  }
+  l.push(pag==="pix" ? "Pagamento: Pix" : "Pagamento: cartão em " + vezes + "x, " + meio.toLowerCase());
   extras.forEach(function(t){ l.push(t); });
-  if (c.pix) l.push("", "Valores do site em " + DATA_PRECOS + ".");
   return l.join("\n");
 }
 
