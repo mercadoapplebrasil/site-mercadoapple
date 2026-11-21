@@ -180,8 +180,8 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
         <div class="chips" id="vezes"></div>
         <p class="rot">Como prefere passar o cartão?</p>
         <div class="chips" id="meio">
-          <button type="button" class="chip" data-meio="Link de pagamento" aria-pressed="true">Link de pagamento</button>
-          <button type="button" class="chip" data-meio="Maquininha na loja" aria-pressed="false">Maquininha na loja</button>
+          <button type="button" class="chip" data-meio="Maquininha na loja" aria-pressed="true">Maquininha na loja</button>
+          <button type="button" class="chip" data-meio="Link de pagamento" aria-pressed="false">Link de pagamento</button>
         </div>
       </div>
       <p class="rot">Mais alguma coisa?</p>
@@ -264,7 +264,7 @@ var PARCELAS = [6, 10, 12, 18, 21];
 var FONE = "5519998899974";
 
 var escolhidos = [];            // itens {n, p}
-var pag = "pix", vezes = 12, meio = "Link de pagamento", extras = [], aberta = null;
+var pag = "pix", vezes = 12, meio = "Maquininha na loja", extras = [], aberta = null;
 
 function $(id){ return document.getElementById(id); }
 var elCats=$("cats"), elMod=$("modelos"), elVazio=$("vazio"), elTitulo=$("tituloModelos"), elLista=$("lista"),
