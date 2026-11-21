@@ -83,6 +83,17 @@ h2{font-family:var(--display);font-size:26px;letter-spacing:-.02em;text-wrap:bal
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .chip{background:var(--painel);border:1.5px solid var(--linha);border-radius:999px;padding:11px 16px;font-size:15px;font-weight:500;min-height:46px}
 .chip[aria-pressed="true"]{background:var(--acento);border-color:var(--acento);color:#04121f;font-weight:700}
+.chip small{display:block;font-size:12px;font-weight:500;opacity:.8;font-variant-numeric:tabular-nums}
+#modelos .chip{border-radius:16px;text-align:left}
+.rot{color:var(--apoio);font-size:14px;margin-top:18px}
+.resumo li{display:flex;justify-content:space-between;gap:12px}
+.resumo li::before{content:none}
+.resumo li span:last-child{color:var(--apoio);white-space:nowrap;font-variant-numeric:tabular-nums}
+.tot{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--linha);padding-top:12px;font-size:15px;color:var(--apoio)}
+.tot b{font-family:var(--display);font-size:28px;color:var(--texto);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.parc{text-align:right;color:var(--texto);font-weight:700;font-variant-numeric:tabular-nums}
+.obs{color:var(--apoio);font-size:13px;margin-top:6px}
+#totais{margin-bottom:14px}
 .vazio{color:var(--apoio);font-size:15px;margin-top:14px}
 .campo{margin-top:14px;display:flex;flex-direction:column;gap:6px}
 .campo label{font-size:14px;color:var(--apoio)}
@@ -90,7 +101,6 @@ h2{font-family:var(--display);font-size:26px;letter-spacing:-.02em;text-wrap:bal
 .resumo{margin-top:22px;background:var(--painel);border:1px solid var(--linha);border-radius:18px;padding:18px}
 .resumo h4{font-size:12px;letter-spacing:.14em;color:var(--acento);margin-bottom:8px}
 .resumo ul{list-style:none;display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
-.resumo li::before{content:"•";color:var(--acento);margin-right:8px}
 .resumo .btn{width:100%}
 .resumo small{display:block;color:var(--apoio);font-size:13px;margin-top:10px;text-align:center}
 .como{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px;list-style:none;counter-reset:p}
@@ -121,7 +131,7 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
 
   <div class="hero">
     <h1>Apple novo, lacrado e com garantia, em <span>Pirassununga.</span></h1>
-    <p>Escolha o que você procura, monte o pedido em menos de um minuto e receba o orçamento no seu WhatsApp, com preço no Pix e no cartão.</p>
+    <p>Escolha o que você procura, monte o pedido em menos de um minuto e veja o valor na hora, no Pix ou parcelado. Depois é só enviar pelo WhatsApp.</p>
     <div class="acoes">
       <a class="btn" href="#orcamento">Montar meu orçamento</a>
       <a class="btn linha" href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener">Seguir no Instagram</a>
@@ -158,10 +168,22 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
     </div>
 
     <div class="passo">
-      <h3><i>3</i>Para fechar o pedido</h3>
+      <h3><i>3</i>Como você quer pagar?</h3>
+      <div class="chips" id="pag">
+        <button type="button" class="chip" data-pag="pix" aria-pressed="true">Pix</button>
+        <button type="button" class="chip" data-pag="cartao" aria-pressed="false">Parcelado no cartão</button>
+      </div>
+      <div id="blocoCartao" hidden>
+        <p class="rot">Em quantas vezes?</p>
+        <div class="chips" id="vezes"></div>
+        <p class="rot">Como prefere passar o cartão?</p>
+        <div class="chips" id="meio">
+          <button type="button" class="chip" data-meio="Link de pagamento" aria-pressed="true">Link de pagamento</button>
+          <button type="button" class="chip" data-meio="Maquininha na loja" aria-pressed="false">Maquininha na loja</button>
+        </div>
+      </div>
+      <p class="rot">Mais alguma coisa?</p>
       <div class="chips" id="extras">
-        <button type="button" class="chip" data-extra="Pagamento no Pix" aria-pressed="false">Vou pagar no Pix</button>
-        <button type="button" class="chip" data-extra="Pagamento no cartão, parcelado" aria-pressed="false">Quero parcelar</button>
         <button type="button" class="chip" data-extra="Tenho um iPhone para dar na troca" aria-pressed="false">Tenho iPhone pra troca</button>
       </div>
       <div class="campo">
@@ -171,10 +193,15 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
     </div>
 
     <div class="resumo" aria-live="polite">
-      <h4>SEU PEDIDO</h4>
+      <h4>SEU ORÇAMENTO</h4>
       <ul id="lista"><li>Nenhum produto escolhido ainda</li></ul>
-      <button type="button" class="btn" id="enviar" disabled>Receber orçamento no WhatsApp</button>
-      <small>Abre o WhatsApp com o pedido pronto. É só tocar em enviar que a gente responde com os valores.</small>
+      <div id="totais" hidden>
+        <p class="tot"><span id="totRot">Total no Pix</span><b id="totVal"></b></p>
+        <p class="parc" id="totParc" hidden></p>
+        <p class="obs" id="totObs" hidden></p>
+      </div>
+      <button type="button" class="btn" id="enviar" disabled>Enviar orçamento no WhatsApp</button>
+      <small>Abre o WhatsApp com o pedido pronto. Valores de <span id="dataPrecos"></span>, válidos por 24h e sujeitos à disponibilidade.</small>
     </div>
   </section>
 
@@ -214,38 +241,54 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
 <div class="fixo"><button type="button" class="btn" id="fixo">Montar orçamento</button></div>
 
 <script>
-// Catálogo do montador: para mudar os modelos, edite só esta lista.
+// TABELA DE PREÇOS: para atualizar, edite só este bloco. p = preço no Pix; sem p = "a consultar".
+var DATA_PRECOS = "20/11";
 var CATALOGO = [
-  {id:"iphone", nome:"iPhone", desc:"Linha 18, 17, Air e seminovos", pergunta:"Qual iPhone você quer?", modelos:["iPhone 18 Pro Max","iPhone 18 Pro","iPhone Air","iPhone 17 Pro Max","iPhone 17 Pro","iPhone 17","iPhone 17e","iPhone 16","iPhone 15","iPhone seminovo","Ainda não sei, quero ajuda"]},
-  {id:"ipad", nome:"iPad", desc:"iPad, mini, Air e Pro", pergunta:"Qual iPad você quer?", modelos:["iPad A16","iPad mini","iPad Air M4 11\"","iPad Air M4 13\"","iPad Pro M5 11\"","iPad Pro M5 13\"","Apple Pencil","Ainda não sei, quero ajuda"]},
-  {id:"mac", nome:"Mac", desc:"MacBook, Mac mini e iMac", pergunta:"Qual Mac você quer?", modelos:["MacBook Neo","MacBook Air M5 13\"","MacBook Air M5 15\"","MacBook Pro M5 14\"","MacBook Pro M5 16\"","Mac mini","iMac","Ainda não sei, quero ajuda"]},
-  {id:"watch", nome:"Apple Watch", desc:"SE, Series e Ultra", pergunta:"Qual Apple Watch você quer?", modelos:["Apple Watch SE 3","Apple Watch Series 12","Apple Watch Ultra","Apple Watch seminovo","Ainda não sei, quero ajuda"]},
-  {id:"airpods", nome:"AirPods", desc:"AirPods, Pro e Max", pergunta:"Qual AirPods você quer?", modelos:["AirPods 4","AirPods 5","AirPods Pro 3","AirPods Max"]},
-  {id:"mais", nome:"Acessórios e Garmin", desc:"Carregador, cabo, capinha, relógio", pergunta:"O que você precisa?", modelos:["Carregador USB-C","Cabo USB-C","Cabo Lightning","Capinha","Magic Mouse","Relógio Garmin","Troca de bateria ou tela"]}
+  {id:"iphone", nome:"iPhone", desc:"Linha 18, 17, Air e seminovos", pergunta:"Qual iPhone você quer?", modelos:[
+    {n:"iPhone 18 Pro Max 256GB"},{n:"iPhone 18 Pro 256GB", p:8690},{n:"iPhone Air 256GB", p:5890},
+    {n:"iPhone 17 Pro Max 256GB"},{n:"iPhone 17 Pro 256GB"},{n:"iPhone 17 256GB", p:5949},{n:"iPhone 17e 256GB"},
+    {n:"iPhone 16"},{n:"iPhone 15"},{n:"iPhone seminovo"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
+  {id:"ipad", nome:"iPad", desc:"iPad, mini, Air e Pro", pergunta:"Qual iPad você quer?", modelos:[
+    {n:"iPad A16 11\" 128GB", p:3390},{n:"iPad mini"},{n:"iPad Air M4 11\" 128GB", p:5390},{n:"iPad Air M4 13\""},
+    {n:"iPad Pro M5 11\""},{n:"iPad Pro M5 13\""},{n:"Apple Pencil"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
+  {id:"mac", nome:"Mac", desc:"MacBook, Mac mini e iMac", pergunta:"Qual Mac você quer?", modelos:[
+    {n:"MacBook Neo 13\" 8GB 256GB", p:5790},{n:"MacBook Air M5 13\" 16GB 512GB"},{n:"MacBook Air M5 15\""},
+    {n:"MacBook Pro M5 14\" 16GB 1TB", p:14990},{n:"MacBook Pro M5 16\""},{n:"Mac mini M6 16GB 256GB", p:7490},{n:"iMac"},
+    {n:"Ainda não sei, quero ajuda", ajuda:true}]},
+  {id:"watch", nome:"Apple Watch", desc:"SE, Series e Ultra", pergunta:"Qual Apple Watch você quer?", modelos:[
+    {n:"Apple Watch SE 3"},{n:"Apple Watch Series 12"},{n:"Apple Watch Ultra"},
+    {n:"Apple Watch SE 3 40mm seminovo, pronta entrega", p:1490},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
+  {id:"airpods", nome:"AirPods", desc:"AirPods, Pro e Max", pergunta:"Qual AirPods você quer?", modelos:[
+    {n:"AirPods 4"},{n:"AirPods 5"},{n:"AirPods Pro 3", p:1790},{n:"AirPods Max"}]},
+  {id:"mais", nome:"Acessórios e Garmin", desc:"Carregador, cabo, capinha, relógio", pergunta:"O que você precisa?", modelos:[
+    {n:"Garmin Forerunner 165", p:1590},{n:"Outro relógio Garmin"},{n:"Carregador USB-C"},{n:"Cabo USB-C"},{n:"Cabo Lightning"},
+    {n:"Capinha"},{n:"Magic Mouse"},{n:"Troca de bateria ou tela"}]}
 ];
+// Parcelas: total no cartão = Pix ÷ fator.
+var FATOR = {6:0.92, 10:0.895, 12:0.886, 18:0.845, 21:0.825};
 var FONE = "5519998899974";
-var escolhidos = [];   // nomes dos modelos, na ordem em que foram escolhidos
-var extras = [];
-var aberta = null;
 
-var elCats = document.getElementById("cats"), elMod = document.getElementById("modelos"),
-    elVazio = document.getElementById("vazio"), elTitulo = document.getElementById("tituloModelos"),
-    elLista = document.getElementById("lista"), elEnviar = document.getElementById("enviar"),
-    elFixo = document.getElementById("fixo"), elNome = document.getElementById("nome");
+var escolhidos = [];            // itens {n, p}
+var pag = "pix", vezes = 12, meio = "Link de pagamento", extras = [], aberta = null;
 
-function rotulo(m, cat){ return m.indexOf("Ainda não sei") === 0 ? cat.nome + " (quero ajuda para escolher)" : m; }
+function $(id){ return document.getElementById(id); }
+var elCats=$("cats"), elMod=$("modelos"), elVazio=$("vazio"), elTitulo=$("tituloModelos"), elLista=$("lista"),
+    elEnviar=$("enviar"), elFixo=$("fixo"), elNome=$("nome");
+$("dataPrecos").textContent = DATA_PRECOS;
+
+function brl(v, cent){ return "R$ " + v.toLocaleString("pt-BR", {minimumFractionDigits: cent?2:0, maximumFractionDigits: cent?2:0}); }
+function nomeItem(m, cat){ return m.ajuda ? cat.nome + " (quero ajuda para escolher)" : m.n; }
+function pos(nome){ for (var i=0;i<escolhidos.length;i++) if (escolhidos[i].n===nome) return i; return -1; }
+function botao(cls, txt, on){ var b=document.createElement("button"); b.type="button"; b.className=cls; b.textContent=txt; b.setAttribute("aria-pressed", on?"true":"false"); return b; }
 
 function desenharCats(){
   elCats.innerHTML = "";
   CATALOGO.forEach(function(cat){
-    var n = cat.modelos.filter(function(m){ return escolhidos.indexOf(rotulo(m, cat)) > -1; }).length;
-    var b = document.createElement("button");
-    b.type = "button"; b.className = "cat";
-    b.setAttribute("aria-pressed", aberta === cat.id ? "true" : "false");
-    b.innerHTML = "<b></b><span></span>";
-    b.firstChild.textContent = cat.nome;
-    b.lastChild.textContent = n ? n + (n > 1 ? " escolhidos" : " escolhido") : cat.desc;
-    if (n) b.lastChild.className = "n";
+    var n = cat.modelos.filter(function(m){ return pos(nomeItem(m,cat)) > -1; }).length;
+    var b = botao("cat", "", aberta === cat.id);
+    var t=document.createElement("b"); t.textContent=cat.nome;
+    var s=document.createElement("span"); s.textContent = n ? n + (n>1?" escolhidos":" escolhido") : cat.desc; if(n) s.className="n";
+    b.appendChild(t); b.appendChild(s);
     b.addEventListener("click", function(){ aberta = cat.id; desenharCats(); desenharModelos(true); });
     elCats.appendChild(b);
   });
@@ -255,62 +298,97 @@ function desenharModelos(rolar){
   var cat = CATALOGO.filter(function(c){ return c.id === aberta; })[0];
   elMod.innerHTML = "";
   if (!cat){ elVazio.hidden = false; return; }
-  elVazio.hidden = true;
-  elTitulo.textContent = cat.pergunta;
+  elVazio.hidden = true; elTitulo.textContent = cat.pergunta;
   cat.modelos.forEach(function(m){
-    var nome = rotulo(m, cat);
-    var b = document.createElement("button");
-    b.type = "button"; b.className = "chip"; b.textContent = m;
-    b.setAttribute("aria-pressed", escolhidos.indexOf(nome) > -1 ? "true" : "false");
+    var nome = nomeItem(m, cat);
+    var b = botao("chip", m.n, pos(nome) > -1);
+    if (!m.ajuda){ var s=document.createElement("small"); s.textContent = m.p ? brl(m.p) + " no Pix" : "Preço a consultar"; b.appendChild(s); }
     b.addEventListener("click", function(){
-      var i = escolhidos.indexOf(nome);
-      if (i > -1) escolhidos.splice(i, 1); else escolhidos.push(nome);
+      var i = pos(nome);
+      if (i > -1) escolhidos.splice(i,1); else escolhidos.push({n:nome, p:m.p||0});
       desenharCats(); desenharModelos(false); resumo();
     });
     elMod.appendChild(b);
   });
-  if (rolar) elTitulo.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion:reduce)").matches ? "auto" : "smooth", block: "start"});
+  if (rolar) elTitulo.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion:reduce)").matches ? "auto" : "smooth", block:"start"});
+}
+
+function desenharVezes(){
+  var el=$("vezes"); el.innerHTML="";
+  Object.keys(FATOR).forEach(function(k){
+    var n=+k, b=botao("chip", n+"x", vezes===n);
+    b.addEventListener("click", function(){ vezes=n; desenharVezes(); resumo(); });
+    el.appendChild(b);
+  });
+}
+
+function contas(){
+  var pix=0, sem=0;
+  escolhidos.forEach(function(i){ if(i.p) pix+=i.p; else sem++; });
+  var total = pag==="cartao" ? pix / FATOR[vezes] : pix;
+  return {pix:pix, sem:sem, total:total, parcela: total / vezes};
 }
 
 function resumo(){
   elLista.innerHTML = "";
-  var itens = escolhidos.concat(extras);
-  if (!escolhidos.length){
-    var li = document.createElement("li"); li.textContent = "Nenhum produto escolhido ainda"; elLista.appendChild(li);
-  } else {
-    itens.forEach(function(t){ var li = document.createElement("li"); li.textContent = t; elLista.appendChild(li); });
+  if (!escolhidos.length){ var li=document.createElement("li"); li.textContent="Nenhum produto escolhido ainda"; elLista.appendChild(li); }
+  escolhidos.forEach(function(i){
+    var li=document.createElement("li"), a=document.createElement("span"), b=document.createElement("span");
+    a.textContent=i.n; b.textContent = i.p ? brl(i.p) : "a consultar"; li.appendChild(a); li.appendChild(b); elLista.appendChild(li);
+  });
+  var c = contas();
+  $("totais").hidden = !c.pix;
+  if (c.pix){
+    $("totRot").textContent = pag==="cartao" ? "Total em " + vezes + "x" : "Total no Pix";
+    $("totVal").textContent = pag==="cartao" ? brl(c.total, true) : brl(c.pix);
+    $("totParc").hidden = pag!=="cartao";
+    $("totParc").textContent = vezes + "x de " + brl(c.parcela, true) + " · no Pix sai por " + brl(c.pix);
+    $("totObs").hidden = !c.sem;
+    $("totObs").textContent = c.sem ? "O total não inclui " + (c.sem>1 ? "os "+c.sem+" itens" : "o item") + " a consultar. A gente passa o valor no WhatsApp." : "";
   }
   elEnviar.disabled = !escolhidos.length;
-  elFixo.textContent = escolhidos.length ? "Receber orçamento (" + escolhidos.length + ")" : "Montar orçamento";
+  elFixo.textContent = escolhidos.length ? "Ver orçamento (" + escolhidos.length + ")" : "Montar orçamento";
 }
 
 function mensagem(){
-  var nome = elNome.value.trim();
-  var l = ["Olá! Vim pelo site e quero um orçamento" + (nome ? ". Meu nome é " + nome + "." : ":"), ""];
-  escolhidos.forEach(function(t){ l.push("• " + t); });
-  if (extras.length){ l.push(""); extras.forEach(function(t){ l.push(t); }); }
+  var nome = elNome.value.trim(), c = contas();
+  var l = ["Olá! Montei este orçamento no site" + (nome ? ". Meu nome é " + nome + "." : ":"), ""];
+  escolhidos.forEach(function(i){ l.push("• " + i.n + (i.p ? " · " + brl(i.p) + " no Pix" : " · preço a consultar")); });
+  l.push("");
+  if (pag==="pix"){ l.push("Pagamento: Pix" + (c.pix ? " · total " + brl(c.pix) : "")); }
+  else {
+    l.push("Pagamento: cartão em " + vezes + "x, " + meio.toLowerCase());
+    if (c.pix) l.push("Total: " + vezes + "x de " + brl(c.parcela, true) + " (" + brl(c.total, true) + ")");
+  }
+  extras.forEach(function(t){ l.push(t); });
+  if (c.pix) l.push("", "Valores do site em " + DATA_PRECOS + ".");
   return l.join("\n");
 }
 
-function enviar(){
-  if (!escolhidos.length){ document.getElementById("orcamento").scrollIntoView(); return; }
-  window.location.href = "https://wa.me/" + FONE + "?text=" + encodeURIComponent(mensagem());
-}
+function enviar(){ window.location.href = "https://wa.me/" + FONE + "?text=" + encodeURIComponent(mensagem()); }
 
-document.getElementById("extras").addEventListener("click", function(e){
+function grupo(id, attr, aoMudar){
+  $(id).addEventListener("click", function(e){
+    var b = e.target.closest(".chip"); if (!b) return;
+    [].forEach.call($(id).children, function(x){ x.setAttribute("aria-pressed", x===b ? "true" : "false"); });
+    aoMudar(b.getAttribute(attr)); resumo();
+  });
+}
+grupo("pag", "data-pag", function(v){ pag = v; $("blocoCartao").hidden = v!=="cartao"; });
+grupo("meio", "data-meio", function(v){ meio = v; });
+$("extras").addEventListener("click", function(e){
   var b = e.target.closest(".chip"); if (!b) return;
   var t = b.getAttribute("data-extra"), i = extras.indexOf(t);
-  if (i > -1) extras.splice(i, 1); else extras.push(t);
+  if (i > -1) extras.splice(i,1); else extras.push(t);
   b.setAttribute("aria-pressed", i > -1 ? "false" : "true");
-  resumo();
 });
 elEnviar.addEventListener("click", enviar);
-elFixo.addEventListener("click", enviar);
-// O botão fixo some enquanto o resumo do pedido está na tela, para não cobrir o botão de enviar.
+elFixo.addEventListener("click", function(){ document.querySelector(escolhidos.length ? ".resumo" : "#orcamento").scrollIntoView({block: escolhidos.length ? "center" : "start"}); });
+// O botão fixo some enquanto o resumo está na tela, para não cobrir o botão de enviar.
 if ("IntersectionObserver" in window){
-  new IntersectionObserver(function(es){ elFixo.parentNode.hidden = es[0].isIntersecting; }, {threshold: .35}).observe(document.querySelector(".resumo"));
+  new IntersectionObserver(function(es){ elFixo.parentNode.hidden = es[0].isIntersecting; }, {threshold:.35}).observe(document.querySelector(".resumo"));
 }
-desenharCats(); resumo();
+desenharCats(); desenharVezes(); resumo();
 </script>
 </body>
 </html>
