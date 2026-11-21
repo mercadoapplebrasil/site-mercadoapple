@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mercado Apple Brasil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: coluna única no celular, grade de ofertas em 2 a 3 colunas no desktop; preto da marca com azul como único acento */
+:root{
+  color-scheme:dark;
+  --fundo:#07090c;
+  --painel:#11151b;
+  --linha:#232a33;
+  --texto:#f3f5f7;
+  --apoio:#a3adb9;
+  --acento:#4da3ff;
+  --zap:#25d366;
+  --display:"Sora",system-ui,sans-serif;
+  --corpo:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--fundo);color:var(--texto);font-family:var(--corpo);font-size:17px;line-height:1.55}
+img{max-width:100%;display:block}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:3px solid var(--acento);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header{display:flex;align-items:center;gap:12px;padding:18px 0}
+header img{width:44px;height:44px;border-radius:50%}
+header b{font-family:var(--display);font-size:16px;white-space:nowrap}
+header .selo{margin-left:auto;font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--acento);text-align:right}
+.hero{padding:34px 0 30px;display:flex;flex-direction:column;gap:18px}
+h1{font-family:var(--display);font-size:clamp(34px,7vw,58px);line-height:1.04;letter-spacing:-.03em;text-wrap:balance}
+h1 span{color:var(--acento)}
+.hero p{color:var(--apoio);max-width:56ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--zap);color:#04200f;font-weight:700;font-size:18px;text-decoration:none;padding:15px 26px;border-radius:999px;align-self:flex-start}
+.btn.claro{background:var(--texto);color:#000}
+.fatos{display:flex;flex-wrap:wrap;gap:10px 22px;color:var(--apoio);font-size:15px;list-style:none}
+.fatos li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--acento);margin-right:9px;vertical-align:middle}
+section{padding:34px 0;border-top:1px solid var(--linha)}
+h2{font-family:var(--display);font-size:26px;letter-spacing:-.02em;text-wrap:balance}
+.sub{color:var(--apoio);margin-top:6px;font-size:15px}
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:22px}
+.card{background:var(--painel);border:1px solid var(--linha);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.foto{background:#f5f5f7;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.foto.sem{background:#0c1016;border-bottom:1px solid var(--linha);font-family:var(--display);font-size:54px;font-weight:800;letter-spacing:-.04em;color:var(--acento)}
+.info{padding:18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.info h3{font-family:var(--display);font-size:19px;line-height:1.2}
+.info .det{color:var(--apoio);font-size:14px}
+.preco{font-family:var(--display);font-size:30px;font-weight:800;letter-spacing:-.02em;margin-top:8px;font-variant-numeric:tabular-nums}
+.preco small{font-family:var(--corpo);font-size:14px;font-weight:500;color:var(--apoio);margin-left:4px}
+.parc{color:var(--apoio);font-size:14px;font-variant-numeric:tabular-nums}
+.info a{margin-top:auto;padding-top:14px;color:var(--acento);font-weight:700;text-decoration:none}
+.como{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px;list-style:none;counter-reset:p}
+.como li{background:var(--painel);border:1px solid var(--linha);border-radius:16px;padding:18px;counter-increment:p}
+.como li::before{content:counter(p);font-family:var(--display);font-weight:800;color:var(--acento);font-size:22px;display:block;margin-bottom:6px}
+.como b{display:block}
+.como span{color:var(--apoio);font-size:15px}
+.loja{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:20px}
+.loja dt{font-size:12px;letter-spacing:.14em;font-weight:700;color:var(--acento);margin-bottom:4px}
+.loja dd{margin-bottom:16px}
+footer{border-top:1px solid var(--linha);padding:22px 0 90px;color:var(--apoio);font-size:13px}
+.fixo{position:fixed;left:0;right:0;bottom:14px;display:flex;justify-content:center;padding:0 16px;pointer-events:none}
+.fixo a{pointer-events:auto;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="img/logo.png" alt="Logo Mercado Apple Brasil">
+    <b>Mercado Apple Brasil</b>
+    <span class="selo">BLACK NOVEMBER</span>
+  </header>
+
+  <div class="hero">
+    <h1>Apple novo, lacrado e com garantia, em <span>Pirassununga.</span></h1>
+    <p>iPhone, iPad, Mac, Apple Watch e AirPods sob encomenda, com preço no Pix e parcelamento em até 21x. Você fala direto com quem vende.</p>
+    <a class="btn" href="https://wa.me/message/7UQWPKHP2PKHN1">Chamar no WhatsApp</a>
+    <ul class="fatos">
+      <li>Garantia Apple de 1 ano</li>
+      <li>Entrega em 2 a 5 dias úteis</li>
+      <li>Parcelamos em até 21x</li>
+    </ul>
+  </div>
+
+  <section id="ofertas">
+    <h2>Ofertas da Black November</h2>
+    <p class="sub">Preços de 20/11/2026, sujeitos à disponibilidade. Confirme o valor do dia pelo WhatsApp.</p>
+    <div class="grade">
+      <article class="card">
+        <div class="foto"><img src="img/iphone-air.jpg" alt="iPhone Air em cinco cores"></div>
+        <div class="info"><h3>iPhone Air</h3><p class="det">256GB · Preto</p>
+          <p class="preco">R$ 5.890<small>no Pix</small></p><p class="parc">ou 12x de R$ 553,99</p>
+          <a href="https://wa.me/message/7UQWPKHP2PKHN1">Quero este</a></div>
+      </article>
+      <article class="card">
+        <div class="foto"><img src="img/iphone-18-pro.jpg" alt="iPhone 18 Pro na cor Bordô"></div>
+        <div class="info"><h3>iPhone 18 Pro</h3><p class="det">256GB · Bordô</p>
+          <p class="preco">R$ 8.690<small>no Pix</small></p><p class="parc">ou 12x de R$ 817,34</p>
+          <a href="https://wa.me/message/7UQWPKHP2PKHN1">Quero este</a></div>
+      </article>
+      <article class="card">
+        <div class="foto"><img src="img/ipad-air.jpg" alt="iPad Air M4"></div>
+        <div class="info"><h3>iPad Air M4</h3><p class="det">11" · 128GB · Wi‑Fi</p>
+          <p class="preco">R$ 5.390<small>no Pix</small></p><p class="parc">ou 12x de R$ 506,96</p>
+          <a href="https://wa.me/message/7UQWPKHP2PKHN1">Quero este</a></div>
+      </article>
+      <article class="card">
+        <div class="foto"><img src="img/ipad.jpg" alt="iPad A16"></div>
+        <div class="info"><h3>iPad A16</h3><p class="det">11" · 128GB · Wi‑Fi</p>
+          <p class="preco">R$ 3.390<small>no Pix</small></p><p class="parc">ou 12x de R$ 318,85</p>
+          <a href="https://wa.me/message/7UQWPKHP2PKHN1">Quero este</a></div>
+      </article>
+      <article class="card">
+        <div class="foto"><img src="img/mac-mini.jpg" alt="Mac mini visto de frente"></div>
+        <div class="info"><h3>Mac mini</h3><p class="det">M6 · 16GB · 256GB ou M4 · 16GB · 512GB</p>
+          <p class="preco">R$ 7.490<small>no Pix</small></p><p class="parc">ou 12x de R$ 704,47</p>
+          <a href="https://wa.me/message/7UQWPKHP2PKHN1">Quero este</a></div>
+      </article>
+      <article class="card">
+        <div class="foto sem" aria-hidden="true">Neo.</div>
+        <div class="info"><h3>MacBook Neo</h3><p class="det">13" · 8GB · 256GB</p>
+          <p class="preco">R$ 5.790<small>no Pix</small></p><p class="parc">ou 12x de R$ 544,58</p>
+          <a href="https://wa.me/message/7UQWPKHP2PKHN1">Quero este</a></div>
+      </article>
+      <article class="card">
+        <div class="foto"><img src="img/airpods-pro.jpg" alt="AirPods Pro 3"></div>
+        <div class="info"><h3>AirPods Pro 3</h3><p class="det">Cancelamento de ruído</p>
+          <p class="preco">R$ 1.790<small>no Pix</small></p><p class="parc">ou 12x de R$ 168,36</p>
+          <a href="https://wa.me/message/7UQWPKHP2PKHN1">Quero este</a></div>
+      </article>
+      <article class="card">
+        <div class="foto sem" aria-hidden="true">SE 3.</div>
+        <div class="info"><h3>Apple Watch SE 3 · seminovo</h3><p class="det">40mm · Meia-noite · pronta entrega · garantia Apple até fevereiro de 2027</p>
+          <p class="preco">R$ 1.490<small>no Pix</small></p><p class="parc">ou 12x de R$ 140,14</p>
+          <a href="https://wa.me/message/7UQWPKHP2PKHN1">Quero este</a></div>
+      </article>
+    </div>
+    <p class="sub" style="margin-top:18px">Procura outro modelo? iPhone 17, 18 Pro Max, MacBook Air, Apple Watch e seminovos revisados: é só pedir o orçamento.</p>
+  </section>
+
+  <section>
+    <h2>Como funciona</h2>
+    <ol class="como">
+      <li><b>Você pede o orçamento</b><span>Pelo WhatsApp ou Direct. O valor vale por 24 horas.</span></li>
+      <li><b>Paga no Pix ou no cartão</b><span>Pix à vista ou cartão em até 21x. Você recebe o recibo na hora.</span></li>
+      <li><b>Retira na loja</b><span>Em 2 a 5 dias úteis, lacrado, com garantia Apple de 1 ano. Seminovos têm 90 dias de garantia.</span></li>
+    </ol>
+  </section>
+
+  <section id="loja">
+    <h2>A loja</h2>
+    <dl class="loja">
+      <div>
+        <dt>ENDEREÇO</dt><dd>Rua Duque de Caxias, 2032, Sala 3<br>Pirassununga, SP</dd>
+        <dt>HORÁRIO</dt><dd>Segunda a sábado, das 9h às 21h<br>Domingo, das 9h às 13h</dd>
+      </div>
+      <div>
+        <dt>WHATSAPP</dt><dd>(19) 99889-9974</dd>
+        <dt>INSTAGRAM</dt><dd><a href="https://www.instagram.com/mercadoapplebrasil">@mercadoapplebrasil</a></dd>
+      </div>
+    </dl>
+  </section>
+
+  <footer>Mercado Apple Brasil é uma loja independente. Apple, iPhone, iPad, Mac, Apple Watch e AirPods são marcas da Apple Inc.</footer>
+</div>
+<div class="fixo"><a class="btn" href="https://wa.me/message/7UQWPKHP2PKHN1">Chamar no WhatsApp</a></div>
+</body>
+</html>
