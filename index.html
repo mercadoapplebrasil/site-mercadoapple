@@ -99,6 +99,16 @@ h2{font-family:var(--display);font-size:26px;letter-spacing:-.02em;text-wrap:bal
 .parc{text-align:right;color:var(--texto);font-weight:700;font-variant-numeric:tabular-nums}
 .obs{color:var(--apoio);font-size:13px;margin-top:6px}
 #totais{margin-bottom:14px}
+.troca{margin-top:14px;background:var(--painel);border:1px solid var(--acento);border-radius:16px;padding:16px 14px}
+.troca .chip{background:var(--fundo)}
+.troca .chip[aria-pressed="true"]{background:var(--acento)}
+.trocaTit{font-family:var(--display);font-size:16px}
+.troca .campo input,.troca .campo select{background:var(--fundo)}
+.campo select{font:inherit;color:var(--texto);border:1.5px solid var(--linha);border-radius:14px;padding:13px 14px;width:100%;max-width:420px;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--apoio) 50%),linear-gradient(135deg,var(--apoio) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 14px) 55%;background-size:6px 6px;background-repeat:no-repeat}
+.dupla{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dica{color:var(--apoio);font-size:13px;margin-top:8px}
+.resumo li.sub{color:var(--apoio);font-size:15px;padding-left:16px}
+.resumo li.sub::before{content:none}
 .vazio{color:var(--apoio);font-size:15px;margin-top:14px}
 .campo{margin-top:14px;display:flex;flex-direction:column;gap:6px}
 .campo label{font-size:14px;color:var(--apoio)}
@@ -192,9 +202,46 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
           <button type="button" class="chip" data-meio="Link de pagamento" aria-pressed="false">Link de pagamento</button>
         </div>
       </div>
-      <p class="rot">Mais alguma coisa?</p>
-      <div class="chips" id="extras">
-        <button type="button" class="chip" data-extra="Tenho um iPhone para dar na troca" aria-pressed="false">Tenho iPhone pra troca</button>
+      <div id="blocoTroca" hidden>
+        <p class="rot">Vai dar um iPhone na troca?</p>
+        <div class="chips">
+          <button type="button" class="chip" id="trocaBtn" aria-pressed="false" aria-expanded="false" aria-controls="trocaForm">Tenho iPhone pra troca</button>
+        </div>
+        <div id="trocaForm" class="troca" hidden>
+          <p class="trocaTit">Conta pra gente como está o seu iPhone</p>
+          <div class="campo">
+            <label for="tModelo">Qual é o modelo?</label>
+            <select id="tModelo"><option value="">Escolha o modelo</option></select>
+          </div>
+          <p class="rot">Quantos GB?</p>
+          <div class="chips" data-grupo="gb">
+            <button type="button" class="chip" aria-pressed="false">64GB</button><button type="button" class="chip" aria-pressed="false">128GB</button><button type="button" class="chip" aria-pressed="false">256GB</button><button type="button" class="chip" aria-pressed="false">512GB</button><button type="button" class="chip" aria-pressed="false">1TB</button>
+          </div>
+          <div class="dupla">
+            <div class="campo">
+              <label for="tCor">Cor</label>
+              <input id="tCor" type="text" placeholder="Ex.: azul">
+            </div>
+            <div class="campo">
+              <label for="tBat">Saúde da bateria (%)</label>
+              <input id="tBat" type="number" inputmode="numeric" min="1" max="100" placeholder="Ex.: 86">
+            </div>
+          </div>
+          <p class="dica">Veja em Ajustes › Bateria › Saúde da Bateria.</p>
+          <p class="rot">O Face ID funciona?</p>
+          <div class="chips" data-grupo="face">
+            <button type="button" class="chip" aria-pressed="false">Funciona</button><button type="button" class="chip" aria-pressed="false">Não funciona</button>
+          </div>
+          <p class="rot">Como estão a tela e a traseira?</p>
+          <div class="chips" data-grupo="estado">
+            <button type="button" class="chip" aria-pressed="false">Sem marcas</button><button type="button" class="chip" aria-pressed="false">Riscos leves</button><button type="button" class="chip" aria-pressed="false">Tela trincada</button><button type="button" class="chip" aria-pressed="false">Traseira trincada</button>
+          </div>
+          <p class="rot">Já passou por algum reparo?</p>
+          <div class="chips" data-grupo="reparo">
+            <button type="button" class="chip" aria-pressed="false">Nunca</button><button type="button" class="chip" aria-pressed="false">Trocou a bateria</button><button type="button" class="chip" aria-pressed="false">Trocou a tela</button><button type="button" class="chip" aria-pressed="false">Outro reparo</button>
+          </div>
+          <p class="dica">Com esses dados a gente já passa uma avaliação. O valor final é confirmado na loja, com o aparelho em mãos.</p>
+        </div>
       </div>
       <div class="campo">
         <label for="nome">Seu nome</label>
@@ -281,7 +328,7 @@ var PARCELAS = [6, 10, 12, 18, 21];
 var FONE = "5519998899974";
 
 var escolhidos = [];            // itens {n, cat, base}
-var pag = "pix", vezes = 12, meio = "Maquininha na loja", extras = [], aberta = null, modeloAberto = null;
+var pag = "pix", vezes = 12, meio = "Maquininha na loja", aberta = null, modeloAberto = null;
 
 function $(id){ return document.getElementById(id); }
 var elCats=$("cats"), elMod=$("modelos"), elVazio=$("vazio"), elTitulo=$("tituloModelos"), elLista=$("lista"),
@@ -362,6 +409,12 @@ function resumo(){
     li.textContent = pag==="cartao" ? "Cartão em " + vezes + "x · " + meio.toLowerCase() : "Pagamento no Pix";
     elLista.appendChild(li);
   }
+  $("blocoTroca").hidden = !temIphone();
+  var lt = linhasTroca();
+  if (lt.length){
+    var t=document.createElement("li"); t.className="pg"; t.textContent="iPhone na troca:"; elLista.appendChild(t);
+    lt.forEach(function(x){ var li=document.createElement("li"); li.className="sub"; li.textContent=x; elLista.appendChild(li); });
+  }
   elEnviar.disabled = !escolhidos.length;
   elFixo.textContent = escolhidos.length ? "Pedir orçamento (" + escolhidos.length + ")" : "Montar orçamento";
 }
@@ -372,7 +425,8 @@ function mensagem(){
   escolhidos.forEach(function(i){ l.push("• " + i.n); });
   l.push("");
   l.push(pag==="pix" ? "Pagamento: Pix" : "Pagamento: cartão em " + vezes + "x, " + meio.toLowerCase());
-  extras.forEach(function(t){ l.push(t); });
+  var lt = linhasTroca();
+  if (lt.length){ l.push("", "Tenho um iPhone para dar na troca:"); lt.forEach(function(x){ l.push("• " + x); }); }
   return l.join("\n");
 }
 
@@ -387,12 +441,37 @@ function grupo(id, attr, aoMudar){
 }
 grupo("pag", "data-pag", function(v){ pag = v; $("blocoCartao").hidden = v!=="cartao"; });
 grupo("meio", "data-meio", function(v){ meio = v; });
-$("extras").addEventListener("click", function(e){
-  var b = e.target.closest(".chip"); if (!b) return;
-  var t = b.getAttribute("data-extra"), i = extras.indexOf(t);
-  if (i > -1) extras.splice(i,1); else extras.push(t);
-  b.setAttribute("aria-pressed", i > -1 ? "false" : "true");
+// Troca: só aparece quando há um iPhone no pedido.
+var MODELOS_TROCA = ["iPhone 11","iPhone 11 Pro","iPhone 11 Pro Max","iPhone 12","iPhone 12 mini","iPhone 12 Pro","iPhone 12 Pro Max","iPhone 13","iPhone 13 mini","iPhone 13 Pro","iPhone 13 Pro Max","iPhone 14","iPhone 14 Plus","iPhone 14 Pro","iPhone 14 Pro Max","iPhone 15","iPhone 15 Plus","iPhone 15 Pro","iPhone 15 Pro Max","iPhone 16","iPhone 16e","iPhone 16 Plus","iPhone 16 Pro","iPhone 16 Pro Max","iPhone 17","iPhone 17e","iPhone Air","iPhone 17 Pro","iPhone 17 Pro Max","Outro modelo"];
+MODELOS_TROCA.forEach(function(m){ var o=document.createElement("option"); o.textContent=m; $("tModelo").appendChild(o); });
+var troca = {on:false, gb:"", face:"", estado:"", reparo:""};
+function temIphone(){ return escolhidos.some(function(i){ return i.cat === "iphone"; }); }
+function linhasTroca(){
+  if (!troca.on || !temIphone()) return [];
+  var modelo = $("tModelo").value, cor = $("tCor").value.trim(), bat = $("tBat").value.trim();
+  var l = [[modelo || "Modelo a informar", troca.gb, cor].filter(Boolean).join(" · ")];
+  if (bat) l.push("Bateria: " + bat + "%");
+  if (troca.face) l.push("Face ID: " + troca.face.toLowerCase());
+  if (troca.estado) l.push("Tela e traseira: " + troca.estado.toLowerCase());
+  if (troca.reparo) l.push("Reparo: " + troca.reparo.toLowerCase());
+  return l;
+}
+$("trocaBtn").addEventListener("click", function(){
+  troca.on = !troca.on;
+  this.setAttribute("aria-pressed", troca.on ? "true" : "false");
+  this.setAttribute("aria-expanded", troca.on ? "true" : "false");
+  $("trocaForm").hidden = !troca.on; resumo();
 });
+[].forEach.call(document.querySelectorAll("#trocaForm [data-grupo]"), function(g){
+  g.addEventListener("click", function(e){
+    var b = e.target.closest(".chip"); if (!b) return;
+    var k = g.getAttribute("data-grupo"), jaEra = b.getAttribute("aria-pressed") === "true";
+    [].forEach.call(g.children, function(x){ x.setAttribute("aria-pressed", "false"); });
+    if (!jaEra) b.setAttribute("aria-pressed", "true");
+    troca[k] = jaEra ? "" : b.textContent; resumo();
+  });
+});
+["tModelo","tCor","tBat"].forEach(function(id){ $(id).addEventListener("input", resumo); });
 elEnviar.addEventListener("click", enviar);
 elFixo.addEventListener("click", function(){ document.querySelector(escolhidos.length ? ".resumo" : "#orcamento").scrollIntoView({block: escolhidos.length ? "center" : "start"}); });
 // O botão fixo some enquanto o resumo está na tela, para não cobrir o botão de enviar.
