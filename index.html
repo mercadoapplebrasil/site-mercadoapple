@@ -84,7 +84,11 @@ h2{font-family:var(--display);font-size:26px;letter-spacing:-.02em;text-wrap:bal
 .chip{background:var(--painel);border:1.5px solid var(--linha);border-radius:999px;padding:11px 16px;font-size:15px;font-weight:500;min-height:46px}
 .chip[aria-pressed="true"]{background:var(--acento);border-color:var(--acento);color:#04121f;font-weight:700}
 .chip small{display:block;font-size:12px;font-weight:500;opacity:.8;font-variant-numeric:tabular-nums}
-#modelos .chip{border-radius:16px;text-align:left}
+#opcoes{margin-top:16px;background:var(--painel);border:1px solid var(--acento);border-radius:16px;padding:4px 14px 14px}
+#opcoes .rot{color:var(--texto);font-weight:700;font-size:15px;margin-top:12px}
+#opcoes .chip{background:var(--fundo)}
+#opcoes .chip[aria-pressed="true"]{background:var(--acento)}
+.chip.aberto{border-color:var(--acento)}
 .rot{color:var(--apoio);font-size:14px;margin-top:18px}
 .resumo li::before{content:"•";color:var(--acento);margin-right:8px}
 .resumo li.pg{color:var(--apoio);margin-top:6px}
@@ -167,6 +171,10 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
       <h3><i>2</i><span id="tituloModelos">Qual modelo?</span></h3>
       <p class="vazio" id="vazio">Escolha uma categoria acima para ver os modelos.</p>
       <div class="chips" id="modelos"></div>
+      <div id="opcoes" hidden>
+        <p class="rot" id="opTitulo"></p>
+        <div class="chips" id="opChips"></div>
+      </div>
     </div>
 
     <div class="passo">
@@ -239,32 +247,41 @@ footer{border-top:1px solid var(--linha);padding:22px 0 100px;color:var(--apoio)
 
 <script>
 // Catálogo do montador: para mudar os modelos, edite só esta lista. O site não mostra preço; o orçamento é enviado pelo WhatsApp.
+var GB3=["256GB","512GB","1TB"], GB4=["256GB","512GB","1TB","2TB"];
 var CATALOGO = [
-  {id:"iphone", nome:"iPhone", desc:"Linha 18, 17, Air e seminovos", pergunta:"Qual iPhone você quer?", modelos:[
-    {n:"iPhone 18 Pro Max 256GB"},{n:"iPhone 18 Pro 256GB"},{n:"iPhone Air 256GB"},
-    {n:"iPhone 17 Pro Max 256GB"},{n:"iPhone 17 Pro 256GB"},{n:"iPhone 17 256GB"},{n:"iPhone 17e 256GB"},
-    {n:"iPhone 16"},{n:"iPhone 15"},{n:"iPhone seminovo"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
-  {id:"ipad", nome:"iPad", desc:"iPad, mini, Air e Pro", pergunta:"Qual iPad você quer?", modelos:[
-    {n:"iPad A16 11\" 128GB"},{n:"iPad mini"},{n:"iPad Air M4 11\" 128GB"},{n:"iPad Air M4 13\""},
-    {n:"iPad Pro M5 11\""},{n:"iPad Pro M5 13\""},{n:"Apple Pencil"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
-  {id:"mac", nome:"Mac", desc:"MacBook, Mac mini e iMac", pergunta:"Qual Mac você quer?", modelos:[
-    {n:"MacBook Neo 13\" 8GB 256GB"},{n:"MacBook Air M5 13\" 16GB 512GB"},{n:"MacBook Air M5 15\""},
-    {n:"MacBook Pro M5 14\" 16GB 1TB"},{n:"MacBook Pro M5 16\""},{n:"Mac mini M6 16GB 256GB"},{n:"iMac"},
-    {n:"Ainda não sei, quero ajuda", ajuda:true}]},
-  {id:"watch", nome:"Apple Watch", desc:"SE, Series e Ultra", pergunta:"Qual Apple Watch você quer?", modelos:[
-    {n:"Apple Watch SE 3"},{n:"Apple Watch Series 12"},{n:"Apple Watch Ultra"},
-    {n:"Apple Watch SE 3 40mm seminovo, pronta entrega"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
+  {id:"iphone", nome:"iPhone", desc:"Linha 18, 17, Air e seminovos", pergunta:"Qual iPhone você quer?", opRot:"quantos GB?", modelos:[
+    {n:"iPhone 18 Pro Max", ops:GB4},{n:"iPhone 18 Pro", ops:GB3},{n:"iPhone Air", ops:GB3},
+    {n:"iPhone 17 Pro Max", ops:GB4},{n:"iPhone 17 Pro", ops:GB3},{n:"iPhone 17", ops:["256GB","512GB"]},{n:"iPhone 17e", ops:["256GB","512GB"]},
+    {n:"iPhone 16", ops:["128GB","256GB"]},{n:"iPhone 16e", ops:["128GB","256GB"]},{n:"iPhone 15", ops:["128GB","256GB"]},
+    {n:"iPhone seminovo"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
+  {id:"ipad", nome:"iPad", desc:"iPad, mini, Air e Pro", pergunta:"Qual iPad você quer?", opRot:"quantos GB?", modelos:[
+    {n:"iPad A16 11\"", ops:["128GB","256GB","512GB"]},{n:"iPad mini", ops:["128GB","256GB","512GB"]},
+    {n:"iPad Air M4 11\"", ops:["128GB","256GB","512GB","1TB"]},{n:"iPad Air M4 13\"", ops:["128GB","256GB","512GB","1TB"]},
+    {n:"iPad Pro M5 11\"", ops:GB4},{n:"iPad Pro M5 13\"", ops:GB4},
+    {n:"Apple Pencil", ops:["Pencil Pro","Pencil USB-C"]},{n:"Magic Keyboard para iPad"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
+  {id:"mac", nome:"Mac", desc:"MacBook, Mac mini e iMac", pergunta:"Qual Mac você quer?", opRot:"qual configuração?", modelos:[
+    {n:"MacBook Neo 13\"", ops:["8GB · 256GB","Outra configuração"]},
+    {n:"MacBook Air M5 13\"", ops:["16GB · 512GB","16GB · 1TB","24GB · 1TB"]},
+    {n:"MacBook Air M5 15\"", ops:["16GB · 512GB","Outra configuração"]},
+    {n:"MacBook Pro 14\"", ops:["M5 · 16GB · 1TB","M5 · 32GB · 1TB","M5 Pro · 24GB · 1TB","M5 Pro · 24GB · 2TB"]},
+    {n:"MacBook Pro 16\"", ops:["M5 Pro · 24GB · 1TB","M5 Pro · 48GB · 1TB","M5 Max · 36GB · 2TB"]},
+    {n:"Mac mini", ops:["M6 · 16GB · 256GB","M4 · 16GB · 512GB","Outra configuração"]},
+    {n:"iMac"},{n:"Mac Studio"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
+  {id:"watch", nome:"Apple Watch", desc:"SE, Series e Ultra", pergunta:"Qual Apple Watch você quer?", opRot:"qual tamanho?", modelos:[
+    {n:"Apple Watch SE 3", ops:["40mm","44mm"]},{n:"Apple Watch Series 12", ops:["42mm","46mm"]},{n:"Apple Watch Ultra"},
+    {n:"Apple Watch seminovo"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
   {id:"airpods", nome:"AirPods", desc:"AirPods, Pro e Max", pergunta:"Qual AirPods você quer?", modelos:[
     {n:"AirPods 4"},{n:"AirPods 5"},{n:"AirPods Pro 3"},{n:"AirPods Max"}]},
-  {id:"mais", nome:"Acessórios e Garmin", desc:"Carregador, cabo, capinha, relógio", pergunta:"O que você precisa?", modelos:[
-    {n:"Garmin Forerunner 165"},{n:"Outro relógio Garmin"},{n:"Carregador USB-C"},{n:"Cabo USB-C"},{n:"Cabo Lightning"},
-    {n:"Capinha"},{n:"Magic Mouse"},{n:"Troca de bateria ou tela"}]}
+  {id:"mais", nome:"Acessórios e Garmin", desc:"Carregador, cabo, capinha, relógio", pergunta:"O que você precisa?", opRot:"qual?", modelos:[
+    {n:"Relógio Garmin", ops:["Forerunner 165","Outro modelo"]},{n:"Carregador USB-C"},
+    {n:"Cabo", ops:["USB-C para USB-C","USB-C para Lightning"]},{n:"Capinha"},{n:"Película"},{n:"AirTag"},
+    {n:"Magic Mouse"},{n:"Magic Keyboard"},{n:"Troca de bateria ou tela"}]}
 ];
 var PARCELAS = [6, 10, 12, 18, 21];
 var FONE = "5519998899974";
 
-var escolhidos = [];            // itens {n, p}
-var pag = "pix", vezes = 12, meio = "Maquininha na loja", extras = [], aberta = null;
+var escolhidos = [];            // itens {n, cat, base}
+var pag = "pix", vezes = 12, meio = "Maquininha na loja", extras = [], aberta = null, modeloAberto = null;
 
 function $(id){ return document.getElementById(id); }
 var elCats=$("cats"), elMod=$("modelos"), elVazio=$("vazio"), elTitulo=$("tituloModelos"), elLista=$("lista"),
@@ -277,31 +294,53 @@ function botao(cls, txt, on){ var b=document.createElement("button"); b.type="bu
 function desenharCats(){
   elCats.innerHTML = "";
   CATALOGO.forEach(function(cat){
-    var n = cat.modelos.filter(function(m){ return pos(nomeItem(m,cat)) > -1; }).length;
+    var n = escolhidos.filter(function(i){ return i.cat === cat.id; }).length;
     var b = botao("cat", "", aberta === cat.id);
     var t=document.createElement("b"); t.textContent=cat.nome;
     var s=document.createElement("span"); s.textContent = n ? n + (n>1?" escolhidos":" escolhido") : cat.desc; if(n) s.className="n";
     b.appendChild(t); b.appendChild(s);
-    b.addEventListener("click", function(){ aberta = cat.id; desenharCats(); desenharModelos(true); });
+    b.addEventListener("click", function(){ aberta = cat.id; modeloAberto = null; desenharCats(); desenharModelos(true); });
     elCats.appendChild(b);
   });
 }
 
+function alternar(nome, cat, base){
+  var i = pos(nome);
+  if (i > -1) escolhidos.splice(i,1); else escolhidos.push({n:nome, cat:cat.id, base:base});
+  desenharCats(); desenharModelos(false); resumo();
+}
+
 function desenharModelos(rolar){
   var cat = CATALOGO.filter(function(c){ return c.id === aberta; })[0];
-  elMod.innerHTML = "";
+  var elOp = $("opcoes");
+  elMod.innerHTML = ""; elOp.hidden = true;
   if (!cat){ elVazio.hidden = false; return; }
   elVazio.hidden = true; elTitulo.textContent = cat.pergunta;
   cat.modelos.forEach(function(m){
     var nome = nomeItem(m, cat);
-    var b = botao("chip", m.n, pos(nome) > -1);
-    b.addEventListener("click", function(){
-      var i = pos(nome);
-      if (i > -1) escolhidos.splice(i,1); else escolhidos.push({n:nome});
-      desenharCats(); desenharModelos(false); resumo();
-    });
+    var marcado = m.ops ? escolhidos.some(function(i){ return i.base === m.n; }) : pos(nome) > -1;
+    var b = botao("chip", m.n, marcado);
+    if (m.ops){
+      b.setAttribute("aria-expanded", modeloAberto === m.n ? "true" : "false");
+      if (modeloAberto === m.n) b.className += " aberto";
+      b.addEventListener("click", function(){ modeloAberto = modeloAberto === m.n ? null : m.n; desenharModelos(false); if (modeloAberto) $("opcoes").scrollIntoView({block:"nearest"}); });
+    } else {
+      b.addEventListener("click", function(){ modeloAberto = null; alternar(nome, cat, m.n); });
+    }
     elMod.appendChild(b);
   });
+  var m = cat.modelos.filter(function(x){ return x.n === modeloAberto; })[0];
+  if (m){
+    elOp.hidden = false;
+    $("opTitulo").textContent = m.n + ": " + (cat.opRot || "qual?");
+    var elC = $("opChips"); elC.innerHTML = "";
+    m.ops.forEach(function(op){
+      var nome = m.n + " " + op;
+      var b = botao("chip", op, pos(nome) > -1);
+      b.addEventListener("click", function(){ alternar(nome, cat, m.n); });
+      elC.appendChild(b);
+    });
+  }
   if (rolar) elTitulo.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion:reduce)").matches ? "auto" : "smooth", block:"start"});
 }
 
