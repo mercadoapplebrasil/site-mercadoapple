@@ -297,9 +297,9 @@ footer{border-top:1px solid var(--linha);padding:22px 0 96px;color:var(--apoio);
 var GB3=["256GB","512GB","1TB"], GB4=["256GB","512GB","1TB","2TB"];
 var CATALOGO = [
   {id:"iphone", nome:"iPhone", desc:"Linha 18, 17, Air e seminovos", pergunta:"Qual iPhone você quer?", opRot:"quantos GB?", modelos:[
-    {n:"iPhone 18 Pro Max", ops:GB4},{n:"iPhone 18 Pro", ops:GB3},{n:"iPhone Air", ops:GB3},
+    {n:"iPhone 18 Pro Max", ops:GB4},{n:"iPhone 18 Pro", ops:GB4},{n:"iPhone Air", ops:GB3},
     {n:"iPhone 17 Pro Max", ops:GB4},{n:"iPhone 17 Pro", ops:GB3},{n:"iPhone 17", ops:["256GB","512GB"]},{n:"iPhone 17e", ops:["256GB","512GB"]},
-    {n:"iPhone 16", ops:["128GB","256GB"]},{n:"iPhone 16e", ops:["128GB","256GB"]},{n:"iPhone 15", ops:["128GB","256GB"]},
+    {n:"iPhone 16", ops:["128GB","256GB","512GB"]},{n:"iPhone 16e", ops:["128GB","256GB","512GB"]},{n:"iPhone 15", ops:["128GB","256GB","512GB"]},
     {n:"iPhone seminovo"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
   {id:"ipad", nome:"iPad", desc:"iPad, mini, Air e Pro", pergunta:"Qual iPad você quer?", opRot:"quantos GB?", modelos:[
     {n:"iPad A16 11\"", ops:["128GB","256GB","512GB"]},{n:"iPad mini", ops:["128GB","256GB","512GB"]},
@@ -441,32 +441,45 @@ function grupo(id, attr, aoMudar){
 grupo("pag", "data-pag", function(v){ pag = v; $("blocoCartao").hidden = v!=="cartao"; });
 grupo("meio", "data-meio", function(v){ meio = v; });
 // Troca: só aparece quando há um iPhone no pedido.
-var MODELOS_TROCA = ["iPhone 11","iPhone 11 Pro","iPhone 11 Pro Max","iPhone 12","iPhone 12 mini","iPhone 12 Pro","iPhone 12 Pro Max","iPhone 13","iPhone 13 mini","iPhone 13 Pro","iPhone 13 Pro Max","iPhone 14","iPhone 14 Plus","iPhone 14 Pro","iPhone 14 Pro Max","iPhone 15","iPhone 15 Plus","iPhone 15 Pro","iPhone 15 Pro Max","iPhone 16","iPhone 16e","iPhone 16 Plus","iPhone 16 Pro","iPhone 16 Pro Max","iPhone 17","iPhone 17e","iPhone Air","iPhone 17 Pro","iPhone 17 Pro Max","Outro modelo"];
-MODELOS_TROCA.forEach(function(m){ var o=document.createElement("option"); o.textContent=m; $("tModelo").appendChild(o); });
-// Cores oficiais de cada modelo, para a pessoa só escolher.
-var CORES = {
-  "iPhone 11":["Preto","Branco","Verde","Amarelo","Roxo","Vermelho"],
-  "iPhone 11 Pro":["Cinza-espacial","Prateado","Dourado","Verde meia-noite"],
-  "iPhone 12":["Preto","Branco","Azul","Verde","Roxo","Vermelho"],
-  "iPhone 12 Pro":["Grafite","Prateado","Dourado","Azul-pacífico"],
-  "iPhone 13":["Meia-noite","Estelar","Azul","Rosa","Verde","Vermelho"],
-  "iPhone 13 Pro":["Grafite","Prateado","Dourado","Azul-sierra","Verde-alpino"],
-  "iPhone 14":["Meia-noite","Estelar","Azul","Roxo","Amarelo","Vermelho"],
-  "iPhone 14 Pro":["Preto-espacial","Prateado","Dourado","Roxo-profundo"],
-  "iPhone 15":["Preto","Azul","Verde","Amarelo","Rosa"],
-  "iPhone 15 Pro":["Titânio natural","Titânio azul","Titânio branco","Titânio preto"],
-  "iPhone 16":["Preto","Branco","Rosa","Verde-acinzentado","Ultramarino"],
-  "iPhone 16e":["Preto","Branco"],
-  "iPhone 16 Pro":["Titânio natural","Titânio-deserto","Titânio branco","Titânio preto"],
-  "iPhone 17":["Preto","Branco","Azul-névoa","Sálvia","Lavanda"],
-  "iPhone Air":["Preto-espacial","Branco-nuvem","Dourado-claro","Azul-céu"],
-  "iPhone 17 Pro":["Prateado","Laranja-cósmico","Azul-intenso"]
+var APPLE = { // fonte: support.apple.com/pt-br/108044
+  "iPhone 11":[["64GB","128GB","256GB"],["Roxo","Verde","Amarelo","Preto","Branco","(PRODUCT)RED"]],
+  "iPhone 11 Pro":[["64GB","256GB","512GB"],["Prateado","Cinza-espacial","Dourado","Verde-meia-noite"]],
+  "iPhone 11 Pro Max":[["64GB","256GB","512GB"],["Prateado","Cinza-espacial","Dourado","Verde-meia-noite"]],
+  "iPhone 12 mini":[["64GB","128GB","256GB"],["Preto","Branco","(PRODUCT)RED","Verde","Azul","Roxo"]],
+  "iPhone 12":[["64GB","128GB","256GB"],["Preto","Branco","(PRODUCT)RED","Verde","Azul","Roxo"]],
+  "iPhone 12 Pro":[["128GB","256GB","512GB"],["Prateado","Grafite","Dourado","Azul-Pacífico"]],
+  "iPhone 12 Pro Max":[["128GB","256GB","512GB"],["Prateado","Grafite","Dourado","Azul-Pacífico"]],
+  "iPhone 13 mini":[["128GB","256GB","512GB"],["(PRODUCT)RED","Estelar","Meia-noite","Azul","Rosa","Verde"]],
+  "iPhone 13":[["128GB","256GB","512GB"],["(PRODUCT)RED","Estelar","Meia-noite","Azul","Rosa","Verde"]],
+  "iPhone 13 Pro":[["128GB","256GB","512GB","1TB"],["Grafite","Dourado","Prateado","Azul-Sierra","Verde-alpino"]],
+  "iPhone 13 Pro Max":[["128GB","256GB","512GB","1TB"],["Grafite","Dourado","Prateado","Azul-Sierra","Verde-alpino"]],
+  "iPhone SE (3ª geração)":[["64GB","128GB","256GB"],["(PRODUCT)RED","Estelar","Meia-noite"]],
+  "iPhone 14":[["128GB","256GB","512GB"],["Meia-noite","Estelar","(PRODUCT)RED","Azul","Roxo","Amarelo"]],
+  "iPhone 14 Plus":[["128GB","256GB","512GB"],["Meia-noite","Estelar","(PRODUCT)RED","Azul","Roxo","Amarelo"]],
+  "iPhone 14 Pro":[["128GB","256GB","512GB","1TB"],["Prateado","Dourado","Preto-espacial","Roxo-profundo"]],
+  "iPhone 14 Pro Max":[["128GB","256GB","512GB","1TB"],["Prateado","Dourado","Preto-espacial","Roxo-profundo"]],
+  "iPhone 15":[["128GB","256GB","512GB"],["Preto","Azul","Verde","Amarelo","Rosa"]],
+  "iPhone 15 Plus":[["128GB","256GB","512GB"],["Preto","Azul","Verde","Amarelo","Rosa"]],
+  "iPhone 15 Pro":[["128GB","256GB","512GB","1TB"],["Titânio preto","Titânio branco","Titânio azul","Titânio natural"]],
+  "iPhone 15 Pro Max":[["256GB","512GB","1TB"],["Titânio preto","Titânio branco","Titânio azul","Titânio natural"]],
+  "iPhone 16e":[["128GB","256GB","512GB"],["Preto","Branco"]],
+  "iPhone 16":[["128GB","256GB","512GB"],["Preto","Branco","Rosa","Verde-acinzentado","Ultramarino"]],
+  "iPhone 16 Plus":[["128GB","256GB","512GB"],["Preto","Branco","Rosa","Verde-acinzentado","Ultramarino"]],
+  "iPhone 16 Pro":[["128GB","256GB","512GB","1TB"],["Titânio preto","Titânio branco","Titânio natural","Titânio-deserto"]],
+  "iPhone 16 Pro Max":[["256GB","512GB","1TB"],["Titânio preto","Titânio branco","Titânio natural","Titânio-deserto"]],
+  "iPhone 17e":[["256GB","512GB"],["Preto","Branco","Rosa-pálido"]],
+  "iPhone 17":[["256GB","512GB"],["Preto","Branco","Azul-névoa","Sálvia","Lavanda"]],
+  "iPhone Air":[["256GB","512GB","1TB"],["Preto-espacial","Branco-nuvem","Dourado-claro","Azul-céu"]],
+  "iPhone 17 Pro":[["256GB","512GB","1TB"],["Prateado","Laranja-cósmico","Azul-intenso"]],
+  "iPhone 17 Pro Max":[["256GB","512GB","1TB","2TB"],["Prateado","Laranja-cósmico","Azul-intenso"]],
+  "iPhone 18 Pro":[["256GB","512GB","1TB","2TB"],["Preto","Prateado","Glacial","Bordô"]],
+  "iPhone 18 Pro Max":[["256GB","512GB","1TB","2TB"],["Preto","Prateado","Glacial","Bordô"]],
+  "iPhone Duo":[["256GB","512GB","1TB","2TB"],["Céu noturno","Branco-estrela"]]
 };
+var MODELOS_TROCA = Object.keys(APPLE).concat(["Outro modelo"]);
+MODELOS_TROCA.forEach(function(m){ var o=document.createElement("option"); o.textContent=m; $("tModelo").appendChild(o); });
 var CORES_GERAL = ["Preto","Branco","Prateado","Dourado","Azul","Verde","Rosa","Roxo","Vermelho","Amarelo"];
-function coresDe(modelo){
-  var base = modelo.replace(/ (mini|Plus|Max)$/, "").replace(/ Pro Max$/, " Pro");
-  return CORES[modelo] || CORES[base] || CORES_GERAL;
-}
+function coresDe(m){ return APPLE[m] ? APPLE[m][1] : CORES_GERAL; }
 function preencherCores(){
   var s = $("tCor"), modelo = $("tModelo").value;
   s.innerHTML = "";
@@ -474,17 +487,8 @@ function preencherCores(){
   if (!modelo) return;
   coresDe(modelo).concat(["Outra cor"]).forEach(function(c){ var x = document.createElement("option"); x.textContent = c; s.appendChild(x); });
 }
-// Capacidades que existem em cada modelo (some com as que não existem).
-function gbsDe(m){
-  if (/^iPhone 1[12]/.test(m)) return ["64GB","128GB","256GB","512GB"];
-  if (/^iPhone 1[34]( mini| Plus)?$/.test(m) || /^iPhone 1[56]( Plus)?$/.test(m) || m==="iPhone 16e") return ["128GB","256GB","512GB"];
-  if (/^iPhone 1[3-6] Pro$/.test(m)) return ["128GB","256GB","512GB","1TB"];
-  if (/^iPhone 1[3-4] Pro Max$/.test(m)) return ["128GB","256GB","512GB","1TB"];
-  if (/^iPhone 1[56] Pro Max$/.test(m) || m==="iPhone 17 Pro" || m==="iPhone Air") return ["256GB","512GB","1TB"];
-  if (m==="iPhone 17 Pro Max") return ["256GB","512GB","1TB","2TB"];
-  if (m==="iPhone 17" || m==="iPhone 17e") return ["256GB","512GB"];
-  return ["64GB","128GB","256GB","512GB","1TB"];
-}
+// Capacidades que existem em cada modelo (tabela oficial da Apple).
+function gbsDe(m){ return APPLE[m] ? APPLE[m][0] : ["64GB","128GB","256GB","512GB","1TB"]; }
 function preencherGb(){
   var g = document.querySelector('#trocaForm [data-grupo="gb"]'), lista = gbsDe($("tModelo").value);
   g.innerHTML = ""; troca.gb = "";
