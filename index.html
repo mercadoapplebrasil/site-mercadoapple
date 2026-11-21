@@ -282,7 +282,7 @@ footer{border-top:1px solid var(--linha);padding:22px 0 96px;color:var(--apoio);
         <dt>HORÁRIO</dt><dd>Segunda a sábado, das 9h às 21h<br>Domingo, das 9h às 13h</dd>
       </div>
       <div>
-        <dt>WHATSAPP</dt><dd><a href="https://wa.me/message/7UQWPKHP2PKHN1">(19) 99889-9974</a></dd>
+        <dt>WHATSAPP</dt><dd><a href="https://wa.me/5519998899974?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20falar%20com%20a%20loja.">(19) 99889-9974</a></dd>
         <dt>INSTAGRAM</dt><dd><a href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener">@mercadoapplebrasil</a></dd>
       </div>
     </dl>
@@ -290,7 +290,7 @@ footer{border-top:1px solid var(--linha);padding:22px 0 96px;color:var(--apoio);
 
   <footer>Mercado Apple Brasil é uma loja independente. Apple, iPhone, iPad, Mac, Apple Watch e AirPods são marcas da Apple Inc.</footer>
 </div>
-<a class="zap" id="fixo" href="https://wa.me/message/7UQWPKHP2PKHN1" aria-label="Chamar a loja no WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-7.2L7 21.6V18H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" fill="currentColor"/><circle cx="8" cy="11" r="1.4" fill="#25d366"/><circle cx="12" cy="11" r="1.4" fill="#25d366"/><circle cx="16" cy="11" r="1.4" fill="#25d366"/></svg></a>
+<a class="zap" id="fixo" href="https://wa.me/5519998899974?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20falar%20com%20a%20loja." aria-label="Chamar a loja no WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-7.2L7 21.6V18H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" fill="currentColor"/><circle cx="8" cy="11" r="1.4" fill="#25d366"/><circle cx="12" cy="11" r="1.4" fill="#25d366"/><circle cx="16" cy="11" r="1.4" fill="#25d366"/></svg></a>
 
 <script>
 // Catálogo do montador: para mudar os modelos, edite só esta lista. O site não mostra preço; o orçamento é enviado pelo WhatsApp.
@@ -474,7 +474,24 @@ function preencherCores(){
   if (!modelo) return;
   coresDe(modelo).concat(["Outra cor"]).forEach(function(c){ var x = document.createElement("option"); x.textContent = c; s.appendChild(x); });
 }
-$("tModelo").addEventListener("change", preencherCores);
+// Capacidades que existem em cada modelo (some com as que não existem).
+function gbsDe(m){
+  if (/^iPhone 1[12]/.test(m)) return ["64GB","128GB","256GB","512GB"];
+  if (/^iPhone 1[34]( mini| Plus)?$/.test(m) || /^iPhone 1[56]( Plus)?$/.test(m) || m==="iPhone 16e") return ["128GB","256GB","512GB"];
+  if (/^iPhone 1[3-6] Pro$/.test(m)) return ["128GB","256GB","512GB","1TB"];
+  if (/^iPhone 1[3-4] Pro Max$/.test(m)) return ["128GB","256GB","512GB","1TB"];
+  if (/^iPhone 1[56] Pro Max$/.test(m) || m==="iPhone 17 Pro" || m==="iPhone Air") return ["256GB","512GB","1TB"];
+  if (m==="iPhone 17 Pro Max") return ["256GB","512GB","1TB","2TB"];
+  if (m==="iPhone 17" || m==="iPhone 17e") return ["256GB","512GB"];
+  return ["64GB","128GB","256GB","512GB","1TB"];
+}
+function preencherGb(){
+  var g = document.querySelector('#trocaForm [data-grupo="gb"]'), lista = gbsDe($("tModelo").value);
+  g.innerHTML = ""; troca.gb = "";
+  lista.forEach(function(x){ var b = botao("chip", x, false); g.appendChild(b); });
+  resumo();
+}
+$("tModelo").addEventListener("change", function(){ preencherCores(); preencherGb(); });
 var troca = {on:false, gb:"", face:"", estado:"", reparo:""};
 function temIphone(){ return escolhidos.some(function(i){ return i.cat === "iphone"; }); }
 function linhasTroca(){
