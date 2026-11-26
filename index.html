@@ -147,18 +147,22 @@ footer{border-top:1px solid var(--linha);padding:22px 0 96px;color:var(--apoio);
 .bfRel span{font-size:11px;color:var(--apoio);letter-spacing:.04em}
 .bfCta{display:inline-block;margin-top:14px;font-weight:700;color:#ffb347}
 .vitrine img.corta{object-fit:cover;object-position:top}
-/* Oferta do dia: um produto com preço, válido só na data marcada em OFERTA; fora dela o bloco some */
-.od{margin:18px 0 6px;background:var(--painel);border:1.5px solid #ff9a3c;border-radius:20px;overflow:hidden;display:grid}
+/* Ofertas de Black: cards sem preço que passam sozinhos (um por categoria primeiro); o valor sai no WhatsApp. Somem com o fim da Black */
+.od{margin:18px 0 6px}
 .od[hidden]{display:none}
-@media(min-width:640px){.od{grid-template-columns:300px 1fr}}
-.odFoto{background:#fff;aspect-ratio:4/3;position:relative}
-.odFoto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
-.odTxt{padding:18px}
-.odTxt h2{margin-top:10px}
-.odTxt p{color:var(--apoio);font-size:15px;margin-top:4px}
-.odPreco{font-family:var(--display);font-size:38px;letter-spacing:-.02em;color:#ffb347;margin-top:10px;line-height:1.1;font-variant-numeric:tabular-nums}
-.odPreco small{font-family:var(--corpo);font-size:15px;color:var(--apoio);font-weight:500;letter-spacing:0}
-.odTxt .btn{width:100%;margin-top:14px}
+.odTopo{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.odCont{color:var(--apoio);font-size:13px;font-variant-numeric:tabular-nums}
+.odTrilho{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -20px;padding:0 20px;scroll-padding:0 20px}
+.odTrilho::-webkit-scrollbar{display:none}
+.odCard{flex:0 0 100%;max-width:420px;scroll-snap-align:start;background:var(--painel);border:1.5px solid #ff9a3c;border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.odFoto{aspect-ratio:16/10;position:relative}
+.odFoto img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.odFoto img.corta{object-fit:cover;object-position:top}
+.odTxt{padding:16px 18px 18px;display:flex;flex-direction:column;gap:4px;flex:1}
+.odTxt small{color:#ffb347;font-size:12px;font-weight:800;letter-spacing:.14em}
+.odTxt b{font-family:var(--display);font-size:24px;letter-spacing:-.02em;line-height:1.15}
+.odTxt span{color:var(--apoio);font-size:15px}
+.odTxt .btn{width:100%;margin-top:12px;font-size:17px;padding:13px 20px}
 </style>
 </head>
 <body>
@@ -183,16 +187,8 @@ footer{border-top:1px solid var(--linha);padding:22px 0 96px;color:var(--apoio);
   </a>
 
   <div class="od" id="od" hidden>
-    <div class="odFoto"><img id="odImg" src="img/airpods-max-2.jpg" alt=""></div>
-    <div class="odTxt">
-      <span class="bfTag">OFERTA DO DIA · BLACK FRIDAY</span>
-      <h2 id="odNome"></h2>
-      <p id="odDet"></p>
-      <div class="odPreco"><span id="odPix"></span> <small>no Pix</small></div>
-      <p id="odParc"></p>
-      <a class="btn" id="odBtn" href="#">Quero essa oferta</a>
-      <p class="obs" id="odObs"></p>
-    </div>
+    <div class="odTopo"><span class="bfTag">OFERTAS DE BLACK FRIDAY</span><span class="odCont" id="odCont" aria-hidden="true"></span></div>
+    <div class="odTrilho" id="odTrilho" aria-label="Ofertas de Black Friday" tabindex="0"></div>
   </div>
 
   <div class="hero">
@@ -371,19 +367,44 @@ function bfAtivo(){ var a = Date.now(); return a >= BF_INICIO && a <= BF_FIM; }
   }
   var rel = setInterval(tic, 1000); tic();
 })();
-// Oferta do dia: troque só este bloco. Ela aparece de "de" até "ate" (horário de Brasília) e some sozinha depois.
-var OFERTA = {de:"2026-11-25T22:00:00-03:00", ate:"2026-11-26T23:59:59-03:00", img:"img/airpods-max-2.jpg",
-  nome:"AirPods Max 2", det:"USB-C · Roxo ou Laranja · novo, lacrado · Garantia Apple",
-  pix:"R$ 3.090", parc:"ou 12x de R$ 290,63 · 21x de R$ 178,35", obs:"Válida até quinta, 26/11, ou enquanto durar o estoque do fornecedor. Prazo de 2 a 5 dias úteis."};
+// Ofertas de Black: para trocar os cards, edite só esta lista (os 5 primeiros cobrem as 5 categorias). Sem preço: o valor vai pelo WhatsApp.
+var OFERTAS = [
+  {cat:"IPHONE", n:"iPhone 18 Pro", d:"O mais desejado, em todas as cores", img:"iphone-18-pro", bg:"#f5f5f7"},
+  {cat:"APPLE WATCH", n:"Apple Watch Series 12", d:"42 e 46mm, o mais completo", img:"watch-series-12", bg:"#000"},
+  {cat:"AIRPODS", n:"AirPods Pro 3", d:"O melhor cancelamento de ruído", img:"airpods-pro", bg:"#f5f5f7"},
+  {cat:"IPAD", n:"iPad A16", d:"Sozinho ou no combo com Apple Pencil", img:"ipad", bg:"#f5f5f7"},
+  {cat:"MAC", n:"Mac mini e MacBook Air", d:"Chip novo, 16GB de memória", img:"mac-mini", bg:"#f5f5f7"},
+  {cat:"IPHONE", n:"iPhone 17e", d:"O iPhone novo mais em conta", img:"iphone-17e", bg:"#fff", corta:1},
+  {cat:"AIRPODS", n:"AirPods Max 2", d:"Som de estúdio, USB-C", img:"airpods-max-2", bg:"#fff", corta:1},
+  {cat:"APPLE WATCH", n:"Apple Watch SE 3", d:"40 e 44mm, seu primeiro Apple Watch", img:"watch-se-3", bg:"#fff"},
+  {cat:"IPHONE", n:"iPhone 16", d:"Todas as cores", img:"iphone-16", bg:"#f5f5f7"}
+];
 (function(){
-  var cx = document.getElementById("od"), a = Date.now();
-  if(!cx || a < Date.parse(OFERTA.de) || a > Date.parse(OFERTA.ate)) return;
-  document.getElementById("odImg").src = OFERTA.img; document.getElementById("odImg").alt = OFERTA.nome;
-  document.getElementById("odNome").textContent = OFERTA.nome; document.getElementById("odDet").textContent = OFERTA.det;
-  document.getElementById("odPix").textContent = OFERTA.pix; document.getElementById("odParc").textContent = OFERTA.parc;
-  document.getElementById("odObs").textContent = OFERTA.obs;
-  document.getElementById("odBtn").href = "https://wa.me/5519998899974?text=" + encodeURIComponent("Olá! Vi no site a oferta do dia da Black Friday: " + OFERTA.nome + " por " + OFERTA.pix + " no Pix. Quero garantir o meu.");
+  var cx = document.getElementById("od"), tr = document.getElementById("odTrilho"), ct = document.getElementById("odCont");
+  if(!cx || !bfAtivo()) return;
+  OFERTAS.forEach(function(o){
+    var c = document.createElement("div"); c.className = "odCard";
+    var f = document.createElement("div"); f.className = "odFoto"; f.style.background = o.bg;
+    var i = document.createElement("img"); i.src = "img/" + o.img + ".jpg"; i.alt = o.n; if(o.corta) i.className = "corta"; f.appendChild(i);
+    var t = document.createElement("div"); t.className = "odTxt";
+    var k = document.createElement("small"); k.textContent = o.cat + " · PREÇO DE BLACK";
+    var b = document.createElement("b"); b.textContent = o.n;
+    var d = document.createElement("span"); d.textContent = o.d + ". Novo, lacrado, com Garantia Apple.";
+    var a = document.createElement("a"); a.className = "btn"; a.textContent = "Pedir o preço de Black";
+    a.href = "https://wa.me/" + "5519998899974" + "?text=" + encodeURIComponent("Olá! Vi no site a oferta de Black Friday e quero o preço do " + o.n + ".");
+    t.appendChild(k); t.appendChild(b); t.appendChild(d); t.appendChild(a); c.appendChild(f); c.appendChild(t); tr.appendChild(c);
+  });
   cx.hidden = false;
+  function atual(){ var p = tr.children[1] ? tr.children[1].offsetLeft - tr.children[0].offsetLeft : 1; return Math.round(tr.scrollLeft / p); }
+  function marca(){ ct.textContent = (atual() + 1) + " de " + OFERTAS.length; }
+  tr.addEventListener("scroll", marca, {passive:true}); marca();
+  // Passa sozinho a cada 4s; para de vez quando a pessoa toca, e nem começa para quem pediu menos movimento.
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  var auto = setInterval(function(){
+    var n = (atual() + 1) % OFERTAS.length;
+    tr.scrollTo({left: tr.children[n].offsetLeft - tr.children[0].offsetLeft, behavior:"smooth"});
+  }, 4000);
+  ["pointerdown","touchstart","keydown","wheel"].forEach(function(e){ tr.addEventListener(e, function(){ clearInterval(auto); }, {passive:true}); });
 })();
 // Catálogo do montador: para mudar os modelos, edite só esta lista. O site não mostra preço; o orçamento é enviado pelo WhatsApp.
 var GB3=["256GB","512GB","1TB"], GB4=["256GB","512GB","1TB","2TB"];
