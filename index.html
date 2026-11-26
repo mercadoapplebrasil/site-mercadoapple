@@ -74,7 +74,9 @@ h2{font-family:var(--display);font-size:26px;letter-spacing:-.02em;text-wrap:bal
 .passo h3{font-family:var(--display);font-size:17px;display:flex;align-items:center;gap:10px}
 .passo h3 i{font-style:normal;display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--acento);color:#04121f;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex:none}
 .cats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.cats .cat:last-child:nth-child(odd){grid-column:1/-1}
 @media(min-width:640px){.cats{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:640px){.cats .cat:last-child:nth-child(odd){grid-column:auto}}
 .cat{background:var(--painel);border:1.5px solid var(--linha);border-radius:16px;padding:16px 14px;text-align:left;min-height:76px;display:flex;flex-direction:column;gap:2px}
 .cat b{font-family:var(--display);font-size:18px}
 .cat span{color:var(--apoio);font-size:13px}
@@ -444,8 +446,14 @@ var CATALOGO = [
     {n:"Apple Watch seminovo"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
   {id:"airpods", nome:"AirPods", desc:"AirPods, Pro e Max", pergunta:"Qual AirPods você quer?", modelos:[
     {n:"AirPods 4"},{n:"AirPods 5"},{n:"AirPods Pro 3"},{n:"AirPods Max"}]},
-  {id:"mais", nome:"Acessórios e Garmin", desc:"Carregador, cabo, capinha, relógio", pergunta:"O que você precisa?", opRot:"qual?", modelos:[
-    {n:"Relógio Garmin", ops:["Forerunner 165","Outro modelo"]},{n:"Carregador USB-C"},
+  {id:"garmin", nome:"Garmin", desc:"Forerunner, Venu, Instinct e Fenix", pergunta:"Qual Garmin você quer?", opRot:"qual versão?", modelos:[
+    {n:"Forerunner 55"},{n:"Forerunner 165", ops:["Normal","Music"]},{n:"Forerunner 170", ops:["Normal","Music"]},
+    {n:"Forerunner 265", ops:["265 (46mm)","265S (42mm)"]},{n:"Forerunner 570", ops:["42mm","47mm"]},
+    {n:"Forerunner 965"},{n:"Forerunner 970"},{n:"Vivoactive 6"},{n:"Venu 4", ops:["41mm","45mm"]},
+    {n:"Instinct 3", ops:["Solar","AMOLED"]},{n:"Fenix 8", ops:["43mm","47mm","51mm"]},
+    {n:"Ainda não sei, quero ajuda", ajuda:true}]},
+  {id:"mais", nome:"Acessórios", desc:"Carregador, cabo, capinha e mais", pergunta:"O que você precisa?", opRot:"qual?", modelos:[
+    {n:"Carregador USB-C"},
     {n:"Cabo", ops:["USB-C para USB-C","USB-C para Lightning"]},{n:"Capinha"},{n:"Película"},{n:"AirTag"},
     {n:"Magic Mouse"},{n:"Magic Keyboard"},{n:"Troca de bateria ou tela"}]}
 ];
