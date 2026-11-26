@@ -146,6 +146,19 @@ footer{border-top:1px solid var(--linha);padding:22px 0 96px;color:var(--apoio);
 .bfRel b{display:block;font-family:var(--display);font-size:26px;line-height:1;color:#ffb347;font-variant-numeric:tabular-nums}
 .bfRel span{font-size:11px;color:var(--apoio);letter-spacing:.04em}
 .bfCta{display:inline-block;margin-top:14px;font-weight:700;color:#ffb347}
+.vitrine img.corta{object-fit:cover;object-position:top}
+/* Oferta do dia: um produto com preço, válido só na data marcada em OFERTA; fora dela o bloco some */
+.od{margin:18px 0 6px;background:var(--painel);border:1.5px solid #ff9a3c;border-radius:20px;overflow:hidden;display:grid}
+.od[hidden]{display:none}
+@media(min-width:640px){.od{grid-template-columns:300px 1fr}}
+.odFoto{background:#fff;aspect-ratio:4/3;position:relative}
+.odFoto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+.odTxt{padding:18px}
+.odTxt h2{margin-top:10px}
+.odTxt p{color:var(--apoio);font-size:15px;margin-top:4px}
+.odPreco{font-family:var(--display);font-size:38px;letter-spacing:-.02em;color:#ffb347;margin-top:10px;line-height:1.1;font-variant-numeric:tabular-nums}
+.odPreco small{font-family:var(--corpo);font-size:15px;color:var(--apoio);font-weight:500;letter-spacing:0}
+.odTxt .btn{width:100%;margin-top:14px}
 </style>
 </head>
 <body>
@@ -158,7 +171,7 @@ footer{border-top:1px solid var(--linha);padding:22px 0 96px;color:var(--apoio);
 
   <a class="bf" id="bf" href="#orcamento" hidden>
     <span class="bfTag">BLACK FRIDAY</span>
-    <strong id="bfTit">Os menores preços: quinta e sexta.</strong>
+    <strong id="bfTit">Já começou. Os menores preços até sexta.</strong>
     <span class="bfRot" id="bfRot">A oferta termina em</span>
     <div class="bfRel" role="timer" aria-label="Tempo restante da oferta de Black Friday">
       <div><b id="bfD">0</b><span>dias</span></div>
@@ -168,6 +181,19 @@ footer{border-top:1px solid var(--linha);padding:22px 0 96px;color:var(--apoio);
     </div>
     <span class="bfCta">Montar meu orçamento de Black →</span>
   </a>
+
+  <div class="od" id="od" hidden>
+    <div class="odFoto"><img id="odImg" src="img/airpods-max-2.jpg" alt=""></div>
+    <div class="odTxt">
+      <span class="bfTag">OFERTA DO DIA · BLACK FRIDAY</span>
+      <h2 id="odNome"></h2>
+      <p id="odDet"></p>
+      <div class="odPreco"><span id="odPix"></span> <small>no Pix</small></div>
+      <p id="odParc"></p>
+      <a class="btn" id="odBtn" href="#">Quero essa oferta</a>
+      <p class="obs" id="odObs"></p>
+    </div>
+  </div>
 
   <div class="hero">
     <h1>Apple novo, lacrado e com garantia, em <span>Pirassununga.</span></h1>
@@ -190,6 +216,14 @@ footer{border-top:1px solid var(--linha);padding:22px 0 96px;color:var(--apoio);
     <figure><img src="img/mac-mini.jpg" alt="Mac mini" loading="lazy"><figcaption>Mac mini</figcaption></figure>
     <figure><img src="img/airpods-pro.jpg" alt="AirPods Pro 3" loading="lazy"><figcaption>AirPods Pro 3</figcaption></figure>
     <figure><img src="img/ipad.jpg" alt="iPad" loading="lazy"><figcaption>iPad</figcaption></figure>
+    <figure style="background:#000"><img src="img/watch-series-12.jpg" alt="Apple Watch Series 12" loading="lazy"><figcaption>Apple Watch Series 12</figcaption></figure>
+    <figure style="background:#fff"><img class="corta" src="img/iphone-17e.jpg" alt="iPhone 17e" loading="lazy"><figcaption>iPhone 17e</figcaption></figure>
+    <figure style="background:#fff"><img class="corta" src="img/airpods-max-2.jpg" alt="AirPods Max 2" loading="lazy"><figcaption>AirPods Max 2</figcaption></figure>
+    <figure style="background:#f5f5f7"><img src="img/iphone-16.jpg" alt="iPhone 16" loading="lazy"><figcaption>iPhone 16</figcaption></figure>
+    <figure style="background:#fff"><img src="img/watch-se-3.jpg" alt="Apple Watch SE 3" loading="lazy"><figcaption>Apple Watch SE 3</figcaption></figure>
+    <figure style="background:#fff"><img class="corta" src="img/iphone-duo.jpg" alt="iPhone Duo" loading="lazy"><figcaption>iPhone Duo</figcaption></figure>
+    <figure style="background:#000"><img src="img/watch-ultra-4.jpg" alt="Apple Watch Ultra 4" loading="lazy"><figcaption>Apple Watch Ultra 4</figcaption></figure>
+    <figure style="background:#fff"><img src="img/airpods-5.jpg" alt="AirPods 5" loading="lazy"><figcaption>AirPods 5</figcaption></figure>
   </div>
 
   <section id="orcamento">
@@ -318,7 +352,7 @@ footer{border-top:1px solid var(--linha);padding:22px 0 96px;color:var(--apoio);
 
 <script>
 // Black Friday: datas reais no horário de Brasília. Antes do início conta até abrir; depois conta até o fim; acabou, a faixa some.
-var BF_INICIO = Date.parse("2026-11-26T00:00:00-03:00"), BF_FIM = Date.parse("2026-11-27T23:59:59-03:00");
+var BF_INICIO = Date.parse("2026-11-25T22:00:00-03:00"), BF_FIM = Date.parse("2026-11-27T23:59:59-03:00");
 function bfAtivo(){ var a = Date.now(); return a >= BF_INICIO && a <= BF_FIM; }
 (function(){
   var cx = document.getElementById("bf"); if(!cx) return;
@@ -327,7 +361,7 @@ function bfAtivo(){ var a = Date.now(); return a >= BF_INICIO && a <= BF_FIM; }
     var a = Date.now();
     if(a > BF_FIM){ cx.hidden = true; clearInterval(rel); return; }
     var antes = a < BF_INICIO, falta = Math.max(0, Math.floor(((antes ? BF_INICIO : BF_FIM) - a) / 1000));
-    document.getElementById("bfTit").textContent = antes ? "Black Friday: os menores preços estão chegando." : "Os menores preços: quinta e sexta.";
+    document.getElementById("bfTit").textContent = antes ? "Black Friday: os menores preços estão chegando." : "Já começou. Os menores preços até sexta.";
     document.getElementById("bfRot").textContent = antes ? "Começa em" : "A oferta termina em";
     document.getElementById("bfD").textContent = Math.floor(falta / 86400);
     document.getElementById("bfH").textContent = dois(Math.floor(falta % 86400 / 3600));
@@ -336,6 +370,20 @@ function bfAtivo(){ var a = Date.now(); return a >= BF_INICIO && a <= BF_FIM; }
     cx.hidden = false;
   }
   var rel = setInterval(tic, 1000); tic();
+})();
+// Oferta do dia: troque só este bloco. Ela aparece de "de" até "ate" (horário de Brasília) e some sozinha depois.
+var OFERTA = {de:"2026-11-25T22:00:00-03:00", ate:"2026-11-26T23:59:59-03:00", img:"img/airpods-max-2.jpg",
+  nome:"AirPods Max 2", det:"USB-C · Roxo ou Laranja · novo, lacrado · Garantia Apple",
+  pix:"R$ 3.090", parc:"ou 12x de R$ 290,63 · 21x de R$ 178,35", obs:"Válida até quinta, 26/11, ou enquanto durar o estoque do fornecedor. Prazo de 2 a 5 dias úteis."};
+(function(){
+  var cx = document.getElementById("od"), a = Date.now();
+  if(!cx || a < Date.parse(OFERTA.de) || a > Date.parse(OFERTA.ate)) return;
+  document.getElementById("odImg").src = OFERTA.img; document.getElementById("odImg").alt = OFERTA.nome;
+  document.getElementById("odNome").textContent = OFERTA.nome; document.getElementById("odDet").textContent = OFERTA.det;
+  document.getElementById("odPix").textContent = OFERTA.pix; document.getElementById("odParc").textContent = OFERTA.parc;
+  document.getElementById("odObs").textContent = OFERTA.obs;
+  document.getElementById("odBtn").href = "https://wa.me/5519998899974?text=" + encodeURIComponent("Olá! Vi no site a oferta do dia da Black Friday: " + OFERTA.nome + " por " + OFERTA.pix + " no Pix. Quero garantir o meu.");
+  cx.hidden = false;
 })();
 // Catálogo do montador: para mudar os modelos, edite só esta lista. O site não mostra preço; o orçamento é enviado pelo WhatsApp.
 var GB3=["256GB","512GB","1TB"], GB4=["256GB","512GB","1TB","2TB"];
