@@ -86,6 +86,15 @@ def main():
     src = open(os.path.join(RAIZ, "tools", "index.src.html"), encoding="utf-8").read()
     out = src.replace("<!--VITRINE-->", vitrine())
     open(os.path.join(RAIZ, "index.html"), "w", encoding="utf-8").write(out)
+    # Sitemap com a data da última publicação (o Google usa o lastmod pra saber que mudou)
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    hoje = datetime.now(ZoneInfo("America/Sao_Paulo")).date().isoformat()
+    open(os.path.join(RAIZ, "sitemap.xml"), "w", encoding="utf-8").write(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f'  <url><loc>https://mercadoapplebrasil.com.br/</loc><lastmod>{hoje}</lastmod></url>\n'
+        '</urlset>\n')
     print("index.html:", len(out.encode()), "bytes")
 
 
