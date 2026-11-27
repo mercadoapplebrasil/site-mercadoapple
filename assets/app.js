@@ -15,6 +15,84 @@
   function $(id) { return document.getElementById(id); }
   function rolar(el, bloco) { if (el) el.scrollIntoView({ behavior: calmo ? "auto" : "smooth", block: bloco || "start" }); }
 
+  // ---------- Som e movimento: curtos, só em resposta a um toque. Respeitam "reduzir movimento" e,
+  // no iPhone, a chave do silencioso (o som do navegador fica mudo com ela).
+  var Som = (function () {
+    var ctx = null, ligado = true;
+    try { ligado = localStorage.getItem("ma-som") !== "0"; } catch (e) { /* segue com som */ }
+    function ac() {
+      if (!ctx) {
+        var C = window.AudioContext || window.webkitAudioContext; if (!C) return null;
+        try { if (navigator.audioSession) navigator.audioSession.type = "ambient"; } catch (e) { /* opcional */ }
+        try { ctx = new C(); } catch (e) { return null; }
+      }
+      if (ctx.state === "suspended" && ctx.resume) ctx.resume();
+      return ctx;
+    }
+    function tom(f0, f1, dur, tipo, vol, atraso) {
+      var c = ac(); if (!c) return;
+      var t = c.currentTime + (atraso || 0), o = c.createOscillator(), g = c.createGain();
+      o.type = tipo || "sine"; o.frequency.setValueAtTime(f0, t);
+      if (f1) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.03);
+    }
+    function sopro(dur, vol) {
+      var c = ac(); if (!c) return;
+      var t = c.currentTime, n = Math.floor(c.sampleRate * dur), buf = c.createBuffer(1, n, c.sampleRate), d = buf.getChannelData(0);
+      for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+      var s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+      s.buffer = buf; f.type = "bandpass"; f.Q.value = 0.9;
+      f.frequency.setValueAtTime(450, t); f.frequency.exponentialRampToValueAtTime(3800, t + dur);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + dur * 0.35); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      s.connect(f); f.connect(g); g.connect(c.destination); s.start(t); s.stop(t + dur);
+    }
+    // Escala pentatônica: cada item que entra no pedido sobe uma nota.
+    var NOTAS = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.51];
+    function tocar(fn) { if (!ligado) return; try { fn(); } catch (e) { /* som nunca trava o pedido */ } }
+    return {
+      ligado: function () { return ligado; },
+      ligar: function (v) { ligado = v; try { localStorage.setItem("ma-som", v ? "1" : "0"); } catch (e) { /* ok */ } },
+      poe: function (n) {
+        tocar(function () {
+          var f = NOTAS[Math.max(0, Math.min(n - 1, NOTAS.length - 1))];
+          tom(f * 0.8, f, 0.09, "triangle", 0.09); tom(f * 2, 0, 0.16, "sine", 0.03, 0.03);
+          if (navigator.vibrate) navigator.vibrate(8);
+        });
+      },
+      tira: function () { tocar(function () { tom(620, 300, 0.13, "triangle", 0.07); }); },
+      toque: function () { tocar(function () { tom(1500, 0, 0.035, "triangle", 0.035); }); },
+      envia: function () { tocar(function () { sopro(0.22, 0.06); tom(783.99, 0, 0.14, "sine", 0.07, 0.07); tom(1174.66, 0, 0.22, "sine", 0.06, 0.15); }); },
+      limpa: function () { tocar(function () { tom(880, 196, 0.32, "triangle", 0.06); }); }
+    };
+  })();
+  function bump(el, cls) {
+    cls = cls || "bump"; if (!el || calmo) return;
+    el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls);
+  }
+  // Onde o elemento fica quando a barra termina de subir (o getBoundingClientRect pegaria a barra no meio da animação).
+  function caixaFinal(el) {
+    var x = 0, y = 0, n = el, fixo = false;
+    while (n) { x += n.offsetLeft; y += n.offsetTop; if (getComputedStyle(n).position === "fixed") { fixo = true; break; } n = n.offsetParent; }
+    if (!fixo) { x -= window.scrollX; y -= window.scrollY; }
+    return { left: x, top: y, width: el.offsetWidth, height: el.offsetHeight, bottom: y + el.offsetHeight };
+  }
+  // Um pontinho voa do botão tocado até o pedido (balão do WhatsApp ou barra de baixo), em arco.
+  function voar(r, para, semBump) {
+    if (calmo || !r || !para || !document.body.animate) return;
+    var b = para.closest && para.closest(".barra") ? caixaFinal(para) : para.getBoundingClientRect();
+    if (!b.width || b.bottom < 0 || b.top > window.innerHeight) return;
+    var x0 = r.left + r.width / 2, y0 = r.top + r.height / 2, x1 = b.left + Math.min(b.width / 2, 48), y1 = b.top + Math.min(b.height / 2, 24);
+    var my = Math.min(y0, y1) - 90, p = document.createElement("i"), q = document.createElement("i");
+    p.className = "voo"; q.className = "vooPonto"; p.setAttribute("aria-hidden", "true"); p.appendChild(q); document.body.appendChild(p);
+    p.animate([{ transform: "translateX(" + x0 + "px)" }, { transform: "translateX(" + x1 + "px)" }], { duration: 560, easing: "cubic-bezier(.4,0,.6,1)", fill: "forwards" });
+    q.animate([
+      { transform: "translateY(" + y0 + "px) scale(1)", easing: "cubic-bezier(.2,.7,.4,1)" },
+      { transform: "translateY(" + my + "px) scale(1.15)", offset: 0.42, easing: "cubic-bezier(.6,0,.8,.4)" },
+      { transform: "translateY(" + y1 + "px) scale(.35)", opacity: 0.35 }
+    ], { duration: 560, fill: "forwards" }).onfinish = function () { p.remove(); if (!semBump) bump(para); };
+  }
+
   // ---------- Catálogo do montador (sem preço; o orçamento sai pelo WhatsApp)
   var GB3 = ["256GB", "512GB", "1TB"], GB4 = ["256GB", "512GB", "1TB", "2TB"];
   var CATALOGO = [
@@ -117,7 +195,7 @@
       var t = document.createElement("b"); t.textContent = cat.nome;
       var s = document.createElement("span"); s.textContent = n ? n + (n > 1 ? " escolhidos" : " escolhido") : cat.desc; if (n) s.className = "n";
       b.appendChild(t); b.appendChild(s);
-      b.addEventListener("click", function () { aberta = cat.id; modeloAberto = null; desenharCats(); desenharModelos(); rolar($("passo2")); });
+      b.addEventListener("click", function () { Som.toque(); aberta = cat.id; modeloAberto = null; desenharCats(); desenharModelos(); rolar($("passo2")); });
       elCats.appendChild(b);
     });
   }
@@ -135,11 +213,12 @@
         b.setAttribute("aria-expanded", modeloAberto === m.n ? "true" : "false");
         if (modeloAberto === m.n) b.className += " aberto";
         b.addEventListener("click", function () {
-          modeloAberto = modeloAberto === m.n ? null : m.n; desenharModelos();
+          Som.toque(); modeloAberto = modeloAberto === m.n ? null : m.n; desenharModelos();
           if (modeloAberto) rolar($("opcoes"), "nearest");
         });
       } else {
-        b.addEventListener("click", function () { modeloAberto = null; alternar(nome, cat, m.n); });
+        b.setAttribute("data-nome", nome);
+        b.addEventListener("click", function () { var r = b.getBoundingClientRect(); modeloAberto = null; alternar(nome, cat, m.n, r); });
       }
       elMod.appendChild(b);
     });
@@ -150,23 +229,29 @@
       var elC = $("opChips"); elC.innerHTML = "";
       m.ops.forEach(function (op) {
         var nome = m.n + " " + op, b = botao("chip", op, pos(nome) > -1);
-        b.addEventListener("click", function () { alternar(nome, cat, m.n); });
+        b.setAttribute("data-nome", nome);
+        b.addEventListener("click", function () { alternar(nome, cat, m.n, b.getBoundingClientRect()); });
         elC.appendChild(b);
       });
     }
   }
 
-  function alternar(nome, cat, base) {
+  function alvo() { if (waNaTela) return elBalao; var b = $("barra"); return b && !b.hidden ? $("barraQtd") : null; }
+  function alternar(nome, cat, base, r) {
     var i = pos(nome);
     if (i > -1) escolhidos.splice(i, 1); else escolhidos.push({ n: nome, cat: cat.id, base: base });
     desenharCats(); desenharModelos(); atualizar(i < 0);
+    if (i > -1) { Som.tira(); return; }
+    Som.poe(escolhidos.length);
+    [].forEach.call(document.querySelectorAll("#modelos .chip, #opChips .chip"), function (x) { if (x.getAttribute("data-nome") === nome) bump(x, "tique"); });
+    voar(r, alvo(), waNaTela);
   }
 
   function desenharVezes() {
     var el = $("vezes"); el.innerHTML = "";
     PARCELAS.forEach(function (n) {
       var b = botao("chip", n + "x", vezes === n);
-      b.addEventListener("click", function () { vezes = n; desenharVezes(); atualizar(); });
+      b.addEventListener("click", function () { Som.toque(); vezes = n; desenharVezes(); atualizar(); });
       el.appendChild(b);
     });
   }
@@ -231,6 +316,7 @@
   }
 
   function atualizar(animar) {
+    $("wa").classList.remove("enviado");
     $("blocoTroca").hidden = !temIphone();
     var n = escolhidos.length;
     if (n) {
@@ -252,6 +338,7 @@
 
   function enviar() {
     if (!escolhidos.length) return;
+    Som.envia(); bump($("wa"), "enviado");
     window.location.href = "https://wa.me/" + FONE + "?text=" + encodeURIComponent(mensagem());
   }
 
@@ -296,6 +383,7 @@
     if (t.on) abrirTroca(true);
   }
   function limpar() {
+    Som.limpa();
     escolhidos = []; pag = "pix"; vezes = 12; meio = "Maquininha na loja"; aberta = null; modeloAberto = null;
     troca = { on: false, gb: "", face: "", estado: "", reparo: "" };
     elNome.value = ""; $("tModelo").value = ""; $("tBat").value = ""; preencherCores(); preencherGb();
@@ -322,12 +410,12 @@
   function grupo(id, attr, aoMudar) {
     $(id).addEventListener("click", function (e) {
       var b = e.target.closest(".chip"); if (!b) return;
-      marcarGrupo(id, attr, b.getAttribute(attr)); aoMudar(b.getAttribute(attr)); atualizar();
+      Som.toque(); marcarGrupo(id, attr, b.getAttribute(attr)); aoMudar(b.getAttribute(attr)); atualizar();
     });
   }
   grupo("pag", "data-pag", function (v) { pag = v; $("blocoCartao").hidden = v !== "cartao"; });
   grupo("meio", "data-meio", function (v) { meio = v; });
-  $("trocaBtn").addEventListener("click", function () { abrirTroca(!troca.on); atualizar(); });
+  $("trocaBtn").addEventListener("click", function () { Som.toque(); abrirTroca(!troca.on); atualizar(); });
   $("tModelo").addEventListener("change", function () { preencherCores(); preencherGb(); atualizar(); });
   [].forEach.call(document.querySelectorAll("#trocaForm [data-grupo]"), function (g) {
     g.addEventListener("click", function (e) {
@@ -335,7 +423,7 @@
       var k = g.getAttribute("data-grupo"), jaEra = b.getAttribute("aria-pressed") === "true";
       [].forEach.call(g.children, function (x) { x.setAttribute("aria-pressed", "false"); });
       if (!jaEra) b.setAttribute("aria-pressed", "true");
-      troca[k] = jaEra ? "" : b.textContent; atualizar();
+      Som.toque(); troca[k] = jaEra ? "" : b.textContent; atualizar();
     });
   });
   ["tCor", "tBat", "nome"].forEach(function (id) { $(id).addEventListener("input", function () { atualizar(); }); });
@@ -350,10 +438,26 @@
       x.setAttribute("aria-selected", on ? "true" : "false"); x.tabIndex = on ? 0 : -1;
       $(x.getAttribute("aria-controls")).hidden = !on;
     });
+    pilula(t);
     if (foco) t.focus();
   }
+  var tabl = document.querySelector(".abas"), fundo = tabl ? tabl.querySelector(".abaFundo") : null;
+  function pilula(t) {
+    if (!fundo || !t || !t.offsetWidth) return;
+    fundo.style.width = t.offsetWidth + "px"; fundo.style.height = t.offsetHeight + "px";
+    fundo.style.transform = "translate(" + t.offsetLeft + "px," + t.offsetTop + "px)";
+    tabl.classList.add("pilula");
+  }
+  function abaAtual() { return abas.filter(function (x) { return x.getAttribute("aria-selected") === "true"; })[0]; }
+  // Mede a aba só quando o navegador estiver livre: medir na carga trava o primeiro toque em celular simples.
+  (window.requestIdleCallback || function (f) { return setTimeout(f, 300); })(function () {
+    pilula(abaAtual());
+    requestAnimationFrame(function () { requestAnimationFrame(function () { if (tabl) tabl.classList.add("pronta"); }); });
+  });
+  var rz = 0;
+  window.addEventListener("resize", function () { cancelAnimationFrame(rz); rz = requestAnimationFrame(function () { pilula(abaAtual()); }); });
   abas.forEach(function (t, i) {
-    t.addEventListener("click", function () { abrirAba(t); });
+    t.addEventListener("click", function () { if (t.getAttribute("aria-selected") !== "true") Som.toque(); abrirAba(t); });
     t.addEventListener("keydown", function (e) {
       var j = -1;
       if (e.key === "ArrowRight") j = (i + 1) % abas.length;
@@ -373,9 +477,18 @@
       if (m && m.ops) modeloAberto = m.n;
       else if (m && pos(nomeItem(m, cat)) < 0) { escolhidos.push({ n: nomeItem(m, cat), cat: cat.id, base: m.n }); add = true; }
       desenharCats(); desenharModelos(); atualizar(add);
+      if (add) Som.poe(escolhidos.length); else Som.toque();
       rolar(modeloAberto ? $("opcoes") : $("passo2"), modeloAberto ? "center" : "start");
     });
   });
+
+  // ---------- Botão de som (fica guardado no aparelho)
+  (function () {
+    var el = $("som"); if (!el) return;
+    function marcar() { var on = Som.ligado(); el.setAttribute("aria-pressed", on ? "true" : "false"); el.title = on ? "Desligar os sons" : "Ligar os sons"; }
+    marcar();
+    el.addEventListener("click", function () { Som.ligar(!Som.ligado()); marcar(); Som.toque(); });
+  })();
 
   // ---------- Black Friday: faixa com contagem e selos nos cards
   (function () {

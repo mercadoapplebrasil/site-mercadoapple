@@ -279,6 +279,47 @@ footer p+p{margin-top:8px}
 .fab svg{width:30px;height:30px}
 .fab.some{opacity:0;transform:scale(.85);pointer-events:none}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.novo{animation:none}.fab,.faq summary::after{transition:none}}
+
+/* ---------- Movimento e som: só em resposta a um toque (fora a entrada do topo), e nada disso com "reduzir movimento" */
+.hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .03em .16em;margin:0 -.03em -.16em}
+.hero h1 .w>span{display:inline-block}
+.somBtn{margin-left:auto;flex:none;width:40px;height:40px;padding:0;border-radius:50%;color:#fff;display:inline-flex;align-items:center;justify-content:center}
+.somBtn:hover{background:rgba(255,255,255,.12)}
+.somBtn svg{width:22px;height:22px}
+.somBtn .somOff,.somBtn[aria-pressed="false"] .somOn{display:none}
+.somBtn[aria-pressed="false"] .somOff{display:block}
+.chip{display:inline-flex;align-items:center;justify-content:center}
+.chip[aria-pressed="true"]::before{content:"";flex:none;width:14px;height:14px;margin:0 6px 0 -3px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3.2 3L13 4.5' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3.2 3L13 4.5' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.voo{position:fixed;left:0;top:0;z-index:60;pointer-events:none}
+.vooPonto{position:absolute;left:-7px;top:-7px;display:block;width:14px;height:14px;border-radius:50%;background:var(--azul);box-shadow:0 0 0 5px rgba(61,155,255,.25)}
+.abas{position:relative}
+.abaFundo{position:absolute;left:0;top:0;width:0;height:44px;border-radius:999px;background:var(--texto);opacity:0;pointer-events:none}
+.abas.pilula .abaFundo{opacity:1}
+.abas.pilula [role="tab"]{position:relative;z-index:1}
+.abas.pilula [role="tab"][aria-selected="true"]{background:transparent;border-color:transparent}
+@media(prefers-reduced-motion:no-preference){
+.hero h1 .w>span{animation:sobe .75s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--i)*45ms)}
+.hero .lead,.hero .acoes,.hero .fatos{animation:surge .8s cubic-bezier(.16,1,.3,1) both}
+.hero .lead{animation-delay:.45s}.hero .acoes{animation-delay:.55s}.hero .fatos{animation-delay:.65s}
+.heroFoto img{animation:assenta 1.2s cubic-bezier(.16,1,.3,1) .2s both}
+.bt,.chip,.cat,.cBtn,.somBtn,.abas [role="tab"]{transition:transform .16s cubic-bezier(.2,.9,.3,1.3),color .3s}
+.bt:active:not(:disabled),.chip:active,.cat:active,.cBtn:active,.somBtn:active,.abas [role="tab"]:active{transform:scale(.95)}
+.abas.pronta .abaFundo{transition:transform .45s cubic-bezier(.16,1,.3,1),width .45s cubic-bezier(.16,1,.3,1)}
+.tique{animation:tique .42s cubic-bezier(.2,.9,.3,1.4)}
+.bump{animation:bump .4s cubic-bezier(.2,.9,.3,1.4)}
+.barra:not([hidden]){animation:barraSobe .5s cubic-bezier(.16,1,.3,1)}
+.status.aberto::before{animation:aoVivo 2.4s ease-in-out infinite}
+.wa.enviado .balao{animation:sai .5s cubic-bezier(.3,.7,.4,1)}
+}
+.wa.enviado .hora svg{color:#53bdeb}
+@keyframes sobe{from{transform:translateY(72%)}}
+@keyframes surge{from{opacity:0;transform:translateY(16px)}}
+@keyframes assenta{from{transform:translateY(28px) scale(1.07) rotate(-2.5deg)}}
+@keyframes tique{40%{transform:scale(1.1)}}
+@keyframes bump{40%{transform:scale(1.14)}}
+@keyframes barraSobe{from{transform:translateY(140%)}}
+@keyframes aoVivo{50%{transform:scale(1.35);opacity:.6}}
+@keyframes sai{40%{transform:translateY(-6px)}}
 </style>
 </head>
 <body>
@@ -309,7 +350,7 @@ footer p+p{margin-top:8px}
   <section class="hero">
     <div class="mio">
       <div>
-        <h1>Apple novo e lacrado, aqui em Pirassununga.</h1>
+        <h1><span class="w" style="--i:0"><span>Apple</span></span> <span class="w" style="--i:1"><span>novo</span></span> <span class="w" style="--i:2"><span>e</span></span> <span class="w" style="--i:3"><span>lacrado,</span></span> <span class="w" style="--i:4"><span>aqui</span></span> <span class="w" style="--i:5"><span>em</span></span> <span class="w" style="--i:6"><span>Pirassununga.</span></span></h1>
         <p class="lead">iPhone, iPad, Mac, Apple Watch e AirPods com Garantia Apple. Monte o pedido em um minuto e receba o preço do dia no WhatsApp, no Pix ou em até 21x.</p>
         <div class="acoes">
           <a class="bt branco" href="#orcamento">Montar meu orçamento</a>
@@ -416,6 +457,7 @@ footer p+p{margin-top:8px}
             <div class="waTopo">
               <picture><source type="image/webp" srcset="img/w/logo-96.webp"><img src="img/w/logo-96.png" alt="" width="38" height="38"></picture>
               <div><b>Mercado Apple Brasil</b><span>Sua mensagem pra loja</span></div>
+              <button type="button" class="somBtn" id="som" aria-pressed="true" aria-label="Sons do site" title="Desligar os sons"><svg class="somOn" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 9h3.2L12 5v14l-4.8-4H4z"/><path d="M15.6 8.6a4.8 4.8 0 0 1 0 6.8M18.4 5.8a8.8 8.8 0 0 1 0 12.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="somOff" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 9h3.2L12 5v14l-4.8-4H4z"/><path d="M16 9.5l5 5m0-5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
             </div>
             <div class="waCorpo">
               <span class="waDia">Hoje</span>

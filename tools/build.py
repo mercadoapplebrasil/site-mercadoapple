@@ -78,7 +78,7 @@ def vitrine():
         itens = [card(v, i == 0 and k == 0) for k, v in enumerate(x for x in VITRINE if x[0] == aba)]
         paineis.append(f'<div class="trilho" role="tabpanel" id="p-{aba}" aria-labelledby="t-{aba}" tabindex="0"'
                        f'{"" if i == 0 else " hidden"}>{"".join(itens)}</div>')
-    return (f'<div class="abas" role="tablist" aria-label="Categorias de produto">{"".join(tabs)}</div>'
+    return (f'<div class="abas" role="tablist" aria-label="Categorias de produto"><span class="abaFundo" aria-hidden="true"></span>{"".join(tabs)}</div>'
             + "".join(paineis))
 
 
