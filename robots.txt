@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mercadoapplebrasil.com.br/sitemap.xml

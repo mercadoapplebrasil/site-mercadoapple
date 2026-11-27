@@ -2,14 +2,16 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Black Friday Mercado Apple · Já começou, os menores preços até sexta</title>
-<meta name="description" content="iPhone, iPad, Mac, Apple Watch e AirPods novos, lacrados e com garantia Apple, em Pirassununga. Monte seu orçamento e receba no WhatsApp.">
-<meta name="theme-color" content="#07090c">
+<meta name="description" content="iPhone, iPad, Mac, Apple Watch e AirPods novos, lacrados e com Garantia Apple, em Pirassununga. Monte seu orçamento e receba o preço do dia no WhatsApp, no Pix ou em até 21x.">
+<meta name="theme-color" content="#000000">
 <link rel="canonical" href="https://mercadoapplebrasil.com.br/">
-<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
-<link rel="icon" type="image/png" sizes="192x192" href="img/icon-192.png">
-<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" type="image/png" sizes="32x32" href="img/w/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="img/w/icon-192.png">
+<link rel="apple-touch-icon" href="img/w/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Mercado Apple Brasil">
@@ -20,649 +22,480 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Store","name":"Mercado Apple Brasil","url":"https://mercadoapplebrasil.com.br/","image":"https://mercadoapplebrasil.com.br/img/og-black.jpg","telephone":"+55 19 99889-9974","address":{"@type":"PostalAddress","streetAddress":"Rua Duque de Caxias, 2032, Sala 3","addressLocality":"Pirassununga","addressRegion":"SP","addressCountry":"BR"},"openingHours":["Mo-Sa 09:00-21:00","Su 09:00-13:00"],"sameAs":["https://www.instagram.com/mercadoapplebrasil"]}
+{"@context":"https://schema.org","@type":"ElectronicsStore","name":"Mercado Apple Brasil","url":"https://mercadoapplebrasil.com.br/","logo":"https://mercadoapplebrasil.com.br/img/w/icon-512.png","image":"https://mercadoapplebrasil.com.br/img/og.jpg","telephone":"+55 19 99889-9974","priceRange":"$$","address":{"@type":"PostalAddress","streetAddress":"Rua Duque de Caxias, 2032, Sala 3","addressLocality":"Pirassununga","addressRegion":"SP","addressCountry":"BR"},"areaServed":"Pirassununga e região","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:00","closes":"21:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"09:00","closes":"13:00"}],"paymentAccepted":"Pix, cartão de crédito","sameAs":["https://www.instagram.com/mercadoapplebrasil"]}
 </script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Os produtos são originais?","acceptedAnswer":{"@type":"Answer","text":"Sim. Vendemos produtos Apple novos e lacrados, com Garantia Apple. Quando o produto é seminovo, a gente avisa no orçamento e ele sai com 90 dias de garantia da loja."}},
+{"@type":"Question","name":"Por que o site não mostra preço?","acceptedAnswer":{"@type":"Answer","text":"Os valores mudam quase todo dia. Pelo WhatsApp você recebe o preço do dia, no Pix e parcelado."}},
+{"@type":"Question","name":"Em quanto tempo eu recebo?","acceptedAnswer":{"@type":"Answer","text":"Tem produto a pronta entrega e produto que chega em poucos dias úteis. O prazo certinho vai junto com o orçamento."}},
+{"@type":"Question","name":"Quais são as formas de pagamento?","acceptedAnswer":{"@type":"Answer","text":"Pix ou cartão de crédito em até 21x, na maquininha da loja ou por link de pagamento."}},
+{"@type":"Question","name":"Vocês pegam meu iPhone na troca?","acceptedAnswer":{"@type":"Answer","text":"A gente avalia. Conte como está o seu iPhone no montador de orçamento e a avaliação vem junto. O valor final é confirmado na loja, com o aparelho em mãos."}},
+{"@type":"Question","name":"Vocês enviam pra outras cidades?","acceptedAnswer":{"@type":"Answer","text":"Sim, enviamos por Sedex. O frete entra no orçamento."}}
+]}
+</script>
+<script src="assets/app.js" defer></script>
 <style>
-/* Layout: coluna única no celular; montador de orçamento em 3 passos é o centro da página; preto da marca com azul como único acento */
+/*
+  Mercado Apple Brasil: a vitrine é preta como os stories da loja, os produtos aparecem no fundo da própria foto
+  e a peça que chama atenção é o montador, que escreve na hora a mensagem de WhatsApp que o cliente vai mandar.
+  Verde só onde a ação abre o WhatsApp; laranja só na faixa da Black (some sozinha no fim da campanha).
+*/
+@font-face{font-family:"Bricolage";src:url("assets/fonts/bricolage-latin.woff2") format("woff2");font-weight:200 800;font-display:swap}
 :root{
   color-scheme:dark;
-  --fundo:#07090c;
-  --painel:#11151b;
-  --painel2:#161b23;
-  --linha:#232a33;
-  --texto:#f3f5f7;
-  --apoio:#a3adb9;
-  --acento:#4da3ff;
+  --preto:#000;
+  --sup:#161618;
+  --sup2:#202023;
+  --linha:#2c2c30;
+  --texto:#f5f5f7;
+  --apoio:#a1a1a8;
+  --azul:#3d9bff;
   --zap:#25d366;
-  --display:"Sora",system-ui,sans-serif;
-  --corpo:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --zapTxt:#052b14;
+  --bf:#ff9a3c;
+  --waFundo:#efeae2;
+  --waBalao:#d9fdd3;
+  --waTxt:#111b21;
+  --waMeta:#667781;
+  --waTopo:#008069;
+  --disp:"Bricolage",ui-sans-serif,system-ui,sans-serif;
+  --corpo:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --gut:20px;
+  --max:1120px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{background:var(--fundo);color:var(--texto);font-family:var(--corpo);font-size:17px;line-height:1.55}
-img{max-width:100%;display:block}
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--preto);color:var(--texto);font-family:var(--corpo);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
 a{color:inherit}
-button{font:inherit;color:inherit;cursor:pointer}
-a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--acento);outline-offset:3px}
-.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-header{display:flex;align-items:center;gap:12px;padding:18px 0}
-header img{width:44px;height:44px;border-radius:50%}
-header b{font-family:var(--display);font-size:16px;white-space:nowrap}
-header a{margin-left:auto;font-size:14px;font-weight:700;color:var(--acento);text-decoration:none;white-space:nowrap}
-.hero{padding:30px 0 34px;display:flex;flex-direction:column;gap:18px}
-h1{font-family:var(--display);font-size:clamp(34px,7vw,58px);line-height:1.04;letter-spacing:-.03em;text-wrap:balance}
-h1 span{color:var(--acento)}
-.hero p{color:var(--apoio);max-width:56ch}
-.acoes{display:flex;flex-wrap:wrap;gap:12px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--zap);color:#04200f;font-weight:700;font-size:18px;text-decoration:none;padding:15px 26px;border-radius:999px;border:0}
-.btn.linha{background:transparent;color:var(--texto);border:1.5px solid var(--linha)}
-.btn[disabled]{opacity:.45;cursor:not-allowed}
-.fatos{display:flex;flex-wrap:wrap;gap:10px 22px;color:var(--apoio);font-size:15px;list-style:none}
-.fatos li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--acento);margin-right:9px;vertical-align:middle}
-.vitrine{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin:0 -20px;padding-left:20px;padding-right:20px;scrollbar-width:none}
-.vitrine::-webkit-scrollbar{display:none}
-.vitrine figure{flex:0 0 62%;max-width:300px;scroll-snap-align:start;background:#f5f5f7;border-radius:18px;aspect-ratio:4/3;position:relative;overflow:hidden}
-.vitrine img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-.vitrine figcaption{position:absolute;left:12px;bottom:10px;background:rgba(7,9,12,.82);color:var(--texto);font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px}
-section{padding:36px 0;border-top:1px solid var(--linha)}
-h2{font-family:var(--display);font-size:26px;letter-spacing:-.02em;text-wrap:balance}
-.sub{color:var(--apoio);margin-top:6px;font-size:15px}
-.passo{margin-top:26px}
-.passo h3{font-family:var(--display);font-size:17px;display:flex;align-items:center;gap:10px}
-.passo h3 i{font-style:normal;display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--acento);color:#04121f;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex:none}
-.cats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+:focus-visible{outline:3px solid var(--azul);outline-offset:3px;border-radius:8px}
+[hidden]{display:none!important}
+.mio{width:100%;max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+@media(min-width:760px){:root{--gut:32px}}
+
+.pular{position:absolute;left:12px;top:-60px;z-index:50;background:var(--texto);color:#000;padding:10px 14px;border-radius:12px;font-weight:700;text-decoration:none}
+.pular:focus{top:12px}
+
+/* Botões: pílula de 52px; branco leva ao montador, verde abre o WhatsApp */
+.bt{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;font-weight:700;font-size:17px;text-decoration:none;white-space:nowrap}
+.bt svg{width:22px;height:22px;flex:none}
+.bt.branco{background:var(--texto);color:#000}
+.bt.zap{background:var(--zap);color:var(--zapTxt)}
+.bt.linha{border:1.5px solid rgba(255,255,255,.28);color:var(--texto)}
+.bt[disabled]{opacity:.4;cursor:not-allowed}
+
+/* Topo */
+.topo{position:sticky;top:0;z-index:30;background:rgba(0,0,0,.78);-webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid rgba(255,255,255,.08)}
+.topo .mio{display:flex;align-items:center;gap:14px;height:60px}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none}
+.marca img{width:34px;height:34px;border-radius:50%}
+.marca b{font-family:var(--disp);font-weight:700;font-size:18px;letter-spacing:-.01em}
+.nav{display:none;gap:26px;margin-left:auto;font-size:15px}
+.nav a{text-decoration:none;color:var(--apoio)}
+.nav a:hover{color:var(--texto)}
+.topo .bt{min-height:38px;padding:0 16px;font-size:15px;margin-left:auto}
+@media(min-width:860px){.nav{display:flex}.topo .bt{margin-left:8px}}
+
+/* Faixa da Black Friday */
+.bf{display:block;background:var(--bf);color:#170b00;text-decoration:none}
+.bf .mio{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px;padding-top:10px;padding-bottom:10px;font-size:15px}
+.bf b{font-weight:800}
+.bf span{font-variant-numeric:tabular-nums;font-weight:600}
+
+/* Abertura */
+.hero{padding:56px 0 64px}
+.hero .mio{display:grid;gap:40px;align-items:center}
+.hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(46px,11vw,96px);line-height:.92;letter-spacing:-.045em;text-wrap:balance}
+.hero .lead{color:var(--apoio);font-size:clamp(17px,2.2vw,20px);max-width:34ch;margin-top:22px}
+.acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.fatos{list-style:none;display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:30px;font-size:15px;color:var(--apoio)}
+.fatos li{display:flex;align-items:center;gap:8px}
+.fatos svg{width:18px;height:18px;color:var(--zap);flex:none}
+.heroFoto{position:relative;background:#f6f6f8;border-radius:32px;overflow:hidden;aspect-ratio:1/1;max-height:440px;display:flex;align-items:center;justify-content:center}
+.heroFoto img{width:auto;height:92%;object-fit:contain}
+.heroFoto .legenda{position:absolute;left:16px;bottom:16px;background:rgba(255,255,255,.86);color:#1d1d1f;font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px}
+@media(min-width:900px){.hero{padding:88px 0 96px}.hero .mio{grid-template-columns:1.15fr .85fr;gap:56px}.heroFoto{aspect-ratio:4/5;max-height:620px;border-radius:36px}}
+
+/* Seções */
+.secao{padding:72px 0;border-top:1px solid rgba(255,255,255,.08)}
+@media(min-width:900px){.secao{padding:104px 0}}
+.secao h2{font-family:var(--disp);font-weight:800;font-size:clamp(34px,6vw,56px);line-height:.98;letter-spacing:-.035em;text-wrap:balance}
+.secao .sub{color:var(--apoio);margin-top:14px;max-width:52ch}
+
+/* Vitrine: uma aba por categoria; cada card fica no fundo da própria foto */
+.abas{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:28px calc(var(--gut)*-1) 0;padding:0 var(--gut)}
+.abas::-webkit-scrollbar{display:none}
+.abas [role="tab"]{flex:none;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--linha);color:var(--apoio);font-weight:600;font-size:15px}
+.abas [role="tab"][aria-selected="true"]{background:var(--texto);border-color:var(--texto);color:#000}
+.trilho{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:20px calc(var(--gut)*-1) 0;padding:0 var(--gut) 4px;scroll-padding:0 var(--gut)}
+.trilho::-webkit-scrollbar{display:none}
+.card{position:relative;flex:0 0 78%;max-width:330px;scroll-snap-align:start;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;background:var(--bg,#fff)}
+.card.claro{color:#1d1d1f}
+.card.escuro{color:var(--texto);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+.card.texto{background:var(--sup);box-shadow:inset 0 0 0 1px var(--linha);justify-content:flex-end;min-height:300px}
+.cFoto{position:relative;aspect-ratio:5/4;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.cFoto picture{display:contents}
+.cFoto img{width:100%;height:100%;object-fit:contain}
+.cFoto img.corta{object-fit:cover;object-position:top}
+.selo{display:none;position:absolute;left:12px;top:12px;background:var(--bf);color:#170b00;font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px}
+.bf-on .selo{display:block}
+.cTxt{padding:16px 20px 20px;display:flex;flex-direction:column;gap:4px;flex:1}
+.cTxt h3{font-family:var(--disp);font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1.1}
+.cTxt p{font-size:15px;opacity:.72;flex:1}
+.cBtn{align-self:flex-start;margin-top:14px;min-height:42px;padding:0 16px;border-radius:999px;font-weight:700;font-size:15px;white-space:nowrap;border:1.5px solid currentColor}
+.cBtn::after{content:"";position:absolute;inset:0;border-radius:28px}
+@media(hover:hover){
+  .card.claro:hover .cBtn{background:#1d1d1f;color:#fff;border-color:#1d1d1f}
+  .card.escuro:hover .cBtn,.card.texto:hover .cBtn{background:var(--texto);color:#000;border-color:var(--texto)}
+}
+@media(min-width:980px){
+  .trilho{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));overflow:visible;margin:24px 0 0;padding:0}
+  .card{max-width:none}
+  .cTxt{padding:14px 16px 18px}
+  .cTxt h3{font-size:21px}
+  .cBtn{font-size:14px;padding:0 14px}
+}
+
+/* Montador */
+.monta{display:grid;gap:36px;margin-top:36px;align-items:start}
+@media(min-width:980px){.monta{grid-template-columns:minmax(0,1fr) 380px;gap:48px}}
+.passo+.passo{margin-top:36px}
+.passo h3{font-family:var(--disp);font-weight:700;font-size:21px;letter-spacing:-.01em;display:flex;align-items:center;gap:12px}
+.passo h3 i{font-style:normal;flex:none;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--texto);color:#000;font-size:15px;font-weight:800}
+.cats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
 .cats .cat:last-child:nth-child(odd){grid-column:1/-1}
-@media(min-width:640px){.cats{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:640px){.cats .cat:last-child:nth-child(odd){grid-column:auto}}
-.cat{background:var(--painel);border:1.5px solid var(--linha);border-radius:16px;padding:16px 14px;text-align:left;min-height:76px;display:flex;flex-direction:column;gap:2px}
-.cat b{font-family:var(--display);font-size:18px}
-.cat span{color:var(--apoio);font-size:13px}
-.cat[aria-pressed="true"]{border-color:var(--acento);background:var(--painel2)}
-.cat .n{color:var(--acento);font-weight:700}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.chip{background:var(--painel);border:1.5px solid var(--linha);border-radius:999px;padding:11px 16px;font-size:15px;font-weight:500;min-height:46px}
-.chip[aria-pressed="true"]{background:var(--acento);border-color:var(--acento);color:#04121f;font-weight:700}
-.chip small{display:block;font-size:12px;font-weight:500;opacity:.8;font-variant-numeric:tabular-nums}
-#opcoes{margin-top:16px;background:var(--painel);border:1px solid var(--acento);border-radius:16px;padding:4px 14px 14px}
-#opcoes .rot{color:var(--texto);font-weight:700;font-size:15px;margin-top:12px}
-#opcoes .chip{background:var(--fundo)}
-#opcoes .chip[aria-pressed="true"]{background:var(--acento)}
-.chip.aberto{border-color:var(--acento)}
-.rot{color:var(--apoio);font-size:14px;margin-top:18px}
-.resumo li::before{content:"•";color:var(--acento);margin-right:8px}
-.resumo li.pg{color:var(--apoio);margin-top:6px}
-.resumo li.pg::before{content:none}
-.resumo li span:last-child{color:var(--apoio);white-space:nowrap;font-variant-numeric:tabular-nums}
-.tot{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--linha);padding-top:12px;font-size:15px;color:var(--apoio)}
-.tot b{font-family:var(--display);font-size:28px;color:var(--texto);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.parc{text-align:right;color:var(--texto);font-weight:700;font-variant-numeric:tabular-nums}
-.obs{color:var(--apoio);font-size:13px;margin-top:6px}
-#totais{margin-bottom:14px}
-.troca{margin-top:14px;background:var(--painel);border:1px solid var(--acento);border-radius:16px;padding:16px 14px}
-.troca .chip{background:var(--fundo)}
-.troca .chip[aria-pressed="true"]{background:var(--acento)}
-.trocaTit{font-family:var(--display);font-size:16px}
-.troca .campo input,.troca .campo select{background:var(--fundo)}
-.campo select{font:inherit;color:var(--texto);border:1.5px solid var(--linha);border-radius:14px;padding:13px 14px;width:100%;max-width:420px;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--apoio) 50%),linear-gradient(135deg,var(--apoio) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 14px) 55%;background-size:6px 6px;background-repeat:no-repeat}
-.dupla{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.dica{color:var(--apoio);font-size:13px;margin-top:8px}
-.resumo li.sub{color:var(--apoio);font-size:15px;padding-left:16px}
-.resumo li.sub::before{content:none}
+@media(min-width:640px){.cats{grid-template-columns:repeat(4,minmax(0,1fr))}.cats .cat:last-child:nth-child(odd){grid-column:auto}}
+.cat{background:var(--sup);border:1.5px solid var(--linha);border-radius:18px;padding:14px;text-align:left;min-height:78px;display:flex;flex-direction:column;gap:2px}
+.cat b{font-family:var(--disp);font-weight:700;font-size:18px}
+.cat span{color:var(--apoio);font-size:13px;line-height:1.35}
+.cat .n{color:var(--azul);font-weight:700}
+.cat[aria-pressed="true"]{border-color:var(--azul);background:var(--sup2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{min-height:46px;padding:0 16px;border-radius:999px;background:var(--sup);border:1.5px solid var(--linha);font-size:15px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--azul);border-color:var(--azul);color:#02111f;font-weight:700}
+.chip.aberto{border-color:var(--azul)}
 .vazio{color:var(--apoio);font-size:15px;margin-top:14px}
-.campo{margin-top:14px;display:flex;flex-direction:column;gap:6px}
+.painel{margin-top:16px;background:var(--sup);border:1.5px solid var(--azul);border-radius:20px;padding:6px 16px 16px}
+.painel .chip{background:var(--preto)}
+.painel .chip[aria-pressed="true"]{background:var(--azul)}
+.rot{font-size:15px;color:var(--apoio);margin-top:18px}
+.painel .rot{color:var(--texto);font-weight:700;margin-top:12px}
+.campo{display:flex;flex-direction:column;gap:6px;margin-top:16px}
 .campo label{font-size:14px;color:var(--apoio)}
-.campo input{font:inherit;color:var(--texto);background:var(--painel);border:1.5px solid var(--linha);border-radius:14px;padding:13px 14px;width:100%;max-width:420px}
-.resumo{margin-top:22px;background:var(--painel);border:1px solid var(--linha);border-radius:18px;padding:18px}
-.resumo h4{font-size:12px;letter-spacing:.14em;color:var(--acento);margin-bottom:8px}
-.resumo ul{list-style:none;display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
-.resumo .btn{width:100%}
-.resumo small{display:block;color:var(--apoio);font-size:13px;margin-top:10px;text-align:center}
-.como{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px;list-style:none;counter-reset:p}
-.como li{background:var(--painel);border:1px solid var(--linha);border-radius:16px;padding:18px;counter-increment:p}
-.como li::before{content:counter(p);font-family:var(--display);font-weight:800;color:var(--acento);font-size:22px;display:block;margin-bottom:6px}
-.como b{display:block}
-.como span{color:var(--apoio);font-size:15px}
-.insta{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
-.btn.ig,.insta .btn{background:linear-gradient(90deg,#b5407e,#d4406a 55%,#e0604e);color:#fff;border:0}
-.btn svg{width:24px;height:24px;flex:none}
-.loja{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:20px}
-.loja dt{font-size:12px;letter-spacing:.14em;font-weight:700;color:var(--acento);margin-bottom:4px}
-.loja dd{margin-bottom:16px}
-.loja a{color:var(--acento);font-weight:700;text-decoration:none}
-footer{border-top:1px solid var(--linha);padding:22px 0 96px;color:var(--apoio);font-size:13px}
-.zap{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));width:60px;height:60px;border-radius:50%;background:var(--zap);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.55);z-index:5;transition:opacity .2s,transform .2s}
-.zap svg{width:30px;height:30px}
-.zap.some{opacity:0;transform:scale(.8);pointer-events:none}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.zap{transition:none}}
-/* Faixa da Black Friday: único bloco com laranja, a cor da campanha nos stories; some sozinha quando a oferta acaba */
-.bf{display:block;text-decoration:none;background:linear-gradient(135deg,#2a1704,#11151b 70%);border:1.5px solid #ff9a3c;border-radius:20px;padding:18px 18px 16px;margin:4px 0 6px}
-.bf[hidden]{display:none}
-.bfTag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.16em;color:#1a0d00;background:#ff9a3c;border-radius:999px;padding:4px 10px}
-.bf strong{display:block;font-family:var(--display);font-size:clamp(22px,5.6vw,30px);line-height:1.1;letter-spacing:-.02em;margin-top:10px;text-wrap:balance}
-.bfRot{display:block;color:var(--apoio);font-size:14px;margin-top:12px}
-.bfRel{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;max-width:380px}
-.bfRel div{background:var(--fundo);border:1px solid #3a2a14;border-radius:12px;padding:9px 4px 7px;text-align:center}
-.bfRel b{display:block;font-family:var(--display);font-size:26px;line-height:1;color:#ffb347;font-variant-numeric:tabular-nums}
-.bfRel span{font-size:11px;color:var(--apoio);letter-spacing:.04em}
-.bfCta{display:inline-block;margin-top:14px;font-weight:700;color:#ffb347}
-.vitrine img.corta{object-fit:cover;object-position:top}
-/* Ofertas de Black: cards sem preço que passam sozinhos (um por categoria primeiro); o valor sai no WhatsApp. Somem com o fim da Black */
-.od{margin:18px 0 6px}
-.od[hidden]{display:none}
-.odTopo{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.odCont{color:var(--apoio);font-size:13px;font-variant-numeric:tabular-nums}
-.odTrilho{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -20px;padding:0 20px;scroll-padding:0 20px}
-.odTrilho::-webkit-scrollbar{display:none}
-.odCard{flex:0 0 100%;max-width:420px;scroll-snap-align:start;background:var(--painel);border:1.5px solid #ff9a3c;border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
-.odFoto{aspect-ratio:16/10;position:relative}
-.odFoto img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-.odFoto img.corta{object-fit:cover;object-position:top}
-.odTxt{padding:16px 18px 18px;display:flex;flex-direction:column;gap:4px;flex:1}
-.odTxt small{color:#ffb347;font-size:12px;font-weight:800;letter-spacing:.14em}
-.odTxt b{font-family:var(--display);font-size:24px;letter-spacing:-.02em;line-height:1.15}
-.odTxt span{color:var(--apoio);font-size:15px}
-.odTxt .btn{width:100%;margin-top:12px;font-size:17px;padding:13px 20px}
+.campo input,.campo select{width:100%;max-width:420px;background:var(--sup);border:1.5px solid var(--linha);border-radius:14px;padding:13px 14px;min-height:50px}
+.painel .campo input,.painel .campo select{background:var(--preto)}
+.campo select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--apoio) 50%),linear-gradient(135deg,var(--apoio) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 14px) 55%;background-size:6px 6px;background-repeat:no-repeat;padding-right:40px}
+.dupla{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dica{font-size:13px;color:var(--apoio);margin-top:8px}
+.trocaTit{font-family:var(--disp);font-weight:700;font-size:18px;margin-top:10px}
+
+/* A mensagem de WhatsApp que se monta sozinha */
+.wa{border-radius:26px;overflow:hidden;background:var(--waFundo);color:var(--waTxt);box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+@media(min-width:980px){.waLado{position:sticky;top:84px}}
+.waTopo{display:flex;align-items:center;gap:10px;background:var(--waTopo);color:#fff;padding:12px 16px}
+.waTopo img{width:38px;height:38px;border-radius:50%;background:#fff}
+.waTopo b{display:block;font-size:16px;line-height:1.2}
+.waTopo span{font-size:13px}
+.waCorpo{padding:18px 12px 22px;min-height:230px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px}
+.waDia{align-self:center;background:#fff;color:var(--waMeta);font-size:12px;padding:4px 10px;border-radius:8px;box-shadow:0 1px .5px rgba(11,20,26,.13)}
+.balao{position:relative;align-self:flex-end;max-width:92%;background:var(--waBalao);border-radius:10px 0 10px 10px;padding:7px 10px 8px 11px;font-size:15.5px;line-height:1.42;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:0 1px .5px rgba(11,20,26,.13)}
+.balao::after{content:"";position:absolute;right:-8px;top:0;border-width:0 0 10px 8px;border-style:solid;border-color:transparent transparent transparent var(--waBalao)}
+.balao.vazio{align-self:center;background:#fff;color:var(--waMeta);border-radius:10px;text-align:center;font-size:14.5px}
+.balao.vazio::after{display:none}
+.hora{float:right;display:inline-flex;align-items:center;gap:3px;margin:8px 0 -5px 12px;font-size:11px;color:var(--waMeta);white-space:nowrap}
+.hora svg{width:16px;height:11px;color:#53bdeb}
+.balao.vazio .hora{display:none}
+.novo{animation:pop .32s cubic-bezier(.2,.9,.3,1.25)}
+@keyframes pop{from{transform:scale(.94);opacity:.4}to{transform:none;opacity:1}}
+.waAcoes{background:#f0f2f5;padding:14px}
+.waAcoes .bt{width:100%}
+.waAcoes small{display:block;text-align:center;color:#54656f;font-size:13px;margin-top:10px}
+.limpar{display:block;margin:12px auto 0;color:var(--apoio);font-size:14px;text-decoration:underline;text-underline-offset:3px}
+
+/* Por que comprar aqui */
+.motivos{display:grid;gap:0 48px;margin-top:40px;list-style:none}
+@media(min-width:760px){.motivos{grid-template-columns:1fr 1fr}}
+.motivos li{border-top:1px solid var(--linha);padding:22px 0 26px}
+.motivos b{display:block;font-family:var(--disp);font-weight:700;font-size:22px;letter-spacing:-.01em}
+.motivos span{display:block;color:var(--apoio);margin-top:6px;max-width:44ch}
+
+/* Como funciona: é uma sequência de verdade, por isso numerada */
+.passos{list-style:none;counter-reset:p;display:grid;gap:28px;margin-top:40px}
+@media(min-width:860px){.passos{grid-template-columns:repeat(3,1fr);gap:40px}}
+.passos li{counter-increment:p}
+.passos li::before{content:counter(p);display:block;font-family:var(--disp);font-weight:800;font-size:64px;line-height:1;letter-spacing:-.04em;color:var(--linha);-webkit-text-stroke:1.5px var(--apoio);color:transparent;margin-bottom:12px}
+.passos b{display:block;font-size:19px}
+.passos span{display:block;color:var(--apoio);margin-top:6px}
+
+/* Dúvidas */
+.faq{margin-top:32px;max-width:760px}
+.faq details{border-top:1px solid var(--linha)}
+.faq details:last-child{border-bottom:1px solid var(--linha)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-weight:600;font-size:18px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;width:12px;height:12px;border-right:2px solid var(--apoio);border-bottom:2px solid var(--apoio);transform:rotate(45deg) translate(-3px,-3px);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(-135deg) translate(-3px,-3px)}
+.faq details p{color:var(--apoio);padding:0 0 22px;max-width:62ch}
+
+/* A loja */
+.lojaGrade{display:grid;gap:32px;margin-top:36px}
+@media(min-width:860px){.lojaGrade{grid-template-columns:1.1fr .9fr;gap:56px}}
+.endereco{font-family:var(--disp);font-weight:700;font-size:clamp(26px,4vw,38px);line-height:1.08;letter-spacing:-.02em}
+.status{display:inline-flex;align-items:center;gap:10px;margin-top:18px;font-weight:600}
+.status::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--apoio)}
+.status.aberto::before{background:var(--zap);box-shadow:0 0 0 4px rgba(37,211,102,.18)}
+.horarios{list-style:none;margin-top:16px;color:var(--apoio)}
+.lojaGrade .acoes{margin-top:24px}
+.contatos{list-style:none;display:flex;flex-direction:column;gap:2px}
+.contatos li{border-top:1px solid var(--linha);padding:16px 0;display:flex;justify-content:space-between;gap:16px;align-items:baseline}
+.contatos li:last-child{border-bottom:1px solid var(--linha)}
+.contatos span{color:var(--apoio);font-size:15px}
+.contatos a{font-weight:700;text-decoration:none;text-align:right}
+
+footer{border-top:1px solid rgba(255,255,255,.08);padding:36px 0 120px;color:var(--apoio);font-size:13px}
+footer p+p{margin-top:8px}
+
+/* Barra do pedido (aparece quando há itens e a mensagem não está na tela) e atalho do WhatsApp */
+.barra{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:40;max-width:560px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(28,28,30,.94);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--linha);border-radius:22px;padding:10px 10px 10px 18px;box-shadow:0 18px 40px rgba(0,0,0,.6)}
+.barra b{display:block;font-size:15px}
+.barra span{display:block;font-size:13px;color:var(--apoio);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46vw}
+.barra .bt{min-height:44px;padding:0 18px;font-size:15px}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:35;width:60px;height:60px;border-radius:50%;background:var(--zap);color:var(--zapTxt);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(0,0,0,.6);transition:opacity .2s,transform .2s}
+.fab svg{width:30px;height:30px}
+.fab.some{opacity:0;transform:scale(.85);pointer-events:none}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.novo{animation:none}.fab,.faq summary::after{transition:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <img src="img/logo.png" alt="Logo Mercado Apple Brasil" width="44" height="44">
-    <b>Mercado Apple Brasil</b>
-    <a href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener">Instagram</a>
-  </header>
+<a class="pular" href="#orcamento">Pular para o orçamento</a>
 
+<header class="topo">
+  <div class="mio">
+    <a class="marca" href="#" aria-label="Mercado Apple Brasil, início">
+      <picture><source type="image/webp" srcset="img/w/logo-96.webp"><img src="img/w/logo-96.png" alt="" width="34" height="34"></picture>
+      <b>Mercado Apple</b>
+    </a>
+    <nav class="nav" aria-label="Seções">
+      <a href="#produtos">Produtos</a>
+      <a href="#orcamento">Orçamento</a>
+      <a href="#duvidas">Dúvidas</a>
+      <a href="#loja">A loja</a>
+    </nav>
+    <a class="bt zap" href="https://wa.me/5519998899974?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20falar%20com%20a%20loja." data-zap>WhatsApp</a>
+  </div>
+</header>
+
+<main>
   <a class="bf" id="bf" href="#orcamento" hidden>
-    <span class="bfTag">BLACK FRIDAY</span>
-    <strong id="bfTit">Já começou. Os menores preços até sexta.</strong>
-    <span class="bfRot" id="bfRot">A oferta termina em</span>
-    <div class="bfRel" role="timer" aria-label="Tempo restante da oferta de Black Friday">
-      <div><b id="bfD">0</b><span>dias</span></div>
-      <div><b id="bfH">00</b><span>horas</span></div>
-      <div><b id="bfM">00</b><span>min</span></div>
-      <div><b id="bfS">00</b><span>seg</span></div>
-    </div>
-    <span class="bfCta">Montar meu orçamento de Black →</span>
+    <div class="mio"><b>Black Friday: preço de Black até sexta, 23h59</b><span>Termina em <span id="bfRel">00:00:00</span></span></div>
   </a>
 
-  <div class="od" id="od" hidden>
-    <div class="odTopo"><span class="bfTag">OFERTAS DE BLACK FRIDAY</span><span class="odCont" id="odCont" aria-hidden="true"></span></div>
-    <div class="odTrilho" id="odTrilho" aria-label="Ofertas de Black Friday" tabindex="0"></div>
-  </div>
-
-  <div class="hero">
-    <h1>Apple novo, lacrado e com garantia, em <span>Pirassununga.</span></h1>
-    <p>Escolha o que você procura, monte o pedido em menos de um minuto e receba o orçamento no seu WhatsApp, com o valor do dia no Pix e parcelado.</p>
-    <div class="acoes">
-      <a class="btn" href="#orcamento">Montar meu orçamento</a>
-      <a class="btn ig" href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>Seguir no Instagram</a>
-    </div>
-    <ul class="fatos">
-      <li>Garantia Apple</li>
-      <li>Parcelamos em até 21x</li>
-      <li>Loja física em Pirassununga</li>
-    </ul>
-  </div>
-
-  <div class="vitrine" aria-label="Produtos">
-    <figure><img src="img/iphone-18-pro.jpg" alt="iPhone 18 Pro" loading="lazy"><figcaption>iPhone 18 Pro</figcaption></figure>
-    <figure><img src="img/iphone-air.jpg" alt="iPhone Air em cinco cores" loading="lazy"><figcaption>iPhone Air</figcaption></figure>
-    <figure><img src="img/ipad-air.jpg" alt="iPad Air" loading="lazy"><figcaption>iPad Air</figcaption></figure>
-    <figure><img src="img/mac-mini.jpg" alt="Mac mini" loading="lazy"><figcaption>Mac mini</figcaption></figure>
-    <figure><img src="img/airpods-pro.jpg" alt="AirPods Pro 3" loading="lazy"><figcaption>AirPods Pro 3</figcaption></figure>
-    <figure><img src="img/ipad.jpg" alt="iPad" loading="lazy"><figcaption>iPad</figcaption></figure>
-    <figure style="background:#dfecf5"><img class="corta" src="img/macbook-air.jpg" alt="MacBook Air" loading="lazy"><figcaption>MacBook Air</figcaption></figure>
-    <figure style="background:#000"><img class="corta" src="img/apple-pencil.jpg" alt="Apple Pencil" loading="lazy"><figcaption>Apple Pencil</figcaption></figure>
-    <figure style="background:#f5f5f6"><img class="corta" src="img/macbook-neo.jpg" alt="MacBook Neo" loading="lazy"><figcaption>MacBook Neo</figcaption></figure>
-    <figure style="background:#f5f5f6"><img class="corta" src="img/ipad-mini.jpg" alt="iPad mini" loading="lazy"><figcaption>iPad mini</figcaption></figure>
-    <figure style="background:#000"><img src="img/macbook-pro.jpg" alt="MacBook Pro" loading="lazy"><figcaption>MacBook Pro</figcaption></figure>
-    <figure style="background:#000"><img src="img/watch-series-12.jpg" alt="Apple Watch Series 12" loading="lazy"><figcaption>Apple Watch Series 12</figcaption></figure>
-    <figure style="background:#fff"><img class="corta" src="img/iphone-17e.jpg" alt="iPhone 17e" loading="lazy"><figcaption>iPhone 17e</figcaption></figure>
-    <figure style="background:#fff"><img class="corta" src="img/airpods-max-2.jpg" alt="AirPods Max 2" loading="lazy"><figcaption>AirPods Max 2</figcaption></figure>
-    <figure style="background:#f5f5f7"><img src="img/iphone-16.jpg" alt="iPhone 16" loading="lazy"><figcaption>iPhone 16</figcaption></figure>
-    <figure style="background:#fff"><img src="img/watch-se-3.jpg" alt="Apple Watch SE 3" loading="lazy"><figcaption>Apple Watch SE 3</figcaption></figure>
-    <figure style="background:#fff"><img class="corta" src="img/iphone-duo.jpg" alt="iPhone Duo" loading="lazy"><figcaption>iPhone Duo</figcaption></figure>
-    <figure style="background:#000"><img src="img/watch-ultra-4.jpg" alt="Apple Watch Ultra 4" loading="lazy"><figcaption>Apple Watch Ultra 4</figcaption></figure>
-    <figure style="background:#fff"><img src="img/airpods-5.jpg" alt="AirPods 5" loading="lazy"><figcaption>AirPods 5</figcaption></figure>
-  </div>
-
-  <section id="orcamento">
-    <h2>Monte seu orçamento</h2>
-    <p class="sub">Pode escolher mais de um produto, de categorias diferentes.</p>
-
-    <div class="passo">
-      <h3><i>1</i>O que você procura?</h3>
-      <div class="cats" id="cats"></div>
-    </div>
-
-    <div class="passo">
-      <h3><i>2</i><span id="tituloModelos">Qual modelo?</span></h3>
-      <p class="vazio" id="vazio">Escolha uma categoria acima para ver os modelos.</p>
-      <div class="chips" id="modelos"></div>
-      <div id="opcoes" hidden>
-        <p class="rot" id="opTitulo"></p>
-        <div class="chips" id="opChips"></div>
-      </div>
-    </div>
-
-    <div class="passo">
-      <h3><i>3</i>Como você quer pagar?</h3>
-      <div class="chips" id="pag">
-        <button type="button" class="chip" data-pag="pix" aria-pressed="true">Pix</button>
-        <button type="button" class="chip" data-pag="cartao" aria-pressed="false">Parcelado no cartão</button>
-      </div>
-      <div id="blocoCartao" hidden>
-        <p class="rot">Em quantas vezes?</p>
-        <div class="chips" id="vezes"></div>
-        <p class="rot">Como prefere passar o cartão?</p>
-        <div class="chips" id="meio">
-          <button type="button" class="chip" data-meio="Maquininha na loja" aria-pressed="true">Maquininha na loja</button>
-          <button type="button" class="chip" data-meio="Link de pagamento" aria-pressed="false">Link de pagamento</button>
+  <section class="hero">
+    <div class="mio">
+      <div>
+        <h1>Apple novo e lacrado, aqui em Pira.</h1>
+        <p class="lead">iPhone, iPad, Mac, Apple Watch e AirPods com Garantia Apple. Monte o pedido em um minuto e receba o preço do dia no WhatsApp, no Pix ou em até 21x.</p>
+        <div class="acoes">
+          <a class="bt branco" href="#orcamento">Montar meu orçamento</a>
+          <a class="bt zap" href="https://wa.me/5519998899974?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20falar%20com%20a%20loja." data-zap><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.17-1.5A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.07.89.9-2.99-.2-.31a8.2 8.2 0 1 1 6.85 3.74Zm4.5-6.13c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.55.12-.17.25-.64.8-.78.96-.14.17-.29.19-.53.06a6.7 6.7 0 0 1-3.34-2.92c-.25-.43.25-.4.72-1.33.08-.17.04-.31-.02-.43l-.75-1.8c-.2-.48-.4-.41-.55-.42h-.47a.9.9 0 0 0-.65.31 2.7 2.7 0 0 0-.85 2.02 4.7 4.7 0 0 0 .99 2.5 10.8 10.8 0 0 0 4.14 3.66c1.54.67 2.15.72 2.92.61.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.15-1.17-.06-.1-.23-.17-.47-.29Z"/></svg>Chamar no WhatsApp</a>
         </div>
+        <ul class="fatos">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Garantia Apple</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Loja física há mais de 6 anos</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Pix ou até 21x</li>
+        </ul>
       </div>
-      <div id="blocoTroca" hidden>
-        <p class="rot">Vai dar um iPhone na troca?</p>
-        <div class="chips">
-          <button type="button" class="chip" id="trocaBtn" aria-pressed="false" aria-expanded="false" aria-controls="trocaForm">Tenho iPhone pra troca</button>
-        </div>
-        <div id="trocaForm" class="troca" hidden>
-          <p class="trocaTit">Conta pra gente como está o seu iPhone</p>
-          <div class="campo">
-            <label for="tModelo">Qual é o modelo?</label>
-            <select id="tModelo"><option value="">Escolha o modelo</option></select>
+      <div class="heroFoto">
+        <picture><source type="image/webp" srcset="img/w/iphone-18-pro-480.webp 480w, img/w/iphone-18-pro-960.webp 571w" sizes="(min-width: 900px) 420px, 80vw"><img src="img/iphone-18-pro.jpg" alt="iPhone 18 Pro na cor Bordô, de frente e de costas" width="571" height="900" fetchpriority="high" decoding="async"></picture>
+        <span class="legenda">iPhone 18 Pro, novo e lacrado</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao" id="produtos">
+    <div class="mio">
+      <h2>Escolha pelo produto</h2>
+      <p class="sub">Toque em um produto e ele já entra no seu orçamento. O preço do dia chega pelo WhatsApp.</p>
+      <div class="abas" role="tablist" aria-label="Categorias de produto"><button type="button" role="tab" id="t-iphone" aria-controls="p-iphone" aria-selected="true">iPhone</button><button type="button" role="tab" id="t-watch" aria-controls="p-watch" aria-selected="false" tabindex="-1">Apple Watch</button><button type="button" role="tab" id="t-airpods" aria-controls="p-airpods" aria-selected="false" tabindex="-1">AirPods</button><button type="button" role="tab" id="t-ipad" aria-controls="p-ipad" aria-selected="false" tabindex="-1">iPad</button><button type="button" role="tab" id="t-mac" aria-controls="p-mac" aria-selected="false" tabindex="-1">Mac</button><button type="button" role="tab" id="t-mais" aria-controls="p-mais" aria-selected="false" tabindex="-1">Garmin e mais</button></div><div class="trilho" role="tabpanel" id="p-iphone" aria-labelledby="t-iphone" tabindex="0"><article class="card claro" style="--bg:#f6f6f8"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/iphone-18-pro-480.webp 480w, img/w/iphone-18-pro-960.webp 571w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/iphone-18-pro.jpg" alt="" width="571" height="900" fetchpriority="high" decoding="async"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>iPhone 18 Pro e 18 Pro Max</h3><p>Bordô, Prata, Azul Glacial e Preto</p><button type="button" class="cBtn" data-cat="iphone">Montar orçamento</button></div></article><article class="card claro" style="--bg:#fafafa"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/iphone-air-480.webp 480w, img/w/iphone-air-960.webp 900w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/iphone-air.jpg" alt="" width="900" height="643" loading="lazy" decoding="async"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>iPhone Air</h3><p>O iPhone mais fino que a Apple já fez</p><button type="button" class="cBtn" data-cat="iphone" data-m="iPhone Air">Montar orçamento</button></div></article><article class="card claro" style="--bg:#ffffff"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/iphone-17e-480.webp 480w, img/w/iphone-17e-960.webp 623w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/iphone-17e.jpg" alt="" width="623" height="900" loading="lazy" decoding="async" class="corta"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>iPhone 17e</h3><p>O iPhone novo mais em conta</p><button type="button" class="cBtn" data-cat="iphone" data-m="iPhone 17e">Montar orçamento</button></div></article><article class="card claro" style="--bg:#f5f5f7"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/iphone-16-480.webp 480w, img/w/iphone-16-960.webp 705w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/iphone-16.jpg" alt="" width="705" height="500" loading="lazy" decoding="async"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>iPhone 16</h3><p>Preto, Branco, Rosa, Verde-acinzentado e Ultramarino</p><button type="button" class="cBtn" data-cat="iphone" data-m="iPhone 16">Montar orçamento</button></div></article><article class="card claro" style="--bg:#ffffff"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/iphone-duo-480.webp 480w, img/w/iphone-duo-960.webp 801w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/iphone-duo.jpg" alt="" width="801" height="900" loading="lazy" decoding="async" class="corta"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>iPhone Duo</h3><p>O iPhone que dobra</p><button type="button" class="cBtn" data-cat="iphone" data-m="iPhone Duo">Montar orçamento</button></div></article></div><div class="trilho" role="tabpanel" id="p-watch" aria-labelledby="t-watch" tabindex="0" hidden><article class="card escuro" style="--bg:#000000"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/watch-series-12-480.webp 480w, img/w/watch-series-12-960.webp 574w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/watch-series-12.jpg" alt="" width="574" height="900" loading="lazy" decoding="async"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>Apple Watch Series 12</h3><p>42 e 46 mm</p><button type="button" class="cBtn" data-cat="watch" data-m="Apple Watch Series 12">Montar orçamento</button></div></article><article class="card escuro" style="--bg:#000000"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/watch-ultra-4-480.webp 480w, img/w/watch-ultra-4-960.webp 575w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/watch-ultra-4.jpg" alt="" width="575" height="900" loading="lazy" decoding="async"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>Apple Watch Ultra</h3><p>O mais resistente, pra esporte e aventura</p><button type="button" class="cBtn" data-cat="watch" data-m="Apple Watch Ultra">Montar orçamento</button></div></article><article class="card claro" style="--bg:#ffffff"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/watch-se-3-480.webp 480w, img/w/watch-se-3-960.webp 726w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/watch-se-3.jpg" alt="" width="726" height="900" loading="lazy" decoding="async"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>Apple Watch SE 3</h3><p>40 e 44 mm, ótimo pra começar</p><button type="button" class="cBtn" data-cat="watch" data-m="Apple Watch SE 3">Montar orçamento</button></div></article></div><div class="trilho" role="tabpanel" id="p-airpods" aria-labelledby="t-airpods" tabindex="0" hidden><article class="card claro" style="--bg:#f3f3f5"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/airpods-pro-480.webp 480w, img/w/airpods-pro-960.webp 900w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/airpods-pro.jpg" alt="" width="900" height="567" loading="lazy" decoding="async"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>AirPods Pro 3</h3><p>Cancelamento de ruído ativo</p><button type="button" class="cBtn" data-cat="airpods" data-m="AirPods Pro 3">Montar orçamento</button></div></article><article class="card claro" style="--bg:#ffffff"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/airpods-5-480.webp 480w, img/w/airpods-5-960.webp 752w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/airpods-5.jpg" alt="" width="752" height="636" loading="lazy" decoding="async"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>AirPods 5</h3><p>Leves, pra usar o dia todo</p><button type="button" class="cBtn" data-cat="airpods" data-m="AirPods 5">Montar orçamento</button></div></article><article class="card claro" style="--bg:#ffffff"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/airpods-max-2-480.webp 480w, img/w/airpods-max-2-960.webp 900w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/airpods-max-2.jpg" alt="" width="900" height="838" loading="lazy" decoding="async" class="corta"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>AirPods Max</h3><p>Som de estúdio, com USB-C</p><button type="button" class="cBtn" data-cat="airpods" data-m="AirPods Max">Montar orçamento</button></div></article></div><div class="trilho" role="tabpanel" id="p-ipad" aria-labelledby="t-ipad" tabindex="0" hidden><article class="card claro" style="--bg:#c9e4ef"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/ipad-air-m4-480.webp 480w, img/w/ipad-air-m4-960.webp 830w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/ipad-air-m4.jpg" alt="" width="830" height="900" loading="lazy" decoding="async" class="corta"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>iPad Air M4</h3><p>11 e 13 polegadas</p><button type="button" class="cBtn" data-cat="ipad">Montar orçamento</button></div></article><article class="card claro" style="--bg:#ffffff"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/ipad-a16-480.webp 480w, img/w/ipad-a16-960.webp 900w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/ipad-a16.jpg" alt="" width="900" height="786" loading="lazy" decoding="async" class="corta"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>iPad A16</h3><p>Azul, Rosa, Amarelo e Prata</p><button type="button" class="cBtn" data-cat="ipad" data-m="iPad A16 11&quot;">Montar orçamento</button></div></article><article class="card claro" style="--bg:#f5f5f5"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/ipad-mini-480.webp 480w, img/w/ipad-mini-960.webp 743w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/ipad-mini.jpg" alt="" width="743" height="900" loading="lazy" decoding="async" class="corta"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>iPad mini</h3><p>Cabe numa mão</p><button type="button" class="cBtn" data-cat="ipad" data-m="iPad mini">Montar orçamento</button></div></article><article class="card escuro" style="--bg:#000000"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/ipad-pro-480.webp 480w, img/w/ipad-pro-960.webp 446w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/ipad-pro.jpg" alt="" width="446" height="900" loading="lazy" decoding="async"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>iPad Pro M5</h3><p>O iPad mais poderoso</p><button type="button" class="cBtn" data-cat="ipad">Montar orçamento</button></div></article><article class="card escuro" style="--bg:#000000"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/apple-pencil-480.webp 480w, img/w/apple-pencil-960.webp 751w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/apple-pencil.jpg" alt="" width="751" height="900" loading="lazy" decoding="async" class="corta"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>Apple Pencil</h3><p>Pencil Pro e Pencil USB-C</p><button type="button" class="cBtn" data-cat="ipad" data-m="Apple Pencil">Montar orçamento</button></div></article></div><div class="trilho" role="tabpanel" id="p-mac" aria-labelledby="t-mac" tabindex="0" hidden><article class="card claro" style="--bg:#dfecf5"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/macbook-air-480.webp 480w, img/w/macbook-air-960.webp 900w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/macbook-air.jpg" alt="" width="900" height="881" loading="lazy" decoding="async" class="corta"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>MacBook Air M5</h3><p>13 e 15 polegadas</p><button type="button" class="cBtn" data-cat="mac">Montar orçamento</button></div></article><article class="card claro" style="--bg:#f5f5f5"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/macbook-neo-480.webp 480w, img/w/macbook-neo-960.webp 749w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/macbook-neo.jpg" alt="" width="749" height="900" loading="lazy" decoding="async" class="corta"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>MacBook Neo</h3><p>O MacBook mais em conta</p><button type="button" class="cBtn" data-cat="mac" data-m="MacBook Neo 13&quot;">Montar orçamento</button></div></article><article class="card escuro" style="--bg:#000000"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/macbook-pro-480.webp 480w, img/w/macbook-pro-960.webp 900w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/macbook-pro.jpg" alt="" width="900" height="278" loading="lazy" decoding="async"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>MacBook Pro</h3><p>14 e 16 polegadas, chips M5</p><button type="button" class="cBtn" data-cat="mac">Montar orçamento</button></div></article><article class="card claro" style="--bg:#f8f7f3"><div class="cFoto"><picture><source type="image/webp" srcset="img/w/mac-mini-m6-480.webp 480w, img/w/mac-mini-m6-960.webp 870w" sizes="(min-width: 980px) 260px, 78vw"><img src="img/mac-mini-m6.jpg" alt="" width="870" height="380" loading="lazy" decoding="async"></picture><span class="selo">Preço de Black</span></div><div class="cTxt"><h3>Mac mini</h3><p>Pequeno e potente</p><button type="button" class="cBtn" data-cat="mac" data-m="Mac mini">Montar orçamento</button></div></article></div><div class="trilho" role="tabpanel" id="p-mais" aria-labelledby="t-mais" tabindex="0" hidden><article class="card texto"><div class="cTxt"><h3>Relógios Garmin</h3><p>Forerunner, Venu, Vivoactive, Instinct e Fenix</p><button type="button" class="cBtn" data-cat="garmin">Montar orçamento</button></div></article><article class="card texto"><div class="cTxt"><h3>Acessórios</h3><p>Carregador, cabo, capinha, película e AirTag</p><button type="button" class="cBtn" data-cat="mais">Montar orçamento</button></div></article><article class="card texto"><div class="cTxt"><h3>Seminovos</h3><p>iPhone seminovo com 90 dias de garantia da loja</p><button type="button" class="cBtn" data-cat="iphone" data-m="iPhone seminovo">Montar orçamento</button></div></article></div>
+    </div>
+  </section>
+
+  <section class="secao" id="orcamento">
+    <div class="mio">
+      <h2>Monte seu orçamento</h2>
+      <p class="sub">Escolha um ou mais produtos e veja a mensagem se montando ao lado. Depois é só enviar.</p>
+      <div class="monta">
+        <div>
+          <div class="passo">
+            <h3><i>1</i>O que você procura?</h3>
+            <div class="cats" id="cats"></div>
           </div>
-          <p class="rot">Quantos GB?</p>
-          <div class="chips" data-grupo="gb">
-            <button type="button" class="chip" aria-pressed="false">64GB</button><button type="button" class="chip" aria-pressed="false">128GB</button><button type="button" class="chip" aria-pressed="false">256GB</button><button type="button" class="chip" aria-pressed="false">512GB</button><button type="button" class="chip" aria-pressed="false">1TB</button>
-          </div>
-          <div class="dupla">
-            <div class="campo">
-              <label for="tCor">Cor</label>
-              <select id="tCor"><option value="">Escolha o modelo antes</option></select>
-            </div>
-            <div class="campo">
-              <label for="tBat">Saúde da bateria (%)</label>
-              <input id="tBat" type="number" inputmode="numeric" min="1" max="100" placeholder="Ex.: 86">
+          <div class="passo" id="passo2">
+            <h3><i>2</i><span id="tituloModelos">Qual modelo?</span></h3>
+            <p class="vazio" id="vazio">Escolha uma categoria acima pra ver os modelos.</p>
+            <div class="chips" id="modelos"></div>
+            <div class="painel" id="opcoes" hidden>
+              <p class="rot" id="opTitulo"></p>
+              <div class="chips" id="opChips"></div>
             </div>
           </div>
-          <p class="dica">Veja em Ajustes › Bateria › Saúde da Bateria.</p>
-          <p class="rot">O Face ID funciona?</p>
-          <div class="chips" data-grupo="face">
-            <button type="button" class="chip" aria-pressed="false">Funciona</button><button type="button" class="chip" aria-pressed="false">Não funciona</button>
+          <div class="passo">
+            <h3><i>3</i>Como você quer pagar?</h3>
+            <div class="chips" id="pag">
+              <button type="button" class="chip" data-pag="pix" aria-pressed="true">Pix</button>
+              <button type="button" class="chip" data-pag="cartao" aria-pressed="false">Cartão de crédito</button>
+            </div>
+            <div id="blocoCartao" hidden>
+              <p class="rot">Em quantas vezes?</p>
+              <div class="chips" id="vezes"></div>
+              <p class="rot">Como prefere passar o cartão?</p>
+              <div class="chips" id="meio">
+                <button type="button" class="chip" data-meio="Maquininha na loja" aria-pressed="true">Maquininha na loja</button>
+                <button type="button" class="chip" data-meio="Link de pagamento" aria-pressed="false">Link de pagamento</button>
+              </div>
+            </div>
+            <div id="blocoTroca" hidden>
+              <p class="rot">Vai dar um iPhone na troca?</p>
+              <div class="chips">
+                <button type="button" class="chip" id="trocaBtn" aria-pressed="false" aria-expanded="false" aria-controls="trocaForm">Tenho iPhone pra troca</button>
+              </div>
+              <div class="painel" id="trocaForm" hidden>
+                <p class="trocaTit">Conta pra gente como está o seu iPhone</p>
+                <div class="campo">
+                  <label for="tModelo">Modelo</label>
+                  <select id="tModelo"><option value="">Escolha o modelo</option></select>
+                </div>
+                <p class="rot">Quantos GB?</p>
+                <div class="chips" data-grupo="gb"></div>
+                <div class="dupla">
+                  <div class="campo">
+                    <label for="tCor">Cor</label>
+                    <select id="tCor"><option value="">Escolha o modelo antes</option></select>
+                  </div>
+                  <div class="campo">
+                    <label for="tBat">Saúde da bateria (%)</label>
+                    <input id="tBat" type="number" inputmode="numeric" min="1" max="100" placeholder="Ex.: 86">
+                  </div>
+                </div>
+                <p class="dica">Veja em Ajustes, Bateria, Saúde da Bateria.</p>
+                <p class="rot">O Face ID funciona?</p>
+                <div class="chips" data-grupo="face"><button type="button" class="chip" aria-pressed="false">Funciona</button><button type="button" class="chip" aria-pressed="false">Não funciona</button></div>
+                <p class="rot">Como estão a tela e a traseira?</p>
+                <div class="chips" data-grupo="estado"><button type="button" class="chip" aria-pressed="false">Sem marcas</button><button type="button" class="chip" aria-pressed="false">Riscos leves</button><button type="button" class="chip" aria-pressed="false">Tela trincada</button><button type="button" class="chip" aria-pressed="false">Traseira trincada</button></div>
+                <p class="rot">Já passou por algum reparo?</p>
+                <div class="chips" data-grupo="reparo"><button type="button" class="chip" aria-pressed="false">Nunca</button><button type="button" class="chip" aria-pressed="false">Trocou a bateria</button><button type="button" class="chip" aria-pressed="false">Trocou a tela</button><button type="button" class="chip" aria-pressed="false">Outro reparo</button></div>
+                <p class="dica">Com esses dados a gente já passa uma avaliação. O valor final é confirmado na loja, com o aparelho em mãos.</p>
+              </div>
+            </div>
+            <div class="campo">
+              <label for="nome">Seu nome</label>
+              <input id="nome" type="text" autocomplete="given-name" placeholder="Como a gente te chama?">
+            </div>
           </div>
-          <p class="rot">Como estão a tela e a traseira?</p>
-          <div class="chips" data-grupo="estado">
-            <button type="button" class="chip" aria-pressed="false">Sem marcas</button><button type="button" class="chip" aria-pressed="false">Riscos leves</button><button type="button" class="chip" aria-pressed="false">Tela trincada</button><button type="button" class="chip" aria-pressed="false">Traseira trincada</button>
-          </div>
-          <p class="rot">Já passou por algum reparo?</p>
-          <div class="chips" data-grupo="reparo">
-            <button type="button" class="chip" aria-pressed="false">Nunca</button><button type="button" class="chip" aria-pressed="false">Trocou a bateria</button><button type="button" class="chip" aria-pressed="false">Trocou a tela</button><button type="button" class="chip" aria-pressed="false">Outro reparo</button>
-          </div>
-          <p class="dica">Com esses dados a gente já passa uma avaliação. O valor final é confirmado na loja, com o aparelho em mãos.</p>
         </div>
+
+        <aside class="waLado" aria-label="Sua mensagem pra loja">
+          <div class="wa" id="wa">
+            <div class="waTopo">
+              <picture><source type="image/webp" srcset="img/w/logo-96.webp"><img src="img/w/logo-96.png" alt="" width="38" height="38"></picture>
+              <div><b>Mercado Apple Brasil</b><span>Sua mensagem pra loja</span></div>
+            </div>
+            <div class="waCorpo">
+              <span class="waDia">Hoje</span>
+              <div class="balao vazio" id="balao" aria-live="polite"><span id="waTexto">Escolha os produtos e a sua mensagem se monta aqui.</span><span class="hora"><span id="waHora">--:--</span><svg viewBox="0 0 16 11" aria-hidden="true"><path fill="currentColor" d="M11.07.65 10.4.1a.4.4 0 0 0-.56.06L4.77 6.56 2.4 4.3a.4.4 0 0 0-.56.01l-.6.6a.4.4 0 0 0 0 .56l3.3 3.18a.4.4 0 0 0 .58-.04l5.98-7.4a.4.4 0 0 0-.03-.56Zm4 0L14.4.1a.4.4 0 0 0-.56.06L8.77 6.56l-.6-.58-.86 1.07 1.18 1.13a.4.4 0 0 0 .58-.04l5.98-7.4a.4.4 0 0 0-.03-.56Z"/></svg></span></div>
+            </div>
+            <div class="waAcoes">
+              <button type="button" class="bt zap" id="enviar" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg>Enviar pelo WhatsApp</button>
+              <small>Abre o WhatsApp com a mensagem pronta. A gente responde com o preço do dia, no Pix e no cartão.</small>
+            </div>
+          </div>
+          <button type="button" class="limpar" id="limpar" hidden>Limpar pedido</button>
+        </aside>
       </div>
-      <div class="campo">
-        <label for="nome">Seu nome</label>
-        <input id="nome" type="text" autocomplete="given-name" placeholder="Como podemos te chamar?">
-      </div>
-    </div>
-
-    <div class="resumo" aria-live="polite">
-      <h4>SEU PEDIDO</h4>
-      <ul id="lista"><li>Nenhum produto escolhido ainda</li></ul>
-      <button type="button" class="btn" id="enviar" disabled>Receber orçamento no WhatsApp</button>
-      <small>Abre o WhatsApp com o pedido pronto. A gente responde com o valor do dia, no Pix e parcelado.</small>
-    </div>
-  </section>
-
-  <section>
-    <h2>Como funciona</h2>
-    <ol class="como">
-      <li><b>Você monta o pedido</b><span>Aqui no site ou direto pelo WhatsApp. O orçamento vale por 24 horas.</span></li>
-      <li><b>Paga no Pix ou no cartão</b><span>Pix à vista ou cartão em até 21x. Você recebe o recibo na hora.</span></li>
-      <li><b>Retira na loja</b><span>Em 2 a 5 dias úteis, lacrado, com Garantia Apple. Seminovos têm 90 dias de garantia.</span></li>
-    </ol>
-  </section>
-
-  <section>
-    <div class="insta">
-      <h2>Novidades todo dia no Instagram</h2>
-      <p class="sub" style="margin-top:0">Lançamentos, chegadas e entregas da loja em @mercadoapplebrasil.</p>
-      <a class="btn" href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>Seguir @mercadoapplebrasil</a>
     </div>
   </section>
 
-  <section id="loja">
-    <h2>A loja</h2>
-    <dl class="loja">
-      <div>
-        <dt>ENDEREÇO</dt><dd>Rua Duque de Caxias, 2032, Sala 3<br>Pirassununga, SP<br><a href="https://www.google.com/maps/search/?api=1&query=Rua+Duque+de+Caxias+2032+Pirassununga+SP" target="_blank" rel="noopener">Abrir no mapa</a></dd>
-        <dt>HORÁRIO</dt><dd>Segunda a sábado, das 9h às 21h<br>Domingo, das 9h às 13h</dd>
-      </div>
-      <div>
-        <dt>WHATSAPP</dt><dd><a href="https://wa.me/5519998899974?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20falar%20com%20a%20loja.">(19) 99889-9974</a></dd>
-        <dt>INSTAGRAM</dt><dd><a href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener">@mercadoapplebrasil</a></dd>
-      </div>
-    </dl>
+  <section class="secao">
+    <div class="mio">
+      <h2>Por que comprar com a gente</h2>
+      <ul class="motivos">
+        <li><b>Garantia Apple</b><span>Produtos novos e lacrados, com a garantia oficial da Apple. Seminovos saem com 90 dias de garantia da loja.</span></li>
+        <li><b>Loja física em Pira</b><span>Mais de 6 anos atendendo Pirassununga, na Rua Duque de Caxias. Você vem, vê o produto e tira dúvida com a gente.</span></li>
+        <li><b>Pix ou até 21x</b><span>No cartão, na maquininha da loja ou por link de pagamento.</span></li>
+        <li><b>Retira ou recebe</b><span>Retirada na loja ou envio por Sedex pra outras cidades.</span></li>
+      </ul>
+    </div>
   </section>
 
-  <footer>Mercado Apple Brasil é uma loja independente. Apple, iPhone, iPad, Mac, Apple Watch e AirPods são marcas da Apple Inc.</footer>
+  <section class="secao">
+    <div class="mio">
+      <h2>Como funciona</h2>
+      <ol class="passos">
+        <li><b>Monte o pedido</b><span>Aqui no site ou direto no WhatsApp.</span></li>
+        <li><b>Receba o preço do dia</b><span>A gente responde com o valor no Pix e no cartão, válido por 24 horas.</span></li>
+        <li><b>Pague e retire</b><span>Pronta entrega ou em poucos dias úteis. O prazo certinho vem junto com o orçamento.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="secao" id="duvidas">
+    <div class="mio">
+      <h2>Dúvidas</h2>
+      <div class="faq">
+        <details><summary>Os produtos são originais?</summary><p>Sim. Vendemos produtos Apple novos e lacrados, com Garantia Apple. Quando o produto é seminovo, a gente avisa no orçamento e ele sai com 90 dias de garantia da loja.</p></details>
+        <details><summary>Por que o site não mostra preço?</summary><p>Os valores mudam quase todo dia. Pelo WhatsApp você recebe o preço do dia, no Pix e parcelado.</p></details>
+        <details><summary>Em quanto tempo eu recebo?</summary><p>Tem produto a pronta entrega e produto que chega em poucos dias úteis. O prazo certinho vai junto com o orçamento.</p></details>
+        <details><summary>Quais são as formas de pagamento?</summary><p>Pix ou cartão de crédito em até 21x, na maquininha da loja ou por link de pagamento.</p></details>
+        <details><summary>Vocês pegam meu iPhone na troca?</summary><p>A gente avalia. Conte como está o seu iPhone no montador de orçamento e a avaliação vem junto. O valor final é confirmado na loja, com o aparelho em mãos.</p></details>
+        <details><summary>Vocês enviam pra outras cidades?</summary><p>Sim, enviamos por Sedex. O frete entra no orçamento.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao" id="loja">
+    <div class="mio">
+      <h2>A loja</h2>
+      <div class="lojaGrade">
+        <div>
+          <p class="endereco">Rua Duque de Caxias, 2032, Sala 3<br>Pirassununga, SP</p>
+          <p class="status" id="status">Segunda a sábado, das 9h às 21h</p>
+          <ul class="horarios">
+            <li>Segunda a sábado, das 9h às 21h</li>
+            <li>Domingo, das 9h às 13h</li>
+          </ul>
+          <div class="acoes">
+            <a class="bt branco" href="https://www.google.com/maps/search/?api=1&amp;query=Rua+Duque+de+Caxias+2032+Pirassununga+SP" target="_blank" rel="noopener">Como chegar</a>
+            <a class="bt linha" href="https://waze.com/ul?q=Rua%20Duque%20de%20Caxias%202032%20Pirassununga" target="_blank" rel="noopener">Abrir no Waze</a>
+          </div>
+        </div>
+        <ul class="contatos">
+          <li><span>WhatsApp</span><a href="https://wa.me/5519998899974?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20falar%20com%20a%20loja." data-zap>(19) 99889-9974</a></li>
+          <li><span>Instagram</span><a href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener">@mercadoapplebrasil</a></li>
+          <li><span>Pagamento</span><a href="#orcamento">Pix ou cartão em até 21x</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="mio">
+    <p>Mercado Apple Brasil, CNPJ 40.455.796/0001-91. Rua Duque de Caxias, 2032, Sala 3, Pirassununga, SP.</p>
+    <p>Somos uma loja independente. Apple, iPhone, iPad, Mac, Apple Watch e AirPods são marcas da Apple Inc. Garmin é marca da Garmin Ltd.</p>
+  </div>
+</footer>
+
+<aside aria-label="Atalhos do pedido">
+<div class="barra" id="barra" hidden>
+  <div><b id="barraQtd">1 item no pedido</b><span id="barraItens"></span></div>
+  <a class="bt zap" href="#wa" id="barraBtn">Ver mensagem</a>
 </div>
-<a class="zap" id="fixo" href="https://wa.me/5519998899974?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20falar%20com%20a%20loja." aria-label="Chamar a loja no WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-7.2L7 21.6V18H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" fill="currentColor"/><circle cx="8" cy="11" r="1.4" fill="#25d366"/><circle cx="12" cy="11" r="1.4" fill="#25d366"/><circle cx="16" cy="11" r="1.4" fill="#25d366"/></svg></a>
-
-<script>
-// Black Friday: datas reais no horário de Brasília. Antes do início conta até abrir; depois conta até o fim; acabou, a faixa some.
-var BF_INICIO = Date.parse("2026-11-25T22:00:00-03:00"), BF_FIM = Date.parse("2026-11-27T23:59:59-03:00");
-function bfAtivo(){ var a = Date.now(); return a >= BF_INICIO && a <= BF_FIM; }
-(function(){
-  var cx = document.getElementById("bf"); if(!cx) return;
-  function dois(n){ return (n < 10 ? "0" : "") + n; }
-  function tic(){
-    var a = Date.now();
-    if(a > BF_FIM){ cx.hidden = true; clearInterval(rel); return; }
-    var antes = a < BF_INICIO, falta = Math.max(0, Math.floor(((antes ? BF_INICIO : BF_FIM) - a) / 1000));
-    document.getElementById("bfTit").textContent = antes ? "Black Friday: os menores preços estão chegando." : "Já começou. Os menores preços até sexta.";
-    document.getElementById("bfRot").textContent = antes ? "Começa em" : "A oferta termina em";
-    document.getElementById("bfD").textContent = Math.floor(falta / 86400);
-    document.getElementById("bfH").textContent = dois(Math.floor(falta % 86400 / 3600));
-    document.getElementById("bfM").textContent = dois(Math.floor(falta % 3600 / 60));
-    document.getElementById("bfS").textContent = dois(falta % 60);
-    cx.hidden = false;
-  }
-  var rel = setInterval(tic, 1000); tic();
-})();
-// Ofertas de Black: para trocar os cards, edite só esta lista (os 5 primeiros cobrem as 5 categorias). Sem preço: o valor vai pelo WhatsApp.
-var OFERTAS = [
-  {cat:"IPHONE", n:"iPhone 18 Pro", d:"O mais desejado, em todas as cores", img:"iphone-18-pro", bg:"#f5f5f7"},
-  {cat:"APPLE WATCH", n:"Apple Watch Series 12", d:"42 e 46mm, o mais completo", img:"watch-series-12", bg:"#000"},
-  {cat:"AIRPODS", n:"AirPods Pro 3", d:"O melhor cancelamento de ruído", img:"airpods-pro", bg:"#f5f5f7"},
-  {cat:"IPAD", n:"iPad A16", d:"Azul, Rosa, Amarelo e Prata", img:"ipad-a16", bg:"#fff", corta:1},
-  {cat:"MAC", n:"MacBook Air M5", d:"13 e 15 polegadas, chip M5", img:"macbook-air", bg:"#dfecf5", corta:1},
-  {cat:"APPLE PENCIL", n:"Apple Pencil Pro e USB-C", d:"Pra desenhar e anotar no iPad", img:"apple-pencil", bg:"#000", corta:1},
-  {cat:"IPAD", n:"iPad Air M4", d:"Leve e potente", img:"ipad-air-m4", bg:"#c9e4ef", corta:1},
-  {cat:"MAC", n:"MacBook Neo", d:"O MacBook mais em conta", img:"macbook-neo", bg:"#f5f5f6", corta:1},
-  {cat:"IPAD", n:"iPad mini", d:"Cabe em uma mão", img:"ipad-mini", bg:"#f5f5f6", corta:1},
-  {cat:"MAC", n:"Mac mini", d:"Pequeno e potente, M6 e M5 Pro", img:"mac-mini-m6", bg:"#f9f7f4"},
-  {cat:"IPAD", n:"iPad Pro", d:"O iPad mais poderoso", img:"ipad-pro", bg:"#000"},
-  {cat:"MAC", n:"MacBook Pro", d:"14 e 16 polegadas", img:"macbook-pro", bg:"#000"},
-  {cat:"IPHONE", n:"iPhone 17e", d:"O iPhone novo mais em conta", img:"iphone-17e", bg:"#fff", corta:1},
-  {cat:"AIRPODS", n:"AirPods Max 2", d:"Som de estúdio, USB-C", img:"airpods-max-2", bg:"#fff", corta:1},
-  {cat:"APPLE WATCH", n:"Apple Watch SE 3", d:"40 e 44mm, seu primeiro Apple Watch", img:"watch-se-3", bg:"#fff"},
-  {cat:"IPHONE", n:"iPhone 16", d:"Todas as cores", img:"iphone-16", bg:"#f5f5f7"}
-];
-(function(){
-  var cx = document.getElementById("od"), tr = document.getElementById("odTrilho"), ct = document.getElementById("odCont");
-  if(!cx || !bfAtivo()) return;
-  OFERTAS.forEach(function(o){
-    var c = document.createElement("div"); c.className = "odCard";
-    var f = document.createElement("div"); f.className = "odFoto"; f.style.background = o.bg;
-    var i = document.createElement("img"); i.src = "img/" + o.img + ".jpg"; i.alt = o.n; if(o.corta) i.className = "corta"; f.appendChild(i);
-    var t = document.createElement("div"); t.className = "odTxt";
-    var k = document.createElement("small"); k.textContent = o.cat + " · PREÇO DE BLACK";
-    var b = document.createElement("b"); b.textContent = o.n;
-    var d = document.createElement("span"); d.textContent = o.d + ". Novo, lacrado, com Garantia Apple.";
-    var a = document.createElement("a"); a.className = "btn"; a.textContent = "Pedir o preço de Black";
-    a.href = "https://wa.me/" + "5519998899974" + "?text=" + encodeURIComponent("Olá! Vi no site a oferta de Black Friday e quero o preço do " + o.n + ".");
-    t.appendChild(k); t.appendChild(b); t.appendChild(d); t.appendChild(a); c.appendChild(f); c.appendChild(t); tr.appendChild(c);
-  });
-  cx.hidden = false;
-  function atual(){ var p = tr.children[1] ? tr.children[1].offsetLeft - tr.children[0].offsetLeft : 1; return Math.round(tr.scrollLeft / p); }
-  function marca(){ ct.textContent = (atual() + 1) + " de " + OFERTAS.length; }
-  tr.addEventListener("scroll", marca, {passive:true}); marca();
-  // Passa sozinho a cada 4s; para de vez quando a pessoa toca, e nem começa para quem pediu menos movimento.
-  if(window.matchMedia && matchMedia("(prefers-reduced-motion:reduce)").matches) return;
-  var auto = setInterval(function(){
-    var n = (atual() + 1) % OFERTAS.length;
-    tr.scrollTo({left: tr.children[n].offsetLeft - tr.children[0].offsetLeft, behavior:"smooth"});
-  }, 4000);
-  ["pointerdown","touchstart","keydown","wheel"].forEach(function(e){ tr.addEventListener(e, function(){ clearInterval(auto); }, {passive:true}); });
-})();
-// Catálogo do montador: para mudar os modelos, edite só esta lista. O site não mostra preço; o orçamento é enviado pelo WhatsApp.
-var GB3=["256GB","512GB","1TB"], GB4=["256GB","512GB","1TB","2TB"];
-var CATALOGO = [
-  {id:"iphone", nome:"iPhone", desc:"Duo, linha 18, 17, Air e seminovos", pergunta:"Qual iPhone você quer?", opRot:"quantos GB?", modelos:[
-    {n:"iPhone Duo", ops:GB4},{n:"iPhone 18 Pro Max", ops:GB4},{n:"iPhone 18 Pro", ops:GB4},{n:"iPhone Air", ops:GB3},
-    {n:"iPhone 17 Pro Max", ops:GB4},{n:"iPhone 17 Pro", ops:GB3},{n:"iPhone 17", ops:["256GB","512GB"]},{n:"iPhone 17e", ops:["256GB","512GB"]},
-    {n:"iPhone 16", ops:["128GB","256GB","512GB"]},{n:"iPhone 16e", ops:["128GB","256GB","512GB"]},{n:"iPhone 15", ops:["128GB","256GB","512GB"]},
-    {n:"iPhone seminovo"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
-  {id:"ipad", nome:"iPad", desc:"iPad, mini, Air e Pro", pergunta:"Qual iPad você quer?", opRot:"quantos GB?", modelos:[
-    {n:"iPad A16 11\"", ops:["128GB","256GB","512GB"]},{n:"iPad mini", ops:["128GB","256GB","512GB"]},
-    {n:"iPad Air M4 11\"", ops:["128GB","256GB","512GB","1TB"]},{n:"iPad Air M4 13\"", ops:["128GB","256GB","512GB","1TB"]},
-    {n:"iPad Pro M5 11\"", ops:GB4},{n:"iPad Pro M5 13\"", ops:GB4},
-    {n:"Apple Pencil", ops:["Pencil Pro","Pencil USB-C"]},{n:"Magic Keyboard para iPad"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
-  {id:"mac", nome:"Mac", desc:"MacBook, Mac mini e iMac", pergunta:"Qual Mac você quer?", opRot:"qual configuração?", modelos:[
-    {n:"MacBook Neo 13\"", ops:["8GB · 256GB","Outra configuração"]},
-    {n:"MacBook Air M5 13\"", ops:["16GB · 512GB","16GB · 1TB","24GB · 1TB"]},
-    {n:"MacBook Air M5 15\"", ops:["16GB · 512GB","Outra configuração"]},
-    {n:"MacBook Pro 14\"", ops:["M5 · 16GB · 1TB","M5 · 32GB · 1TB","M5 Pro · 24GB · 1TB","M5 Pro · 24GB · 2TB"]},
-    {n:"MacBook Pro 16\"", ops:["M5 Pro · 24GB · 1TB","M5 Pro · 48GB · 1TB","M5 Max · 36GB · 2TB"]},
-    {n:"Mac mini", ops:["M6 · 16GB · 256GB","M4 · 16GB · 512GB","Outra configuração"]},
-    {n:"iMac"},{n:"Mac Studio"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
-  {id:"watch", nome:"Apple Watch", desc:"SE, Series e Ultra", pergunta:"Qual Apple Watch você quer?", opRot:"qual tamanho?", modelos:[
-    {n:"Apple Watch SE 3", ops:["40mm","44mm"]},{n:"Apple Watch Series 12", ops:["42mm","46mm"]},{n:"Apple Watch Ultra"},
-    {n:"Apple Watch seminovo"},{n:"Ainda não sei, quero ajuda", ajuda:true}]},
-  {id:"airpods", nome:"AirPods", desc:"AirPods, Pro e Max", pergunta:"Qual AirPods você quer?", modelos:[
-    {n:"AirPods 4"},{n:"AirPods 5"},{n:"AirPods Pro 3"},{n:"AirPods Max"}]},
-  {id:"garmin", nome:"Garmin", desc:"Forerunner, Venu, Instinct e Fenix", pergunta:"Qual Garmin você quer?", opRot:"qual versão?", modelos:[
-    {n:"Forerunner 55"},{n:"Forerunner 165", ops:["Normal","Music"]},{n:"Forerunner 170", ops:["Normal","Music"]},
-    {n:"Forerunner 265", ops:["265 (46mm)","265S (42mm)"]},{n:"Forerunner 570", ops:["42mm","47mm"]},
-    {n:"Forerunner 965"},{n:"Forerunner 970"},{n:"Vivoactive 6"},{n:"Venu 4", ops:["41mm","45mm"]},
-    {n:"Instinct 3", ops:["Solar","AMOLED"]},{n:"Fenix 8", ops:["43mm","47mm","51mm"]},
-    {n:"Ainda não sei, quero ajuda", ajuda:true}]},
-  {id:"mais", nome:"Acessórios", desc:"Carregador, cabo, capinha e mais", pergunta:"O que você precisa?", opRot:"qual?", modelos:[
-    {n:"Carregador USB-C"},
-    {n:"Cabo", ops:["USB-C para USB-C","USB-C para Lightning"]},{n:"Capinha"},{n:"Película"},{n:"AirTag"},
-    {n:"Magic Mouse"},{n:"Magic Keyboard"},{n:"Troca de bateria ou tela"}]}
-];
-var PARCELAS = [6, 10, 12, 18, 21];
-var FONE = "5519998899974";
-
-var escolhidos = [];            // itens {n, cat, base}
-var pag = "pix", vezes = 12, meio = "Maquininha na loja", aberta = null, modeloAberto = null;
-
-function $(id){ return document.getElementById(id); }
-var elCats=$("cats"), elMod=$("modelos"), elVazio=$("vazio"), elTitulo=$("tituloModelos"), elLista=$("lista"),
-    elEnviar=$("enviar"), elFixo=$("fixo"), elNome=$("nome");
-
-function nomeItem(m, cat){ return m.ajuda ? cat.nome + " (quero ajuda para escolher)" : m.n; }
-function pos(nome){ for (var i=0;i<escolhidos.length;i++) if (escolhidos[i].n===nome) return i; return -1; }
-function botao(cls, txt, on){ var b=document.createElement("button"); b.type="button"; b.className=cls; b.textContent=txt; b.setAttribute("aria-pressed", on?"true":"false"); return b; }
-
-function desenharCats(){
-  elCats.innerHTML = "";
-  CATALOGO.forEach(function(cat){
-    var n = escolhidos.filter(function(i){ return i.cat === cat.id; }).length;
-    var b = botao("cat", "", aberta === cat.id);
-    var t=document.createElement("b"); t.textContent=cat.nome;
-    var s=document.createElement("span"); s.textContent = n ? n + (n>1?" escolhidos":" escolhido") : cat.desc; if(n) s.className="n";
-    b.appendChild(t); b.appendChild(s);
-    b.addEventListener("click", function(){ aberta = cat.id; modeloAberto = null; desenharCats(); desenharModelos(true); });
-    elCats.appendChild(b);
-  });
-}
-
-function alternar(nome, cat, base){
-  var i = pos(nome);
-  if (i > -1) escolhidos.splice(i,1); else escolhidos.push({n:nome, cat:cat.id, base:base});
-  desenharCats(); desenharModelos(false); resumo();
-}
-
-function desenharModelos(rolar){
-  var cat = CATALOGO.filter(function(c){ return c.id === aberta; })[0];
-  var elOp = $("opcoes");
-  elMod.innerHTML = ""; elOp.hidden = true;
-  if (!cat){ elVazio.hidden = false; return; }
-  elVazio.hidden = true; elTitulo.textContent = cat.pergunta;
-  cat.modelos.forEach(function(m){
-    var nome = nomeItem(m, cat);
-    var marcado = m.ops ? escolhidos.some(function(i){ return i.base === m.n; }) : pos(nome) > -1;
-    var b = botao("chip", m.n, marcado);
-    if (m.ops){
-      b.setAttribute("aria-expanded", modeloAberto === m.n ? "true" : "false");
-      if (modeloAberto === m.n) b.className += " aberto";
-      b.addEventListener("click", function(){ modeloAberto = modeloAberto === m.n ? null : m.n; desenharModelos(false); if (modeloAberto) $("opcoes").scrollIntoView({block:"nearest"}); });
-    } else {
-      b.addEventListener("click", function(){ modeloAberto = null; alternar(nome, cat, m.n); });
-    }
-    elMod.appendChild(b);
-  });
-  var m = cat.modelos.filter(function(x){ return x.n === modeloAberto; })[0];
-  if (m){
-    elOp.hidden = false;
-    $("opTitulo").textContent = m.n + ": " + (cat.opRot || "qual?");
-    var elC = $("opChips"); elC.innerHTML = "";
-    m.ops.forEach(function(op){
-      var nome = m.n + " " + op;
-      var b = botao("chip", op, pos(nome) > -1);
-      b.addEventListener("click", function(){ alternar(nome, cat, m.n); });
-      elC.appendChild(b);
-    });
-  }
-  if (rolar) elTitulo.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion:reduce)").matches ? "auto" : "smooth", block:"start"});
-}
-
-function desenharVezes(){
-  var el=$("vezes"); el.innerHTML="";
-  PARCELAS.forEach(function(n){
-    var b=botao("chip", n+"x", vezes===n);
-    b.addEventListener("click", function(){ vezes=n; desenharVezes(); resumo(); });
-    el.appendChild(b);
-  });
-}
-
-function resumo(){
-  elLista.innerHTML = "";
-  if (!escolhidos.length){ var li=document.createElement("li"); li.textContent="Nenhum produto escolhido ainda"; elLista.appendChild(li); }
-  escolhidos.forEach(function(i){ var li=document.createElement("li"); li.textContent=i.n; elLista.appendChild(li); });
-  if (escolhidos.length){
-    var li=document.createElement("li"); li.className="pg";
-    li.textContent = pag==="cartao" ? "Cartão em " + vezes + "x · " + meio.toLowerCase() : "Pagamento no Pix";
-    elLista.appendChild(li);
-  }
-  $("blocoTroca").hidden = !temIphone();
-  var lt = linhasTroca();
-  if (lt.length){
-    var t=document.createElement("li"); t.className="pg"; t.textContent="iPhone na troca:"; elLista.appendChild(t);
-    lt.forEach(function(x){ var li=document.createElement("li"); li.className="sub"; li.textContent=x; elLista.appendChild(li); });
-  }
-  elEnviar.disabled = !escolhidos.length;
-}
-
-function mensagem(){
-  var nome = elNome.value.trim();
-  var l = ["Olá! Vim pelo site e quero um orçamento" + (bfAtivo() ? " de Black Friday" : "") + (nome ? ". Meu nome é " + nome + "." : ":"), ""];
-  escolhidos.forEach(function(i){ l.push("• " + i.n); });
-  l.push("");
-  l.push(pag==="pix" ? "Pagamento: Pix" : "Pagamento: cartão em " + vezes + "x, " + meio.toLowerCase());
-  var lt = linhasTroca();
-  if (lt.length){ l.push("", "Tenho um iPhone para dar na troca:"); lt.forEach(function(x){ l.push("• " + x); }); }
-  return l.join("\n");
-}
-
-function enviar(){ window.location.href = "https://wa.me/" + FONE + "?text=" + encodeURIComponent(mensagem()); }
-
-function grupo(id, attr, aoMudar){
-  $(id).addEventListener("click", function(e){
-    var b = e.target.closest(".chip"); if (!b) return;
-    [].forEach.call($(id).children, function(x){ x.setAttribute("aria-pressed", x===b ? "true" : "false"); });
-    aoMudar(b.getAttribute(attr)); resumo();
-  });
-}
-grupo("pag", "data-pag", function(v){ pag = v; $("blocoCartao").hidden = v!=="cartao"; });
-grupo("meio", "data-meio", function(v){ meio = v; });
-// Troca: só aparece quando há um iPhone no pedido.
-var APPLE = { // fonte: support.apple.com/pt-br/108044
-  "iPhone 11":[["64GB","128GB","256GB"],["Roxo","Verde","Amarelo","Preto","Branco","(PRODUCT)RED"]],
-  "iPhone 11 Pro":[["64GB","256GB","512GB"],["Prateado","Cinza-espacial","Dourado","Verde-meia-noite"]],
-  "iPhone 11 Pro Max":[["64GB","256GB","512GB"],["Prateado","Cinza-espacial","Dourado","Verde-meia-noite"]],
-  "iPhone 12 mini":[["64GB","128GB","256GB"],["Preto","Branco","(PRODUCT)RED","Verde","Azul","Roxo"]],
-  "iPhone 12":[["64GB","128GB","256GB"],["Preto","Branco","(PRODUCT)RED","Verde","Azul","Roxo"]],
-  "iPhone 12 Pro":[["128GB","256GB","512GB"],["Prateado","Grafite","Dourado","Azul-Pacífico"]],
-  "iPhone 12 Pro Max":[["128GB","256GB","512GB"],["Prateado","Grafite","Dourado","Azul-Pacífico"]],
-  "iPhone 13 mini":[["128GB","256GB","512GB"],["(PRODUCT)RED","Estelar","Meia-noite","Azul","Rosa","Verde"]],
-  "iPhone 13":[["128GB","256GB","512GB"],["(PRODUCT)RED","Estelar","Meia-noite","Azul","Rosa","Verde"]],
-  "iPhone 13 Pro":[["128GB","256GB","512GB","1TB"],["Grafite","Dourado","Prateado","Azul-Sierra","Verde-alpino"]],
-  "iPhone 13 Pro Max":[["128GB","256GB","512GB","1TB"],["Grafite","Dourado","Prateado","Azul-Sierra","Verde-alpino"]],
-  "iPhone SE (3ª geração)":[["64GB","128GB","256GB"],["(PRODUCT)RED","Estelar","Meia-noite"]],
-  "iPhone 14":[["128GB","256GB","512GB"],["Meia-noite","Estelar","(PRODUCT)RED","Azul","Roxo","Amarelo"]],
-  "iPhone 14 Plus":[["128GB","256GB","512GB"],["Meia-noite","Estelar","(PRODUCT)RED","Azul","Roxo","Amarelo"]],
-  "iPhone 14 Pro":[["128GB","256GB","512GB","1TB"],["Prateado","Dourado","Preto-espacial","Roxo-profundo"]],
-  "iPhone 14 Pro Max":[["128GB","256GB","512GB","1TB"],["Prateado","Dourado","Preto-espacial","Roxo-profundo"]],
-  "iPhone 15":[["128GB","256GB","512GB"],["Preto","Azul","Verde","Amarelo","Rosa"]],
-  "iPhone 15 Plus":[["128GB","256GB","512GB"],["Preto","Azul","Verde","Amarelo","Rosa"]],
-  "iPhone 15 Pro":[["128GB","256GB","512GB","1TB"],["Titânio preto","Titânio branco","Titânio azul","Titânio natural"]],
-  "iPhone 15 Pro Max":[["256GB","512GB","1TB"],["Titânio preto","Titânio branco","Titânio azul","Titânio natural"]],
-  "iPhone 16e":[["128GB","256GB","512GB"],["Preto","Branco"]],
-  "iPhone 16":[["128GB","256GB","512GB"],["Preto","Branco","Rosa","Verde-acinzentado","Ultramarino"]],
-  "iPhone 16 Plus":[["128GB","256GB","512GB"],["Preto","Branco","Rosa","Verde-acinzentado","Ultramarino"]],
-  "iPhone 16 Pro":[["128GB","256GB","512GB","1TB"],["Titânio preto","Titânio branco","Titânio natural","Titânio-deserto"]],
-  "iPhone 16 Pro Max":[["256GB","512GB","1TB"],["Titânio preto","Titânio branco","Titânio natural","Titânio-deserto"]],
-  "iPhone 17e":[["256GB","512GB"],["Preto","Branco","Rosa-pálido"]],
-  "iPhone 17":[["256GB","512GB"],["Preto","Branco","Azul-névoa","Sálvia","Lavanda"]],
-  "iPhone Air":[["256GB","512GB","1TB"],["Preto-espacial","Branco-nuvem","Dourado-claro","Azul-céu"]],
-  "iPhone 17 Pro":[["256GB","512GB","1TB"],["Prateado","Laranja-cósmico","Azul-intenso"]],
-  "iPhone 17 Pro Max":[["256GB","512GB","1TB","2TB"],["Prateado","Laranja-cósmico","Azul-intenso"]],
-  "iPhone 18 Pro":[["256GB","512GB","1TB","2TB"],["Preto","Prateado","Glacial","Bordô"]],
-  "iPhone 18 Pro Max":[["256GB","512GB","1TB","2TB"],["Preto","Prateado","Glacial","Bordô"]],
-  "iPhone Duo":[["256GB","512GB","1TB","2TB"],["Céu noturno","Branco-estrela"]]
-};
-var MODELOS_TROCA = Object.keys(APPLE).concat(["Outro modelo"]);
-MODELOS_TROCA.forEach(function(m){ var o=document.createElement("option"); o.textContent=m; $("tModelo").appendChild(o); });
-var CORES_GERAL = ["Preto","Branco","Prateado","Dourado","Azul","Verde","Rosa","Roxo","Vermelho","Amarelo"];
-function coresDe(m){ return APPLE[m] ? APPLE[m][1] : CORES_GERAL; }
-function preencherCores(){
-  var s = $("tCor"), modelo = $("tModelo").value;
-  s.innerHTML = "";
-  var o = document.createElement("option"); o.value = ""; o.textContent = modelo ? "Escolha a cor" : "Escolha o modelo antes"; s.appendChild(o);
-  if (!modelo) return;
-  coresDe(modelo).concat(["Outra cor"]).forEach(function(c){ var x = document.createElement("option"); x.textContent = c; s.appendChild(x); });
-}
-// Capacidades que existem em cada modelo (tabela oficial da Apple).
-function gbsDe(m){ return APPLE[m] ? APPLE[m][0] : ["64GB","128GB","256GB","512GB","1TB"]; }
-function preencherGb(){
-  var g = document.querySelector('#trocaForm [data-grupo="gb"]'), lista = gbsDe($("tModelo").value);
-  g.innerHTML = ""; troca.gb = "";
-  lista.forEach(function(x){ var b = botao("chip", x, false); g.appendChild(b); });
-  resumo();
-}
-$("tModelo").addEventListener("change", function(){ preencherCores(); preencherGb(); });
-var troca = {on:false, gb:"", face:"", estado:"", reparo:""};
-function temIphone(){ return escolhidos.some(function(i){ return i.cat === "iphone"; }); }
-function linhasTroca(){
-  if (!troca.on || !temIphone()) return [];
-  var modelo = $("tModelo").value, cor = $("tCor").value.trim(), bat = $("tBat").value.trim();
-  var l = [[modelo || "Modelo a informar", troca.gb, cor].filter(Boolean).join(" · ")];
-  if (bat) l.push("Bateria: " + bat + "%");
-  if (troca.face) l.push("Face ID: " + troca.face.toLowerCase());
-  if (troca.estado) l.push("Tela e traseira: " + troca.estado.toLowerCase());
-  if (troca.reparo) l.push("Reparo: " + troca.reparo.toLowerCase());
-  return l;
-}
-$("trocaBtn").addEventListener("click", function(){
-  troca.on = !troca.on;
-  this.setAttribute("aria-pressed", troca.on ? "true" : "false");
-  this.setAttribute("aria-expanded", troca.on ? "true" : "false");
-  $("trocaForm").hidden = !troca.on; resumo();
-});
-[].forEach.call(document.querySelectorAll("#trocaForm [data-grupo]"), function(g){
-  g.addEventListener("click", function(e){
-    var b = e.target.closest(".chip"); if (!b) return;
-    var k = g.getAttribute("data-grupo"), jaEra = b.getAttribute("aria-pressed") === "true";
-    [].forEach.call(g.children, function(x){ x.setAttribute("aria-pressed", "false"); });
-    if (!jaEra) b.setAttribute("aria-pressed", "true");
-    troca[k] = jaEra ? "" : b.textContent; resumo();
-  });
-});
-["tModelo","tCor","tBat"].forEach(function(id){ $(id).addEventListener("input", resumo); });
-elEnviar.addEventListener("click", enviar);
-// O atalho do WhatsApp some enquanto o montador está na tela, para não cobrir os botões.
-if ("IntersectionObserver" in window){
-  new IntersectionObserver(function(es){ elFixo.classList.toggle("some", es[0].isIntersecting); }, {rootMargin:"-25% 0px -25% 0px"}).observe($("orcamento"));
-}
-desenharCats(); desenharVezes(); resumo();
-</script>
+<a class="fab" id="fab" href="https://wa.me/5519998899974?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20falar%20com%20a%20loja." aria-label="Chamar a loja no WhatsApp" data-zap><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.17-1.5A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.07.89.9-2.99-.2-.31a8.2 8.2 0 1 1 6.85 3.74Zm4.5-6.13c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.55.12-.17.25-.64.8-.78.96-.14.17-.29.19-.53.06a6.7 6.7 0 0 1-3.34-2.92c-.25-.43.25-.4.72-1.33.08-.17.04-.31-.02-.43l-.75-1.8c-.2-.48-.4-.41-.55-.42h-.47a.9.9 0 0 0-.65.31 2.7 2.7 0 0 0-.85 2.02 4.7 4.7 0 0 0 .99 2.5 10.8 10.8 0 0 0 4.14 3.66c1.54.67 2.15.72 2.92.61.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.15-1.17-.06-.1-.23-.17-.47-.29Z"/></svg></a>
+</aside>
 </body>
 </html>
