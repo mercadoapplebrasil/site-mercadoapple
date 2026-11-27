@@ -86,6 +86,14 @@ button{cursor:pointer;background:none;border:0}
 /* Botões: pílula de 52px; branco leva ao montador, verde abre o WhatsApp */
 .bt{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;font-weight:700;font-size:17px;text-decoration:none;white-space:nowrap}
 .bt svg{width:22px;height:22px;flex:none}
+.bt.ig{background:linear-gradient(90deg,#b8336a,#c2304f 55%,#c9452b);color:#fff}
+.igTopo{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:linear-gradient(135deg,#b8336a,#c2304f 55%,#c9452b);color:#fff;margin-left:auto;flex:none}
+.igTopo svg{width:20px;height:20px}
+.topo .igTopo + .bt{margin-left:0}
+.marca b{white-space:nowrap}
+@media(max-width:859px){.topo .mio{gap:10px}}
+@media(max-width:359px){.marca b{display:none}}
+@media(min-width:860px){.igTopo{margin-left:8px}}
 .bt.branco{background:var(--texto);color:#000}
 .bt.zap{background:var(--zap);color:var(--zapTxt)}
 .bt.linha{border:1.5px solid rgba(255,255,255,.28);color:var(--texto)}
@@ -288,6 +296,7 @@ footer p+p{margin-top:8px}
       <a href="#duvidas">Dúvidas</a>
       <a href="#loja">A loja</a>
     </nav>
+    <a class="igTopo" href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener" aria-label="Instagram da loja, @mercadoapplebrasil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg></a>
     <a class="bt zap" href="https://wa.me/5519998899974?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20falar%20com%20a%20loja." data-zap>WhatsApp</a>
   </div>
 </header>
@@ -305,6 +314,7 @@ footer p+p{margin-top:8px}
         <div class="acoes">
           <a class="bt branco" href="#orcamento">Montar meu orçamento</a>
           <a class="bt zap" href="https://wa.me/5519998899974?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20falar%20com%20a%20loja." data-zap><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.17-1.5A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.07.89.9-2.99-.2-.31a8.2 8.2 0 1 1 6.85 3.74Zm4.5-6.13c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.55.12-.17.25-.64.8-.78.96-.14.17-.29.19-.53.06a6.7 6.7 0 0 1-3.34-2.92c-.25-.43.25-.4.72-1.33.08-.17.04-.31-.02-.43l-.75-1.8c-.2-.48-.4-.41-.55-.42h-.47a.9.9 0 0 0-.65.31 2.7 2.7 0 0 0-.85 2.02 4.7 4.7 0 0 0 .99 2.5 10.8 10.8 0 0 0 4.14 3.66c1.54.67 2.15.72 2.92.61.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.15-1.17-.06-.1-.23-.17-.47-.29Z"/></svg>Chamar no WhatsApp</a>
+          <a class="bt ig" href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>Seguir no Instagram</a>
         </div>
         <ul class="fatos">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Garantia Apple</li>
@@ -442,6 +452,14 @@ footer p+p{margin-top:8px}
         <li><b>Receba o preço do dia</b><span>A gente responde com o valor no Pix e no cartão, válido por 24 horas.</span></li>
         <li><b>Pague e retire</b><span>Pronta entrega ou em poucos dias úteis. O prazo certinho vem junto com o orçamento.</span></li>
       </ol>
+    </div>
+  </section>
+
+  <section class="secao" id="instagram">
+    <div class="mio">
+      <h2>Novidades todo dia no Instagram</h2>
+      <p class="sub">Lançamentos, chegadas e entregas da loja em @mercadoapplebrasil.</p>
+      <div class="acoes"><a class="bt ig" href="https://www.instagram.com/mercadoapplebrasil" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>Seguir no Instagram</a></div>
     </div>
   </section>
 
