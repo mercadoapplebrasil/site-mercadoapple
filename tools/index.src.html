@@ -14,10 +14,10 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Mercado Apple Brasil">
-<meta property="og:title" content="🖤 Black Friday Mercado Apple · Já começou!">
-<meta property="og:description" content="Os menores preços do ano em iPhone, iPad, Mac, Apple Watch e AirPods, só até sexta. Novos, lacrados, com Garantia Apple. Peça seu preço de Black no WhatsApp.">
+<meta property="og:title" content="🎄 Natal Mercado Apple · Presente Apple em Pirassununga">
+<meta property="og:description" content="iPhone, Apple Watch, AirPods, iPad e Mac novos e lacrados, com Garantia Apple e embrulho de presente grátis. Peça até 16/12 e receba antes do Natal.">
 <meta property="og:url" content="https://mercadoapplebrasil.com.br/">
-<meta property="og:image" content="https://mercadoapplebrasil.com.br/img/og-black.jpg">
+<meta property="og:image" content="https://mercadoapplebrasil.com.br/img/og-natal.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -32,6 +32,7 @@
 {"@type":"Question","name":"Os produtos são originais?","acceptedAnswer":{"@type":"Answer","text":"Sim. Vendemos produtos Apple novos e lacrados, com Garantia Apple. Quando o produto é seminovo, a gente avisa no orçamento e ele sai com 90 dias de garantia da loja."}},
 {"@type":"Question","name":"Por que o site não mostra preço?","acceptedAnswer":{"@type":"Answer","text":"Os valores mudam quase todo dia. Pelo WhatsApp você recebe o preço do dia, no Pix e parcelado."}},
 {"@type":"Question","name":"Em quanto tempo eu recebo?","acceptedAnswer":{"@type":"Answer","text":"Tem produto a pronta entrega e produto que chega em poucos dias úteis. O prazo certinho vai junto com o orçamento."}},
+{"@type":"Question","name":"Chega antes do Natal?","acceptedAnswer":{"@type":"Answer","text":"Pedidos fechados até quarta, 16/12, chegam antes do Natal; MacBook, até segunda, 14/12. Depois disso, chame no WhatsApp pra ver o que tem a pronta entrega. Todo presente sai embrulhado, com cartão de Natal."}},
 {"@type":"Question","name":"Quais são as formas de pagamento?","acceptedAnswer":{"@type":"Answer","text":"Pix ou cartão de crédito em até 21x, na maquininha da loja ou por link de pagamento."}},
 {"@type":"Question","name":"Vocês pegam meu iPhone na troca?","acceptedAnswer":{"@type":"Answer","text":"A gente avalia. Conte como está o seu iPhone no montador de orçamento e a avaliação vem junto. O valor final é confirmado na loja, com o aparelho em mãos."}},
 {"@type":"Question","name":"Vocês enviam pra outras cidades?","acceptedAnswer":{"@type":"Answer","text":"Sim, enviamos por Sedex. O frete entra no orçamento."}}
@@ -43,7 +44,7 @@
   Mercado Apple Brasil: a vitrine é preta como os stories da loja, os produtos aparecem no fundo da própria foto,
   a letra é a do próprio aparelho (SF Pro no iPhone, sem download)
   e a peça que chama atenção é o montador, que escreve na hora a mensagem de WhatsApp que o cliente vai mandar.
-  Verde só onde a ação abre o WhatsApp; laranja só na faixa da Black (some sozinha no fim da campanha).
+  Verde só onde a ação abre o WhatsApp; vermelho só no Natal (faixa, fita dos presentes e selo), que some sozinho depois de 24/12.
 */
 :root{
   color-scheme:dark;
@@ -56,7 +57,8 @@
   --azul:#3d9bff;
   --zap:#25d366;
   --zapTxt:#052b14;
-  --bf:#ff9a3c;
+  --natal:#c4161c;
+  --ouro:#f2c14e;
   --waFundo:#efeae2;
   --waBalao:#d9fdd3;
   --waTxt:#111b21;
@@ -111,11 +113,11 @@ button{cursor:pointer;background:none;border:0}
 .topo .bt{min-height:38px;padding:0 16px;font-size:15px;margin-left:auto}
 @media(min-width:860px){.nav{display:flex}.topo .bt{margin-left:8px}}
 
-/* Faixa da Black Friday */
-.bf{display:block;background:var(--bf);color:#170b00;text-decoration:none}
-.bf .mio{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px;padding-top:10px;padding-bottom:10px;font-size:15px}
-.bf b{font-weight:800}
-.bf span{font-variant-numeric:tabular-nums;font-weight:600}
+/* Faixa de Natal: até 16/12 "receba antes do Natal", até 24/12 presente de última hora, depois some */
+.natal{display:block;background:var(--natal);color:#fff;text-decoration:none}
+.natal .mio{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px;padding-top:10px;padding-bottom:10px;font-size:15px}
+.natal b{font-weight:800}
+.natal span{font-variant-numeric:tabular-nums;font-weight:600}
 
 /* Abertura */
 .hero{padding:56px 0 64px}
@@ -129,6 +131,9 @@ button{cursor:pointer;background:none;border:0}
 .heroFoto{position:relative;background:#f6f6f8;border-radius:32px;overflow:hidden;aspect-ratio:1/1;max-height:440px;display:flex;align-items:center;justify-content:center}
 .heroFoto img{width:auto;height:92%;object-fit:contain}
 .heroFoto .legenda{position:absolute;left:16px;bottom:16px;background:rgba(255,255,255,.86);color:#1d1d1f;font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px}
+.heroLado{position:relative}
+.carimbo{position:absolute;right:-8px;top:-26px;width:34%;min-width:112px;max-width:160px;transform:rotate(8deg);filter:drop-shadow(0 12px 18px rgba(0,0,0,.45))}
+.carimbo img{width:100%;height:auto}
 @media(min-width:900px){.hero{padding:88px 0 96px}.hero .mio{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px}.hero h1{font-size:clamp(60px,7.2vw,80px)}.heroFoto{aspect-ratio:4/5;max-height:620px;border-radius:36px}}
 
 /* Seções */
@@ -152,8 +157,6 @@ button{cursor:pointer;background:none;border:0}
 .cFoto picture{display:contents}
 .cFoto img{width:100%;height:100%;object-fit:contain}
 .cFoto img.corta{object-fit:cover;object-position:top}
-.selo{display:none;position:absolute;left:12px;top:12px;background:var(--bf);color:#170b00;font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px}
-.bf-on .selo{display:block}
 .cTxt{padding:16px 20px 20px;display:flex;flex-direction:column;gap:4px;flex:1}
 .cTxt h3{font-family:var(--disp);font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1.1}
 .cTxt p{font-size:15px;opacity:.72;flex:1}
@@ -170,6 +173,17 @@ button{cursor:pointer;background:none;border:0}
   .cTxt h3{font-size:21px}
   .cBtn{font-size:14px;padding:0 14px}
 }
+
+/* Natal: cada card é um presente embrulhado (fita vermelha em cruz, laço dourado) */
+.presente{position:relative;flex:0 0 74%;max-width:300px;scroll-snap-align:start;min-height:264px;border-radius:24px;background:var(--sup);box-shadow:inset 0 0 0 1px var(--linha);overflow:hidden;display:flex;flex-direction:column;padding:20px 22px 22px}
+.presente::before{content:"";position:absolute;top:0;bottom:0;right:14%;width:14px;background:var(--natal)}
+.presente h3{position:relative;z-index:1;font-family:var(--disp);font-weight:800;font-size:26px;letter-spacing:-.02em;line-height:1.05;padding-right:18%}
+.fita{display:block;position:relative;height:14px;margin:14px -22px 0;background:var(--natal)}
+.laco{position:absolute;right:calc(14% - 17px);top:-16px;width:48px;height:46px}
+.presente p{position:relative;z-index:1;margin-top:30px;padding-right:18%;color:var(--apoio);font-size:15px;flex:1}
+.presente .bt{position:relative;z-index:1;align-self:flex-start;min-height:42px;padding:0 16px;font-size:15px;margin-top:18px}
+.presentes .nota{color:var(--apoio);font-size:15px;margin-top:22px;max-width:62ch}
+@media(min-width:980px){.presente{max-width:none}.presente h3{font-size:23px;min-height:2.1em}}
 
 /* Montador */
 .monta{display:grid;gap:36px;margin-top:36px;align-items:start}
@@ -302,6 +316,7 @@ footer p+p{margin-top:8px}
 .hero .lead,.hero .acoes,.hero .fatos{animation:surge .8s cubic-bezier(.16,1,.3,1) both}
 .hero .lead{animation-delay:.45s}.hero .acoes{animation-delay:.55s}.hero .fatos{animation-delay:.65s}
 .heroFoto img{animation:assenta 1.2s cubic-bezier(.16,1,.3,1) .2s both}
+.carimbo img{animation:carimba .7s cubic-bezier(.2,.9,.3,1.2) 1s both}
 .bt,.chip,.cat,.cBtn,.somBtn,.abas [role="tab"]{transition:transform .16s cubic-bezier(.2,.9,.3,1.3),color .3s}
 .bt:active:not(:disabled),.chip:active,.cat:active,.cBtn:active,.somBtn:active,.abas [role="tab"]:active{transform:scale(.95)}
 .abas.pronta .abaFundo{transition:transform .45s cubic-bezier(.16,1,.3,1),width .45s cubic-bezier(.16,1,.3,1)}
@@ -315,6 +330,7 @@ footer p+p{margin-top:8px}
 @keyframes sobe{from{transform:translateY(72%)}}
 @keyframes surge{from{opacity:0;transform:translateY(16px)}}
 @keyframes assenta{from{transform:translateY(28px) scale(1.07) rotate(-2.5deg)}}
+@keyframes carimba{0%{transform:scale(1.7) rotate(-16deg);opacity:0}55%{transform:scale(.92) rotate(3deg);opacity:1}100%{transform:none}}
 @keyframes tique{40%{transform:scale(1.1)}}
 @keyframes bump{40%{transform:scale(1.14)}}
 @keyframes barraSobe{from{transform:translateY(140%)}}
@@ -332,6 +348,7 @@ footer p+p{margin-top:8px}
       <b>Mercado Apple</b>
     </a>
     <nav class="nav" aria-label="Seções">
+      <a href="#presentes">Presentes</a>
       <a href="#produtos">Produtos</a>
       <a href="#orcamento">Orçamento</a>
       <a href="#duvidas">Dúvidas</a>
@@ -343,8 +360,8 @@ footer p+p{margin-top:8px}
 </header>
 
 <main>
-  <a class="bf" id="bf" href="#orcamento" hidden>
-    <div class="mio"><b>Black Friday: preço de Black até sexta, 23h59</b><span>Termina em <span id="bfRel">00:00:00</span></span></div>
+  <a class="natal" id="natal" href="#presentes">
+    <div class="mio"><b id="natalTit">Natal: peça até 16/12 e receba antes do Natal</b><span id="natalRel">Embrulho de presente grátis</span></div>
   </a>
 
   <section class="hero">
@@ -363,10 +380,24 @@ footer p+p{margin-top:8px}
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Pix ou até 21x</li>
         </ul>
       </div>
+      <div class="heroLado">
       <div class="heroFoto">
         <picture><source type="image/webp" srcset="img/w/iphone-18-pro-480.webp 480w, img/w/iphone-18-pro-960.webp 571w" sizes="(min-width: 900px) 420px, 80vw"><img src="img/iphone-18-pro.jpg" alt="iPhone 18 Pro na cor Bordô, de frente e de costas" width="571" height="900" fetchpriority="high" decoding="async"></picture>
         <span class="legenda">iPhone 18 Pro, novo e lacrado</span>
       </div>
+        <picture class="carimbo"><source type="image/webp" srcset="img/w/natal-selo-240.webp 240w, img/w/natal-selo-480.webp 480w" sizes="160px"><img src="img/w/natal-selo-240.png" alt="Selo Feliz Natal 2026 da Mercado Apple, com o menino da loja vestido de Papai Noel" width="240" height="240" decoding="async"></picture>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao presentes" id="presentes">
+    <div class="mio">
+      <h2>Pra quem é o presente?</h2>
+      <p class="sub">Escolha a pessoa e a gente te ajuda a acertar no presente, com o preço do dia no WhatsApp.</p>
+      <div class="trilho">
+        <!--PRESENTES-->
+      </div>
+      <p class="nota" id="natalNota">Todo presente sai embrulhado na sacola da loja, com cartão de Natal. Pedidos fechados até quarta, 16/12, chegam antes do Natal; MacBook até segunda, 14/12.</p>
     </div>
   </section>
 
@@ -512,6 +543,7 @@ footer p+p{margin-top:8px}
         <details><summary>Os produtos são originais?</summary><p>Sim. Vendemos produtos Apple novos e lacrados, com Garantia Apple. Quando o produto é seminovo, a gente avisa no orçamento e ele sai com 90 dias de garantia da loja.</p></details>
         <details><summary>Por que o site não mostra preço?</summary><p>Os valores mudam quase todo dia. Pelo WhatsApp você recebe o preço do dia, no Pix e parcelado.</p></details>
         <details><summary>Em quanto tempo eu recebo?</summary><p>Tem produto a pronta entrega e produto que chega em poucos dias úteis. O prazo certinho vai junto com o orçamento.</p></details>
+        <details><summary>Chega antes do Natal?</summary><p>Pedidos fechados até quarta, 16/12, chegam antes do Natal; MacBook, até segunda, 14/12. Depois disso, chame no WhatsApp pra ver o que tem a pronta entrega. Todo presente sai embrulhado, com cartão de Natal.</p></details>
         <details><summary>Quais são as formas de pagamento?</summary><p>Pix ou cartão de crédito em até 21x, na maquininha da loja ou por link de pagamento.</p></details>
         <details><summary>Vocês pegam meu iPhone na troca?</summary><p>A gente avalia. Conte como está o seu iPhone no montador de orçamento e a avaliação vem junto. O valor final é confirmado na loja, com o aparelho em mãos.</p></details>
         <details><summary>Vocês enviam pra outras cidades?</summary><p>Sim, enviamos por Sedex. O frete entra no orçamento.</p></details>

@@ -3,6 +3,7 @@
 
 Troca o marcador <!--VITRINE--> pelos cards de produto, com as fotos em WebP
 (2 tamanhos) e JPG de reserva, sempre com largura e altura fixas.
+Troca também <!--PRESENTES--> pelos cards de Natal (lista PRESENTES).
 Para mudar a vitrine, edite só a lista VITRINE abaixo e rode:  python3 tools/build.py
 """
 import html, json, os
@@ -40,6 +41,30 @@ VITRINE = [
 ABAS = [("iphone", "iPhone"), ("watch", "Apple Watch"), ("airpods", "AirPods"), ("ipad", "iPad"), ("mac", "Mac"), ("mais", "Garmin e mais")]
 
 
+# Natal: pra quem é o presente, o que sugerir e a mensagem que abre no WhatsApp
+PRESENTES = [
+    ("Pra mãe", "Apple Watch SE 3, AirPods 5 ou iPad", "um presente de Natal pra minha mãe"),
+    ("Pro pai", "Apple Watch Series 12, AirPods Pro 3 ou iPhone 17e", "um presente de Natal pro meu pai"),
+    ("Pros filhos", "iPhone 17e, iPad ou AirPods 5", "um presente de Natal pros meus filhos"),
+    ("Pro amor", "AirPods Pro 3, Apple Watch ou iPhone", "um presente de Natal pro meu amor"),
+    ("Amigo secreto", "Capinha, cabo ou carregador original", "um presente de amigo secreto"),
+]
+LACO = ('<svg class="laco" viewBox="0 0 48 46" aria-hidden="true">'
+        '<path d="M22 22 14 43M26 22l8 21" stroke="#f2c14e" stroke-width="5" stroke-linecap="round"/>'
+        '<path d="M24 21C14 5 2 7 4 17s14 8 20 4Zm0 0C34 5 46 7 44 17s-14 8-20 4Z" fill="#f2c14e" stroke="#000" stroke-width="2"/>'
+        '<circle cx="24" cy="21" r="5" fill="#e0a232" stroke="#000" stroke-width="2"/></svg>')
+
+
+def presentes():
+    from urllib.parse import quote
+    out = []
+    for quem, ideias, pedido in PRESENTES:
+        txt = quote(f"Olá! Vim pelo site e quero {pedido}. Pode me ajudar a escolher?")
+        out.append(f'<article class="presente"><h3>{esc(quem)}</h3><span class="fita" aria-hidden="true">{LACO}</span><p>{esc(ideias)}</p>'
+                   f'<a class="bt zap" href="https://wa.me/5519998899974?text={txt}" data-zap>Pedir sugestão</a></article>')
+    return "".join(out)
+
+
 def esc(s):
     return html.escape(s, quote=True)
 
@@ -63,8 +88,7 @@ def card(item, primeira):
     if tema == "texto":
         return (f'<article class="card texto"><div class="cTxt"><h3>{esc(nome)}</h3><p>{esc(desc)}</p>'
                 f'<button type="button" class="cBtn" {alvo}>Montar orçamento</button></div></article>')
-    return (f'<article class="card {tema}" style="--bg:{bg}"><div class="cFoto">{foto(img, fit, primeira)}'
-            f'<span class="selo">Preço de Black</span></div>'
+    return (f'<article class="card {tema}" style="--bg:{bg}"><div class="cFoto">{foto(img, fit, primeira)}</div>'
             f'<div class="cTxt"><h3>{esc(nome)}</h3><p>{esc(desc)}</p>'
             f'<button type="button" class="cBtn" {alvo}>Montar orçamento</button></div></article>')
 
@@ -84,7 +108,7 @@ def vitrine():
 
 def main():
     src = open(os.path.join(RAIZ, "tools", "index.src.html"), encoding="utf-8").read()
-    out = src.replace("<!--VITRINE-->", vitrine())
+    out = src.replace("<!--VITRINE-->", vitrine()).replace("<!--PRESENTES-->", presentes())
     open(os.path.join(RAIZ, "index.html"), "w", encoding="utf-8").write(out)
     # Sitemap com a data da última publicação (o Google usa o lastmod pra saber que mudou)
     from datetime import datetime

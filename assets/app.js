@@ -5,12 +5,13 @@
   "use strict";
 
   var FONE = "5519998899974";
-  // Black Friday em horário de Brasília. Fora dessa janela a faixa e os selos somem sozinhos.
-  var BF_INICIO = Date.parse("2026-11-25T22:00:00-03:00");
-  var BF_FIM = Date.parse("2026-11-27T23:59:59-03:00");
+  // Natal em horário de Brasília: até 16/12 vale "peça e receba antes do Natal"; até 24/12, presente de última hora.
+  // Depois do Natal a faixa e a seção de presentes somem sozinhas.
+  var NATAL_PRAZO = Date.parse("2026-12-16T23:59:59-03:00");
+  var NATAL_FIM = Date.parse("2026-12-24T23:59:59-03:00");
   var CHAVE = "ma-pedido-v1";
 
-  function bfAtivo() { var a = Date.now(); return a >= BF_INICIO && a <= BF_FIM; }
+  function natalFase() { var a = Date.now(); return a <= NATAL_PRAZO ? 1 : a <= NATAL_FIM ? 2 : 0; }
   var calmo = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
   function $(id) { return document.getElementById(id); }
   function rolar(el, bloco) { if (el) el.scrollIntoView({ behavior: calmo ? "auto" : "smooth", block: bloco || "start" }); }
@@ -300,7 +301,7 @@
   // ---------- Mensagem (mesmo formato que a loja já recebe)
   function mensagem() {
     var nome = elNome.value.trim();
-    var l = ["Olá! Vim pelo site e quero um orçamento" + (bfAtivo() ? " de Black Friday" : "") + (nome ? ". Meu nome é " + nome + "." : ":"), ""];
+    var l = ["Olá! Vim pelo site e quero um orçamento" + (natalFase() ? " pro Natal" : "") + (nome ? ". Meu nome é " + nome + "." : ":"), ""];
     escolhidos.forEach(function (i) { l.push("• " + i.n); });
     l.push("");
     l.push(pag === "pix" ? "Pagamento: Pix" : "Pagamento: cartão em " + vezes + "x, " + meio.toLowerCase());
@@ -490,19 +491,27 @@
     el.addEventListener("click", function () { Som.ligar(!Som.ligado()); marcar(); Som.toque(); });
   })();
 
-  // ---------- Black Friday: faixa com contagem e selos nos cards
+  // ---------- Natal: a faixa muda de fase sozinha (dias até 16/12, depois última hora) e some depois do Natal
   (function () {
-    var bar = $("bf"), rel = $("bfRel");
-    function dois(n) { return (n < 10 ? "0" : "") + n; }
-    function tic() {
-      if (!bfAtivo()) { bar.hidden = true; document.documentElement.classList.remove("bf-on"); return false; }
-      var s = Math.floor((BF_FIM - Date.now()) / 1000);
-      var d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
-      rel.textContent = (d ? d + "d " : "") + dois(h) + ":" + dois(m) + ":" + dois(s % 60);
-      bar.hidden = false; document.documentElement.classList.add("bf-on");
-      return true;
+    var bar = $("natal"), tit = $("natalTit"), rel = $("natalRel"), sec = $("presentes");
+    if (!bar) return;
+    var f = natalFase();
+    if (!f) { bar.hidden = true; if (sec) sec.hidden = true; return; }
+    if (f === 2) {
+      tit.textContent = "Presente de última hora? Chame no WhatsApp";
+      rel.textContent = "Até 24/12, com embrulho na hora";
+      bar.href = "https://wa.me/" + FONE + "?text=" + encodeURIComponent("Olá! Vim pelo site e quero um presente de Natal de última hora.");
+      if ($("natalNota")) $("natalNota").textContent = "Presente de última hora: chame no WhatsApp pra ver o que tem a pronta entrega até 24/12. Todo presente sai embrulhado, com cartão de Natal.";
+      return;
     }
-    if (tic()) { var t = setInterval(function () { if (!tic()) clearInterval(t); }, 1000); }
+    // Dias de calendário até 16/12, no fuso de Brasília. Não é urgente: espera o navegador ficar livre.
+    (window.requestIdleCallback || function (fn) { return setTimeout(fn, 300); })(function () {
+      try {
+        var hoje = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo" }).format(new Date());
+        var dias = Math.round((Date.parse("2026-12-16") - Date.parse(hoje)) / 86400000);
+        rel.textContent = dias > 1 ? "Faltam " + dias + " dias" : dias === 1 ? "Falta 1 dia" : "Último dia";
+      } catch (e) { /* fica "Embrulho de presente grátis" */ }
+    });
   })();
 
   // ---------- Loja aberta ou fechada agora (horário de Brasília)
