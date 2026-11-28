@@ -14,6 +14,11 @@
   function natalFase() { var a = Date.now(); return a <= NATAL_PRAZO ? 1 : a <= NATAL_FIM ? 2 : 0; }
   var calmo = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
   function $(id) { return document.getElementById(id); }
+  // Toda visita abre no topo, com o trenó à vista (o navegador costuma voltar pra onde a pessoa parou).
+  if (!location.hash) {
+    try { history.scrollRestoration = "manual"; } catch (e) { /* ok */ }
+    window.scrollTo(0, 0);
+  }
   function rolar(el, bloco) { if (el) el.scrollIntoView({ behavior: calmo ? "auto" : "smooth", block: bloco || "start" }); }
 
   // ---------- Som e movimento: curtos, só em resposta a um toque. Respeitam "reduzir movimento" e,
@@ -469,8 +474,10 @@
       if (j > -1) { e.preventDefault(); abrirAba(abas[j], true); }
     });
   });
+  var engolir = false; // primeiro toque da visita num presente do céu: só liga a música
   [].forEach.call(document.querySelectorAll(".cBtn, .presenteProd"), function (b) {
     b.addEventListener("click", function () {
+      if (engolir && b.classList.contains("presenteProd")) { engolir = false; return; }
       var cat = catPorId(b.getAttribute("data-cat")), modelo = b.getAttribute("data-m");
       if (!cat) return;
       aberta = cat.id; modeloAberto = null;
@@ -582,6 +589,7 @@
     }
     function primeiro(e) {
       if (btMus && btMus.contains(e.target)) return;
+      if (e.target.closest && e.target.closest(".ceu .presenteProd")) engolir = true;
       document.removeEventListener("pointerdown", primeiro, true);
       Musica.primeiroToque();
     }
