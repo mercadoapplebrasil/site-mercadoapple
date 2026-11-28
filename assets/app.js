@@ -53,6 +53,7 @@
     function tocar(fn) { if (!ligado) return; try { fn(); } catch (e) { /* som nunca trava o pedido */ } }
     return {
       ligado: function () { return ligado; },
+      ctx: function () { return ac(); },
       ligar: function (v) { ligado = v; try { localStorage.setItem("ma-som", v ? "1" : "0"); } catch (e) { /* ok */ } },
       poe: function (n) {
         tocar(function () {
@@ -64,17 +65,6 @@
       tira: function () { tocar(function () { tom(620, 300, 0.13, "triangle", 0.07); }); },
       toque: function () { tocar(function () { tom(1500, 0, 0.035, "triangle", 0.035); }); },
       envia: function () { tocar(function () { sopro(0.22, 0.06); tom(783.99, 0, 0.14, "sine", 0.07, 0.07); tom(1174.66, 0, 0.22, "sine", 0.06, 0.15); }); },
-      // Jingle Bells (domínio público, 1857): o refrão, em sininho. Toca uma vez, depois do primeiro toque na página.
-      jingle: function () {
-        tocar(function () {
-          var N = { C: 523.25, D: 587.33, E: 659.25, F: 698.46, G: 783.99 }, b = 0.2, t = 0.05;
-          "E1 E1 E2 E1 E1 E2 E1 G1 C1.5 D.5 E4 F1 F1 F1.5 F.5 F1 E1 E1 E.5 E.5 E1 D1 D1 E1 D2 G2".split(" ").forEach(function (x) {
-            var f = N[x.charAt(0)], d = parseFloat(x.slice(1)) * b;
-            tom(f, 0, Math.max(0.16, d * 0.95), "triangle", 0.06, t); tom(f * 2, 0, 0.14, "sine", 0.025, t);
-            t += d;
-          });
-        });
-      },
       limpa: function () { tocar(function () { tom(880, 196, 0.32, "triangle", 0.06); }); }
     };
   })();
@@ -525,21 +515,78 @@
     });
   })();
 
+  // ---------- Música de Natal: Jingle Bells (domínio público, 1857) em sininho, tocando sem parar.
+  // O navegador só deixa tocar som depois de um toque: começa no primeiro toque da visita.
+  // O botão de nota musical no céu pausa e continua; a escolha fica guardada no aparelho.
+  // Pausa sozinha quando a pessoa sai da aba e volta quando ela volta.
+  var Musica = (function () {
+    var N = { C: 523.25, D: 587.33, E: 659.25, F: 698.46, G: 783.99 }, BATIDA = 0.21;
+    var A = "E1 E1 E2 E1 E1 E2 E1 G1 C1.5 D.5 E4 F1 F1 F1.5 F.5 F1 E1 E1 E.5 E.5 E1 D1 D1 E1 D2 G2";
+    var B = "E1 E1 E2 E1 E1 E2 E1 G1 C1.5 D.5 E4 F1 F1 F1.5 F.5 F1 E1 E1 E.5 E.5 G1 G1 F1 D1 C4";
+    var quer = true, tocando = false, bus = null, timer = null, frase = 0, ouvintes = [];
+    try { quer = localStorage.getItem("ma-musica") !== "0"; } catch (e) { /* toca */ }
+    function nota(c, f, t, d) {
+      [[f, "triangle", 0.075, Math.max(0.16, d * 0.95)], [f * 2, "sine", 0.03, 0.15]].forEach(function (v) {
+        var o = c.createOscillator(), g = c.createGain();
+        o.type = v[1]; o.frequency.setValueAtTime(v[0], t);
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v[2], t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + v[3]);
+        o.connect(g); g.connect(bus); o.start(t); o.stop(t + v[3] + 0.03);
+      });
+    }
+    function agenda() {
+      var c = Som.ctx(); if (!c || !tocando) return;
+      var t = c.currentTime + 0.06, ini = t;
+      (frase++ % 2 ? B : A).split(" ").forEach(function (x) { var d = parseFloat(x.slice(1)) * BATIDA; nota(c, N[x.charAt(0)], t, d); t += d; });
+      timer = setTimeout(agenda, (t - ini) * 1000 + 700); // respiro entre uma volta e outra
+    }
+    function avisa() { ouvintes.forEach(function (f) { f(tocando, quer); }); }
+    function liga() {
+      if (tocando) return;
+      var c = Som.ctx(); if (!c) return;
+      bus = c.createGain(); bus.gain.value = 1; bus.connect(c.destination);
+      tocando = true; frase = 0; agenda(); avisa();
+    }
+    function desliga() {
+      if (!tocando) return;
+      tocando = false; clearTimeout(timer);
+      var b = bus, c = Som.ctx();
+      if (b && c) { b.gain.setTargetAtTime(0.0001, c.currentTime, 0.05); setTimeout(function () { b.disconnect(); }, 400); }
+      avisa();
+    }
+    return {
+      tocando: function () { return tocando; },
+      quer: function () { return quer; },
+      ouvir: function (f) { ouvintes.push(f); f(tocando, quer); },
+      primeiroToque: function () { if (quer && !document.hidden) liga(); },
+      alternar: function () {
+        quer = !tocando;
+        try { localStorage.setItem("ma-musica", quer ? "1" : "0"); } catch (e) { /* ok */ }
+        if (quer) liga(); else desliga();
+      },
+      fundo: function (oculto) { if (oculto) desliga(); else if (quer && bus) liga(); }
+    };
+  })();
+
   // ---------- Natal: o trenó passa no topo e solta um produto de cada na neve. Uma vez só, e nada com "reduzir movimento".
   (function () {
     var ceu = $("ceu"); if (!ceu) return;
     if (!natalFase()) { ceu.hidden = true; return; }
-    // O jingle só pode tocar depois de um toque (regra dos navegadores): toca no primeiro toque da visita e ao tocar no trenó.
-    var trenoEl = ceu.querySelector(".treno"), jaTocou = false;
-    try { jaTocou = sessionStorage.getItem("ma-jingle") === "1"; } catch (e) { /* toca */ }
-    function primeiro() {
+    var btMus = $("musica");
+    if (btMus) {
+      Musica.ouvir(function (tocando, quer) {
+        btMus.setAttribute("aria-pressed", tocando ? "true" : "false");
+        btMus.title = tocando ? "Pausar a música de Natal" : "Tocar a música de Natal";
+        btMus.classList.toggle("espera", quer && !tocando);
+      });
+      btMus.addEventListener("click", function (e) { e.stopPropagation(); Musica.alternar(); });
+    }
+    function primeiro(e) {
+      if (btMus && btMus.contains(e.target)) return;
       document.removeEventListener("pointerdown", primeiro, true);
-      if (jaTocou) return; jaTocou = true;
-      try { sessionStorage.setItem("ma-jingle", "1"); } catch (e) { /* ok */ }
-      Som.jingle();
+      Musica.primeiroToque();
     }
     document.addEventListener("pointerdown", primeiro, true);
-    trenoEl.addEventListener("click", function () { Som.jingle(); });
+    document.addEventListener("visibilitychange", function () { Musica.fundo(document.hidden); });
     if (calmo) return;
     var tr = ceu.querySelector(".treno"), itens = ceu.querySelectorAll(".presenteProd"), foi = false;
     function voar() {
