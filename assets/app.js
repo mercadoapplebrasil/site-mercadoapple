@@ -64,6 +64,17 @@
       tira: function () { tocar(function () { tom(620, 300, 0.13, "triangle", 0.07); }); },
       toque: function () { tocar(function () { tom(1500, 0, 0.035, "triangle", 0.035); }); },
       envia: function () { tocar(function () { sopro(0.22, 0.06); tom(783.99, 0, 0.14, "sine", 0.07, 0.07); tom(1174.66, 0, 0.22, "sine", 0.06, 0.15); }); },
+      // Jingle Bells (domínio público, 1857): o refrão, em sininho. Toca uma vez, depois do primeiro toque na página.
+      jingle: function () {
+        tocar(function () {
+          var N = { C: 523.25, D: 587.33, E: 659.25, F: 698.46, G: 783.99 }, b = 0.2, t = 0.05;
+          "E1 E1 E2 E1 E1 E2 E1 G1 C1.5 D.5 E4 F1 F1 F1.5 F.5 F1 E1 E1 E.5 E.5 E1 D1 D1 E1 D2 G2".split(" ").forEach(function (x) {
+            var f = N[x.charAt(0)], d = parseFloat(x.slice(1)) * b;
+            tom(f, 0, Math.max(0.16, d * 0.95), "triangle", 0.06, t); tom(f * 2, 0, 0.14, "sine", 0.025, t);
+            t += d;
+          });
+        });
+      },
       limpa: function () { tocar(function () { tom(880, 196, 0.32, "triangle", 0.06); }); }
     };
   })();
@@ -518,6 +529,17 @@
   (function () {
     var ceu = $("ceu"); if (!ceu) return;
     if (!natalFase()) { ceu.hidden = true; return; }
+    // O jingle só pode tocar depois de um toque (regra dos navegadores): toca no primeiro toque da visita e ao tocar no trenó.
+    var trenoEl = ceu.querySelector(".treno"), jaTocou = false;
+    try { jaTocou = sessionStorage.getItem("ma-jingle") === "1"; } catch (e) { /* toca */ }
+    function primeiro() {
+      document.removeEventListener("pointerdown", primeiro, true);
+      if (jaTocou) return; jaTocou = true;
+      try { sessionStorage.setItem("ma-jingle", "1"); } catch (e) { /* ok */ }
+      Som.jingle();
+    }
+    document.addEventListener("pointerdown", primeiro, true);
+    trenoEl.addEventListener("click", function () { Som.jingle(); });
     if (calmo) return;
     var tr = ceu.querySelector(".treno"), itens = ceu.querySelectorAll(".presenteProd"), foi = false;
     function voar() {

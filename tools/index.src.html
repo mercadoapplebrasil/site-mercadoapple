@@ -190,7 +190,7 @@ button{cursor:pointer;background:none;border:0}
 /* Natal: o trenó do menino passa no topo e solta um produto de cada na neve (toque leva ao orçamento) */
 .ceu{grid-column:1/-1;position:relative;height:190px;margin:-28px calc(var(--gut)*-1) -12px;contain:layout paint;
   background:radial-gradient(1.6px 1.6px at 9% 22%,rgba(255,255,255,.7),transparent 70%),radial-gradient(1.4px 1.4px at 31% 9%,rgba(255,255,255,.55),transparent 70%),radial-gradient(2px 2px at 57% 30%,rgba(255,255,255,.6),transparent 70%),radial-gradient(1.4px 1.4px at 78% 10%,rgba(255,255,255,.55),transparent 70%),radial-gradient(1.6px 1.6px at 93% 34%,rgba(255,255,255,.6),transparent 70%),radial-gradient(1.2px 1.2px at 46% 4%,rgba(255,255,255,.5),transparent 70%)}
-.treno{position:absolute;left:0;top:0;width:200px;height:auto;transform:translateX(-110%)}
+.treno{cursor:pointer;position:absolute;left:0;top:0;width:200px;height:auto;transform:translateX(-110%)}
 .chao{position:absolute;left:0;right:0;bottom:0;height:92px;display:flex;justify-content:space-around;align-items:flex-end}
 .chao::before{content:"";position:absolute;left:-10%;right:-10%;bottom:0;height:16px;border-radius:50% 50% 0 0/100% 100% 0 0;background:linear-gradient(#f4f8fc,#c9d6e3)}
 .presenteProd{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0 4px 20px;min-width:48px;color:var(--texto);font-size:12px;font-weight:600;line-height:1}
@@ -329,7 +329,7 @@ footer p+p{margin-top:8px}
 .hero .lead{animation-delay:.45s}.hero .acoes{animation-delay:.55s}.hero .fatos{animation-delay:.65s}
 .heroFoto img{animation:assenta 1.2s cubic-bezier(.16,1,.3,1) .2s both}
 .carimbo img{animation:carimba .7s cubic-bezier(.2,.9,.3,1.2) 1s both}
-.voa .treno{animation:voa var(--voo,5600ms) linear both}
+.voa .treno{animation:voa var(--voo,5600ms) linear infinite both}
 .voa .presenteProd{animation:cai .9s cubic-bezier(.45,0,.6,1) var(--d,0ms) both}
 .bt,.chip,.cat,.cBtn,.somBtn,.abas [role="tab"]{transition:transform .16s cubic-bezier(.2,.9,.3,1.3),color .3s}
 .bt:active:not(:disabled),.chip:active,.cat:active,.cBtn:active,.somBtn:active,.abas [role="tab"]:active{transform:scale(.95)}
