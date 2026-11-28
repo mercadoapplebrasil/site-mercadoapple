@@ -468,7 +468,7 @@
       if (j > -1) { e.preventDefault(); abrirAba(abas[j], true); }
     });
   });
-  [].forEach.call(document.querySelectorAll(".cBtn"), function (b) {
+  [].forEach.call(document.querySelectorAll(".cBtn, .presenteProd"), function (b) {
     b.addEventListener("click", function () {
       var cat = catPorId(b.getAttribute("data-cat")), modelo = b.getAttribute("data-m");
       if (!cat) return;
@@ -512,6 +512,27 @@
         rel.textContent = dias > 1 ? "Faltam " + dias + " dias" : dias === 1 ? "Falta 1 dia" : "Último dia";
       } catch (e) { /* fica "Embrulho de presente grátis" */ }
     });
+  })();
+
+  // ---------- Natal: o trenó passa no topo e solta um produto de cada na neve. Uma vez só, e nada com "reduzir movimento".
+  (function () {
+    var ceu = $("ceu"); if (!ceu) return;
+    if (!natalFase()) { ceu.hidden = true; return; }
+    if (calmo) return;
+    var tr = ceu.querySelector(".treno"), itens = ceu.querySelectorAll(".presenteProd"), foi = false;
+    function voar() {
+      if (foi) return; foi = true;
+      var c = ceu.getBoundingClientRect(), w = tr.offsetWidth, h = tr.offsetHeight, dur = 5600, ini = -w - 10, fim = c.width + 10;
+      [].forEach.call(itens, function (b) {
+        var r = b.getBoundingClientRect(), x = r.left - c.left + r.width / 2;
+        var p = (x - 0.17 * w - ini) / (fim - ini); // o saco fica no fundo do trenó
+        b.style.setProperty("--d", Math.round(Math.max(0, p) * dur) + "ms");
+        b.style.setProperty("--y0", -Math.round(r.top - c.top - h * 0.3) + "px");
+      });
+      ceu.style.setProperty("--ini", ini + "px"); ceu.style.setProperty("--fim", fim + "px"); ceu.style.setProperty("--voo", dur + "ms");
+      ceu.classList.add("voa");
+    }
+    if (tr.complete && tr.naturalWidth) voar(); else tr.addEventListener("load", voar);
   })();
 
   // ---------- Loja aberta ou fechada agora (horário de Brasília)
