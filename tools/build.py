@@ -76,7 +76,7 @@ def foto(nome, fit, primeira):
     carregar = 'fetchpriority="high"' if primeira else 'loading="lazy"'
     return (
         f'<picture><source type="image/webp" srcset="img/w/{nome}-480.webp 480w, img/w/{nome}-960.webp {min(960, w)}w" '
-        f'sizes="(min-width: 980px) 260px, 78vw">'
+        f'sizes="(min-width: 980px) 260px, min(78vw, 330px)">'
         f'<img src="img/{nome}.jpg" alt="" width="{w}" height="{h}" {carregar} decoding="async"'
         f'{(" class=" + chr(34) + cls + chr(34)) if cls else ""}></picture>'
     )
@@ -106,9 +106,41 @@ def vitrine():
             + "".join(paineis))
 
 
+def empacotar_js():
+    """Minifica assets/app.js (terser, se houver Node) e grava com o hash do conteúdo no nome:
+    quando o arquivo muda o nome muda, então nenhum celular fica com versão velha em cache."""
+    import glob, hashlib, subprocess
+    fonte = os.path.join(RAIZ, "assets", "app.js")
+    codigo = open(fonte, encoding="utf-8").read()
+    try:
+        r = subprocess.run(["npx", "-y", "terser@5.51.4", fonte, "--compress", "--mangle"], capture_output=True, text=True, timeout=180)
+        if r.returncode == 0 and len(r.stdout) > 1000:
+            codigo = r.stdout
+        else:
+            print("aviso: terser falhou, app.js vai sem minificar")
+    except Exception as e:  # sem Node: publica o arquivo como está
+        print("aviso: sem terser (", e, "), app.js vai sem minificar")
+    nome = "assets/app." + hashlib.sha256(codigo.encode()).hexdigest()[:10] + ".js"
+    for velho in glob.glob(os.path.join(RAIZ, "assets", "app.*.js")):
+        os.remove(velho)
+    open(os.path.join(RAIZ, nome), "w", encoding="utf-8").write(codigo)
+    return nome
+
+
+def enxugar_css(pagina):
+    """Tira comentários e quebras de linha do <style> (não mexe dentro das regras)."""
+    import re
+    def limpa(m):
+        css = re.sub(r"/\*.*?\*/", "", m.group(1), flags=re.S)
+        return "<style>" + "".join(l.strip() for l in css.splitlines()) + "</style>"
+    return re.sub(r"<style>(.*?)</style>", limpa, pagina, flags=re.S)
+
+
 def main():
     src = open(os.path.join(RAIZ, "tools", "index.src.html"), encoding="utf-8").read()
     out = src.replace("<!--VITRINE-->", vitrine()).replace("<!--PRESENTES-->", presentes())
+    out = out.replace('<script src="assets/app.js" defer></script><!--APPJS-->', f'<script src="{empacotar_js()}" defer></script>')
+    out = enxugar_css(out)
     open(os.path.join(RAIZ, "index.html"), "w", encoding="utf-8").write(out)
     # Sitemap com a data da última publicação (o Google usa o lastmod pra saber que mudou)
     from datetime import datetime
