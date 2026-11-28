@@ -550,6 +550,10 @@
     function liga() {
       if (tocando) return;
       var c = Som.ctx(); if (!c) return;
+      if (c.state !== "running") { // ainda bloqueado pelo navegador: começa assim que liberar
+        if (!c.__espera) { c.__espera = 1; c.addEventListener("statechange", function () { if (c.state === "running" && quer && !tocando && !document.hidden) liga(); }); }
+        return;
+      }
       bus = c.createGain(); bus.gain.value = 1; bus.connect(c.destination);
       tocando = true; frase = 0; agenda(); avisa();
     }
@@ -565,6 +569,7 @@
       quer: function () { return quer; },
       ouvir: function (f) { ouvintes.push(f); f(tocando, quer); },
       primeiroToque: function () { if (quer && !document.hidden) liga(); },
+      tentar: function () { if (quer && !document.hidden) liga(); },
       alternar: function () {
         quer = !tocando;
         try { localStorage.setItem("ma-musica", quer ? "1" : "0"); } catch (e) { /* ok */ }
@@ -587,13 +592,18 @@
       });
       btMus.addEventListener("click", function (e) { e.stopPropagation(); Musica.alternar(); });
     }
+    // Tenta tocar já ao abrir (alguns navegadores deixam). Se bloquear, toca no primeiro toque,
+    // clique ou tecla em qualquer lugar da página.
+    var GESTOS = ["pointerdown", "touchend", "click", "keydown"];
     function primeiro(e) {
       if (btMus && btMus.contains(e.target)) return;
-      if (e.target.closest && e.target.closest(".ceu .presenteProd")) engolir = true;
-      document.removeEventListener("pointerdown", primeiro, true);
+      if (e.type === "pointerdown" && e.target.closest && e.target.closest(".ceu .presenteProd") && !Musica.tocando()) engolir = true;
       Musica.primeiroToque();
+      var c = Som.ctx();
+      if (Musica.tocando() || !Musica.quer() || (c && c.state === "running")) GESTOS.forEach(function (g) { document.removeEventListener(g, primeiro, true); });
     }
-    document.addEventListener("pointerdown", primeiro, true);
+    GESTOS.forEach(function (g) { document.addEventListener(g, primeiro, true); });
+    Musica.tentar();
     document.addEventListener("visibilitychange", function () { Musica.fundo(document.hidden); });
     if (calmo) return;
     var tr = ceu.querySelector(".treno"), itens = ceu.querySelectorAll(".presenteProd"), foi = false;
